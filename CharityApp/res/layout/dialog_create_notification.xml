@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:id="@+id/layout_root"
+              android:background="@color/background">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notif_dialog_header"
+            android:id="@+id/textView"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_margin="10dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notif_dialog_description"
+            android:id="@+id/textView2"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_margin="10dp"/>
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etNotif"
+            android:hint="description"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:layout_width="130dp"
+                android:layout_height="45dp"
+                android:text="@string/cancel"
+                android:id="@+id/btCancel"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                style="@style/button"
+                />
+
+        <Button
+                android:layout_width="130dp"
+                android:layout_height="45dp"
+                android:text="@string/send"
+                android:id="@+id/btSend"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                style="@style/button"
+                />
+    </LinearLayout>
+</LinearLayout>

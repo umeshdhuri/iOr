@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:text="@string/send_code_page_text"
+                android:id="@+id/textView"
+                android:gravity="center"
+                android:textSize="17dp"/>
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/etCode"
+                android:hint="code"
+                android:layout_margin="10dp"
+                android:gravity="center"
+            android:singleLine="true" />
+
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:text="@string/bt_text_continue"
+                android:id="@+id/btContinue"
+                android:layout_margin="5dp"
+                style="@style/button"
+                />
+
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:text="@string/bt_text_resend_code"
+                android:id="@+id/btResend"
+                android:layout_margin="5dp"
+                style="@style/button"
+                />
+
+    </LinearLayout>
+</LinearLayout>

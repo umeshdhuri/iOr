@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:gravity="center">
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/etName"
+            android:hint="Name"
+        android:singleLine="true" />
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etCountry"
+            android:editable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:gravity="center"/>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/tvCountryCode"/>
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="7"
+                android:id="@+id/etPhone"
+                android:hint="Phone number"
+                />
+
+    </LinearLayout>
+
+    <Button
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:text="@string/login"
+            android:id="@+id/btLogin"
+            style="@style/button"
+            android:layout_marginTop="5dp"/>
+
+</LinearLayout>
