@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B1B567E16B16088005A9EDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B567D16B16088005A9EDE /* UIKit.framework */; };
+		8B1B568016B16088005A9EDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B567F16B16088005A9EDE /* Foundation.framework */; };
+		8B1B568216B16088005A9EDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B568116B16088005A9EDE /* CoreGraphics.framework */; };
+		8B1B568816B16088005A9EDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B568616B16088005A9EDE /* InfoPlist.strings */; };
+		8B1B568A16B16088005A9EDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B568916B16088005A9EDE /* main.m */; };
+		8B1B568E16B16088005A9EDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B568D16B16088005A9EDE /* AppDelegate.m */; };
+		8B1B569016B16088005A9EDE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B568F16B16088005A9EDE /* Default.png */; };
+		8B1B569216B16088005A9EDE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B569116B16088005A9EDE /* Default@2x.png */; };
+		8B1B569416B16088005A9EDE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B569316B16088005A9EDE /* Default-568h@2x.png */; };
+		8B1B569716B16088005A9EDE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B569616B16088005A9EDE /* ViewController.m */; };
+		8B1B569A16B16088005A9EDE /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B569816B16088005A9EDE /* ViewController.xib */; };
+		8B1B56A216B16089005A9EDE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B56A116B16089005A9EDE /* SenTestingKit.framework */; };
+		8B1B56A316B16089005A9EDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B567D16B16088005A9EDE /* UIKit.framework */; };
+		8B1B56A416B16089005A9EDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B567F16B16088005A9EDE /* Foundation.framework */; };
+		8B1B56AC16B16089005A9EDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B56AA16B16089005A9EDE /* InfoPlist.strings */; };
+		8B1B56AF16B16089005A9EDE /* GoogleTranslateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B56AE16B16089005A9EDE /* GoogleTranslateTests.m */; };
+		8B1B56BB16B16CD3005A9EDE /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B56BA16B16CD3005A9EDE /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8B1B56A516B16089005A9EDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B1B567016B16088005A9EDE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B1B567816B16088005A9EDE;
+			remoteInfo = GoogleTranslate;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8B1B567916B16088005A9EDE /* GoogleTranslate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleTranslate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B1B567D16B16088005A9EDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8B1B567F16B16088005A9EDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8B1B568116B16088005A9EDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8B1B568516B16088005A9EDE /* GoogleTranslate-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleTranslate-Info.plist"; sourceTree = "<group>"; };
+		8B1B568716B16088005A9EDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B1B568916B16088005A9EDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8B1B568B16B16088005A9EDE /* GoogleTranslate-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoogleTranslate-Prefix.pch"; sourceTree = "<group>"; };
+		8B1B568C16B16088005A9EDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8B1B568D16B16088005A9EDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8B1B568F16B16088005A9EDE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		8B1B569116B16088005A9EDE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		8B1B569316B16088005A9EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8B1B569516B16088005A9EDE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8B1B569616B16088005A9EDE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8B1B569916B16088005A9EDE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		8B1B56A016B16089005A9EDE /* GoogleTranslateTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoogleTranslateTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B1B56A116B16089005A9EDE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8B1B56A916B16089005A9EDE /* GoogleTranslateTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleTranslateTests-Info.plist"; sourceTree = "<group>"; };
+		8B1B56AB16B16089005A9EDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B1B56AD16B16089005A9EDE /* GoogleTranslateTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleTranslateTests.h; sourceTree = "<group>"; };
+		8B1B56AE16B16089005A9EDE /* GoogleTranslateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleTranslateTests.m; sourceTree = "<group>"; };
+		8B1B56B916B16CD3005A9EDE /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = GoogleTranslate/JSON/JSONKit.h; sourceTree = "<group>"; };
+		8B1B56BA16B16CD3005A9EDE /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = GoogleTranslate/JSON/JSONKit.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8B1B567616B16088005A9EDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B567E16B16088005A9EDE /* UIKit.framework in Frameworks */,
+				8B1B568016B16088005A9EDE /* Foundation.framework in Frameworks */,
+				8B1B568216B16088005A9EDE /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B1B569C16B16089005A9EDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B56A216B16089005A9EDE /* SenTestingKit.framework in Frameworks */,
+				8B1B56A316B16089005A9EDE /* UIKit.framework in Frameworks */,
+				8B1B56A416B16089005A9EDE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8B1B566E16B16088005A9EDE = {
+			isa = PBXGroup;
+			children = (
+				8B1B56B816B16CC7005A9EDE /* JSON */,
+				8B1B568316B16088005A9EDE /* GoogleTranslate */,
+				8B1B56A716B16089005A9EDE /* GoogleTranslateTests */,
+				8B1B567C16B16088005A9EDE /* Frameworks */,
+				8B1B567A16B16088005A9EDE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8B1B567A16B16088005A9EDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B567916B16088005A9EDE /* GoogleTranslate.app */,
+				8B1B56A016B16089005A9EDE /* GoogleTranslateTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8B1B567C16B16088005A9EDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B567D16B16088005A9EDE /* UIKit.framework */,
+				8B1B567F16B16088005A9EDE /* Foundation.framework */,
+				8B1B568116B16088005A9EDE /* CoreGraphics.framework */,
+				8B1B56A116B16089005A9EDE /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B1B568316B16088005A9EDE /* GoogleTranslate */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B568C16B16088005A9EDE /* AppDelegate.h */,
+				8B1B568D16B16088005A9EDE /* AppDelegate.m */,
+				8B1B569516B16088005A9EDE /* ViewController.h */,
+				8B1B569616B16088005A9EDE /* ViewController.m */,
+				8B1B569816B16088005A9EDE /* ViewController.xib */,
+				8B1B568416B16088005A9EDE /* Supporting Files */,
+			);
+			path = GoogleTranslate;
+			sourceTree = "<group>";
+		};
+		8B1B568416B16088005A9EDE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B568516B16088005A9EDE /* GoogleTranslate-Info.plist */,
+				8B1B568616B16088005A9EDE /* InfoPlist.strings */,
+				8B1B568916B16088005A9EDE /* main.m */,
+				8B1B568B16B16088005A9EDE /* GoogleTranslate-Prefix.pch */,
+				8B1B568F16B16088005A9EDE /* Default.png */,
+				8B1B569116B16088005A9EDE /* Default@2x.png */,
+				8B1B569316B16088005A9EDE /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8B1B56A716B16089005A9EDE /* GoogleTranslateTests */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B56AD16B16089005A9EDE /* GoogleTranslateTests.h */,
+				8B1B56AE16B16089005A9EDE /* GoogleTranslateTests.m */,
+				8B1B56A816B16089005A9EDE /* Supporting Files */,
+			);
+			path = GoogleTranslateTests;
+			sourceTree = "<group>";
+		};
+		8B1B56A816B16089005A9EDE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B56A916B16089005A9EDE /* GoogleTranslateTests-Info.plist */,
+				8B1B56AA16B16089005A9EDE /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8B1B56B816B16CC7005A9EDE /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B56B916B16CD3005A9EDE /* JSONKit.h */,
+				8B1B56BA16B16CD3005A9EDE /* JSONKit.m */,
+			);
+			name = JSON;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8B1B567816B16088005A9EDE /* GoogleTranslate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B1B56B216B16089005A9EDE /* Build configuration list for PBXNativeTarget "GoogleTranslate" */;
+			buildPhases = (
+				8B1B567516B16088005A9EDE /* Sources */,
+				8B1B567616B16088005A9EDE /* Frameworks */,
+				8B1B567716B16088005A9EDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GoogleTranslate;
+			productName = GoogleTranslate;
+			productReference = 8B1B567916B16088005A9EDE /* GoogleTranslate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8B1B569F16B16089005A9EDE /* GoogleTranslateTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B1B56B516B16089005A9EDE /* Build configuration list for PBXNativeTarget "GoogleTranslateTests" */;
+			buildPhases = (
+				8B1B569B16B16089005A9EDE /* Sources */,
+				8B1B569C16B16089005A9EDE /* Frameworks */,
+				8B1B569D16B16089005A9EDE /* Resources */,
+				8B1B569E16B16089005A9EDE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B1B56A616B16089005A9EDE /* PBXTargetDependency */,
+			);
+			name = GoogleTranslateTests;
+			productName = GoogleTranslateTests;
+			productReference = 8B1B56A016B16089005A9EDE /* GoogleTranslateTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8B1B567016B16088005A9EDE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Umesh Dhuri";
+			};
+			buildConfigurationList = 8B1B567316B16088005A9EDE /* Build configuration list for PBXProject "GoogleTranslate" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8B1B566E16B16088005A9EDE;
+			productRefGroup = 8B1B567A16B16088005A9EDE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8B1B567816B16088005A9EDE /* GoogleTranslate */,
+				8B1B569F16B16089005A9EDE /* GoogleTranslateTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8B1B567716B16088005A9EDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B568816B16088005A9EDE /* InfoPlist.strings in Resources */,
+				8B1B569016B16088005A9EDE /* Default.png in Resources */,
+				8B1B569216B16088005A9EDE /* Default@2x.png in Resources */,
+				8B1B569416B16088005A9EDE /* Default-568h@2x.png in Resources */,
+				8B1B569A16B16088005A9EDE /* ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B1B569D16B16089005A9EDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B56AC16B16089005A9EDE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8B1B569E16B16089005A9EDE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8B1B567516B16088005A9EDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B568A16B16088005A9EDE /* main.m in Sources */,
+				8B1B568E16B16088005A9EDE /* AppDelegate.m in Sources */,
+				8B1B569716B16088005A9EDE /* ViewController.m in Sources */,
+				8B1B56BB16B16CD3005A9EDE /* JSONKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B1B569B16B16089005A9EDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B56AF16B16089005A9EDE /* GoogleTranslateTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8B1B56A616B16089005A9EDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B1B567816B16088005A9EDE /* GoogleTranslate */;
+			targetProxy = 8B1B56A516B16089005A9EDE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8B1B568616B16088005A9EDE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B1B568716B16088005A9EDE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8B1B569816B16088005A9EDE /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B1B569916B16088005A9EDE /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+		8B1B56AA16B16089005A9EDE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B1B56AB16B16089005A9EDE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8B1B56B016B16089005A9EDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8B1B56B116B16089005A9EDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8B1B56B316B16089005A9EDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GoogleTranslate/GoogleTranslate-Prefix.pch";
+				INFOPLIST_FILE = "GoogleTranslate/GoogleTranslate-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8B1B56B416B16089005A9EDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GoogleTranslate/GoogleTranslate-Prefix.pch";
+				INFOPLIST_FILE = "GoogleTranslate/GoogleTranslate-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		8B1B56B616B16089005A9EDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GoogleTranslate.app/GoogleTranslate";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GoogleTranslate/GoogleTranslate-Prefix.pch";
+				INFOPLIST_FILE = "GoogleTranslateTests/GoogleTranslateTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		8B1B56B716B16089005A9EDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GoogleTranslate.app/GoogleTranslate";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GoogleTranslate/GoogleTranslate-Prefix.pch";
+				INFOPLIST_FILE = "GoogleTranslateTests/GoogleTranslateTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B1B567316B16088005A9EDE /* Build configuration list for PBXProject "GoogleTranslate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B1B56B016B16089005A9EDE /* Debug */,
+				8B1B56B116B16089005A9EDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B1B56B216B16089005A9EDE /* Build configuration list for PBXNativeTarget "GoogleTranslate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B1B56B316B16089005A9EDE /* Debug */,
+				8B1B56B416B16089005A9EDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8B1B56B516B16089005A9EDE /* Build configuration list for PBXNativeTarget "GoogleTranslateTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B1B56B616B16089005A9EDE /* Debug */,
+				8B1B56B716B16089005A9EDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8B1B567016B16088005A9EDE /* Project object */;
+}

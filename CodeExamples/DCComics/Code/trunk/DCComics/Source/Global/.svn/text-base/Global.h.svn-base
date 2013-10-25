@@ -1,0 +1,13 @@
+//
+//  Global.h
+//  DCComics
+//
+//  Created by Krunal Doshi on 2/13/13.
+//  Copyright (c) 2013 Krunal Doshi. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#import "AppDelegate.h"
+
+#define AppName @"DCComics"

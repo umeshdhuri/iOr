@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B1B39BD172585EE004BEFE1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39BC172585EE004BEFE1 /* UIKit.framework */; };
+		8B1B39BF172585EE004BEFE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39BE172585EE004BEFE1 /* Foundation.framework */; };
+		8B1B39C1172585EE004BEFE1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39C0172585EE004BEFE1 /* CoreGraphics.framework */; };
+		8B1B39C7172585EE004BEFE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B39C5172585EE004BEFE1 /* InfoPlist.strings */; };
+		8B1B39C9172585EE004BEFE1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B39C8172585EE004BEFE1 /* main.m */; };
+		8B1B39CD172585EE004BEFE1 /* DSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B39CC172585EE004BEFE1 /* DSAppDelegate.m */; };
+		8B1B39D0172585EE004BEFE1 /* DSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B39CF172585EE004BEFE1 /* DSViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8B1B39D3172585EE004BEFE1 /* DSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B39D1172585EE004BEFE1 /* DSViewController.xib */; };
+		8B1B39DB172585EE004BEFE1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39DA172585EE004BEFE1 /* SenTestingKit.framework */; };
+		8B1B39DC172585EE004BEFE1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39BC172585EE004BEFE1 /* UIKit.framework */; };
+		8B1B39DD172585EE004BEFE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39BE172585EE004BEFE1 /* Foundation.framework */; };
+		8B1B39E5172585EE004BEFE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B1B39E3172585EE004BEFE1 /* InfoPlist.strings */; };
+		8B1B39E8172585EE004BEFE1 /* DataSecurityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B39E7172585EE004BEFE1 /* DataSecurityTests.m */; };
+		8B1B39F217258672004BEFE1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1B39F117258672004BEFE1 /* Security.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		8BC1E31F1726D31000581F74 /* SaveDataInKeyChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC1E31D1726D31000581F74 /* SaveDataInKeyChainViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8BC1E3201726D31000581F74 /* SaveDataInKeyChainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BC1E31E1726D31000581F74 /* SaveDataInKeyChainViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8B1B39DE172585EE004BEFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B1B39AF172585ED004BEFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B1B39B7172585EE004BEFE1;
+			remoteInfo = DataSecurity;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8B1B39B8172585EE004BEFE1 /* DataSecurity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataSecurity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B1B39BC172585EE004BEFE1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8B1B39BE172585EE004BEFE1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8B1B39C0172585EE004BEFE1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8B1B39C4172585EE004BEFE1 /* DataSecurity-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataSecurity-Info.plist"; sourceTree = "<group>"; };
+		8B1B39C6172585EE004BEFE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B1B39C8172585EE004BEFE1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8B1B39CA172585EE004BEFE1 /* DataSecurity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataSecurity-Prefix.pch"; sourceTree = "<group>"; };
+		8B1B39CB172585EE004BEFE1 /* DSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSAppDelegate.h; sourceTree = "<group>"; };
+		8B1B39CC172585EE004BEFE1 /* DSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSAppDelegate.m; sourceTree = "<group>"; };
+		8B1B39CE172585EE004BEFE1 /* DSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSViewController.h; sourceTree = "<group>"; };
+		8B1B39CF172585EE004BEFE1 /* DSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSViewController.m; sourceTree = "<group>"; };
+		8B1B39D2172585EE004BEFE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DSViewController.xib; sourceTree = "<group>"; };
+		8B1B39D9172585EE004BEFE1 /* DataSecurityTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSecurityTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B1B39DA172585EE004BEFE1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8B1B39E2172585EE004BEFE1 /* DataSecurityTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataSecurityTests-Info.plist"; sourceTree = "<group>"; };
+		8B1B39E4172585EE004BEFE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B1B39E6172585EE004BEFE1 /* DataSecurityTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataSecurityTests.h; sourceTree = "<group>"; };
+		8B1B39E7172585EE004BEFE1 /* DataSecurityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataSecurityTests.m; sourceTree = "<group>"; };
+		8B1B39F117258672004BEFE1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8BC1E31C1726D31000581F74 /* SaveDataInKeyChainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveDataInKeyChainViewController.h; path = KeyChain/SaveDataInKeyChainViewController.h; sourceTree = "<group>"; };
+		8BC1E31D1726D31000581F74 /* SaveDataInKeyChainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SaveDataInKeyChainViewController.m; path = KeyChain/SaveDataInKeyChainViewController.m; sourceTree = "<group>"; };
+		8BC1E31E1726D31000581F74 /* SaveDataInKeyChainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SaveDataInKeyChainViewController.xib; path = KeyChain/SaveDataInKeyChainViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8B1B39B5172585EE004BEFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B39F217258672004BEFE1 /* Security.framework in Frameworks */,
+				8B1B39BD172585EE004BEFE1 /* UIKit.framework in Frameworks */,
+				8B1B39BF172585EE004BEFE1 /* Foundation.framework in Frameworks */,
+				8B1B39C1172585EE004BEFE1 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B1B39D5172585EE004BEFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B39DB172585EE004BEFE1 /* SenTestingKit.framework in Frameworks */,
+				8B1B39DC172585EE004BEFE1 /* UIKit.framework in Frameworks */,
+				8B1B39DD172585EE004BEFE1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8B1B39AD172585ED004BEFE1 = {
+			isa = PBXGroup;
+			children = (
+				8B1B39F117258672004BEFE1 /* Security.framework */,
+				8B1B39C2172585EE004BEFE1 /* DataSecurity */,
+				8B1B39E0172585EE004BEFE1 /* DataSecurityTests */,
+				8B1B39BB172585EE004BEFE1 /* Frameworks */,
+				8B1B39B9172585EE004BEFE1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8B1B39B9172585EE004BEFE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B39B8172585EE004BEFE1 /* DataSecurity.app */,
+				8B1B39D9172585EE004BEFE1 /* DataSecurityTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8B1B39BB172585EE004BEFE1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B39BC172585EE004BEFE1 /* UIKit.framework */,
+				8B1B39BE172585EE004BEFE1 /* Foundation.framework */,
+				8B1B39C0172585EE004BEFE1 /* CoreGraphics.framework */,
+				8B1B39DA172585EE004BEFE1 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B1B39C2172585EE004BEFE1 /* DataSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				8BC1E3211726D31900581F74 /* Keychain */,
+				8B1B39CB172585EE004BEFE1 /* DSAppDelegate.h */,
+				8B1B39CC172585EE004BEFE1 /* DSAppDelegate.m */,
+				8B1B39CE172585EE004BEFE1 /* DSViewController.h */,
+				8B1B39CF172585EE004BEFE1 /* DSViewController.m */,
+				8B1B39D1172585EE004BEFE1 /* DSViewController.xib */,
+				8B1B39C3172585EE004BEFE1 /* Supporting Files */,
+			);
+			path = DataSecurity;
+			sourceTree = "<group>";
+		};
+		8B1B39C3172585EE004BEFE1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B39C4172585EE004BEFE1 /* DataSecurity-Info.plist */,
+				8B1B39C5172585EE004BEFE1 /* InfoPlist.strings */,
+				8B1B39C8172585EE004BEFE1 /* main.m */,
+				8B1B39CA172585EE004BEFE1 /* DataSecurity-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8B1B39E0172585EE004BEFE1 /* DataSecurityTests */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B39E6172585EE004BEFE1 /* DataSecurityTests.h */,
+				8B1B39E7172585EE004BEFE1 /* DataSecurityTests.m */,
+				8B1B39E1172585EE004BEFE1 /* Supporting Files */,
+			);
+			path = DataSecurityTests;
+			sourceTree = "<group>";
+		};
+		8B1B39E1172585EE004BEFE1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B1B39E2172585EE004BEFE1 /* DataSecurityTests-Info.plist */,
+				8B1B39E3172585EE004BEFE1 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8BC1E3211726D31900581F74 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				8BC1E31C1726D31000581F74 /* SaveDataInKeyChainViewController.h */,
+				8BC1E31D1726D31000581F74 /* SaveDataInKeyChainViewController.m */,
+				8BC1E31E1726D31000581F74 /* SaveDataInKeyChainViewController.xib */,
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8B1B39B7172585EE004BEFE1 /* DataSecurity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B1B39EB172585EE004BEFE1 /* Build configuration list for PBXNativeTarget "DataSecurity" */;
+			buildPhases = (
+				8B1B39B4172585EE004BEFE1 /* Sources */,
+				8B1B39B5172585EE004BEFE1 /* Frameworks */,
+				8B1B39B6172585EE004BEFE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DataSecurity;
+			productName = DataSecurity;
+			productReference = 8B1B39B8172585EE004BEFE1 /* DataSecurity.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8B1B39D8172585EE004BEFE1 /* DataSecurityTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B1B39EE172585EE004BEFE1 /* Build configuration list for PBXNativeTarget "DataSecurityTests" */;
+			buildPhases = (
+				8B1B39D4172585EE004BEFE1 /* Sources */,
+				8B1B39D5172585EE004BEFE1 /* Frameworks */,
+				8B1B39D6172585EE004BEFE1 /* Resources */,
+				8B1B39D7172585EE004BEFE1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B1B39DF172585EE004BEFE1 /* PBXTargetDependency */,
+			);
+			name = DataSecurityTests;
+			productName = DataSecurityTests;
+			productReference = 8B1B39D9172585EE004BEFE1 /* DataSecurityTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8B1B39AF172585ED004BEFE1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Umesh.Dhuri@synechron.com";
+			};
+			buildConfigurationList = 8B1B39B2172585ED004BEFE1 /* Build configuration list for PBXProject "DataSecurity" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8B1B39AD172585ED004BEFE1;
+			productRefGroup = 8B1B39B9172585EE004BEFE1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8B1B39B7172585EE004BEFE1 /* DataSecurity */,
+				8B1B39D8172585EE004BEFE1 /* DataSecurityTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8B1B39B6172585EE004BEFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B39C7172585EE004BEFE1 /* InfoPlist.strings in Resources */,
+				8B1B39D3172585EE004BEFE1 /* DSViewController.xib in Resources */,
+				8BC1E3201726D31000581F74 /* SaveDataInKeyChainViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B1B39D6172585EE004BEFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B39E5172585EE004BEFE1 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8B1B39D7172585EE004BEFE1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8B1B39B4172585EE004BEFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B39C9172585EE004BEFE1 /* main.m in Sources */,
+				8B1B39CD172585EE004BEFE1 /* DSAppDelegate.m in Sources */,
+				8B1B39D0172585EE004BEFE1 /* DSViewController.m in Sources */,
+				8BC1E31F1726D31000581F74 /* SaveDataInKeyChainViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B1B39D4172585EE004BEFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1B39E8172585EE004BEFE1 /* DataSecurityTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8B1B39DF172585EE004BEFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B1B39B7172585EE004BEFE1 /* DataSecurity */;
+			targetProxy = 8B1B39DE172585EE004BEFE1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8B1B39C5172585EE004BEFE1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B1B39C6172585EE004BEFE1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8B1B39D1172585EE004BEFE1 /* DSViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B1B39D2172585EE004BEFE1 /* en */,
+			);
+			name = DSViewController.xib;
+			sourceTree = "<group>";
+		};
+		8B1B39E3172585EE004BEFE1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B1B39E4172585EE004BEFE1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8B1B39E9172585EE004BEFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8B1B39EA172585EE004BEFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8B1B39EC172585EE004BEFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Suhail Basit (KUZ493MU28)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Suhail Basit (KUZ493MU28)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DataSecurity/DataSecurity-Prefix.pch";
+				INFOPLIST_FILE = "DataSecurity/DataSecurity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "69CA2A02-CB37-401C-845A-827E8C6729F4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "69CA2A02-CB37-401C-845A-827E8C6729F4";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8B1B39ED172585EE004BEFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Suhail Basit (KUZ493MU28)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Suhail Basit (KUZ493MU28)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DataSecurity/DataSecurity-Prefix.pch";
+				INFOPLIST_FILE = "DataSecurity/DataSecurity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "69CA2A02-CB37-401C-845A-827E8C6729F4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "69CA2A02-CB37-401C-845A-827E8C6729F4";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		8B1B39EF172585EE004BEFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataSecurity.app/DataSecurity";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DataSecurity/DataSecurity-Prefix.pch";
+				INFOPLIST_FILE = "DataSecurityTests/DataSecurityTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		8B1B39F0172585EE004BEFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataSecurity.app/DataSecurity";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DataSecurity/DataSecurity-Prefix.pch";
+				INFOPLIST_FILE = "DataSecurityTests/DataSecurityTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B1B39B2172585ED004BEFE1 /* Build configuration list for PBXProject "DataSecurity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B1B39E9172585EE004BEFE1 /* Debug */,
+				8B1B39EA172585EE004BEFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B1B39EB172585EE004BEFE1 /* Build configuration list for PBXNativeTarget "DataSecurity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B1B39EC172585EE004BEFE1 /* Debug */,
+				8B1B39ED172585EE004BEFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B1B39EE172585EE004BEFE1 /* Build configuration list for PBXNativeTarget "DataSecurityTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B1B39EF172585EE004BEFE1 /* Debug */,
+				8B1B39F0172585EE004BEFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8B1B39AF172585ED004BEFE1 /* Project object */;
+}
