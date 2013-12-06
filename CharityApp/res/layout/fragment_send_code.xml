@@ -1,52 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="fill_parent"
-              android:gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
 
         <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="100dp"
-                android:text="@string/send_code_page_text"
-                android:id="@+id/textView"
-                android:gravity="center"
-                android:textSize="17dp"/>
+            android:id="@+id/textView"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:tag="send_code_page_text"
+            android:textSize="17dp" />
 
         <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/etCode"
-                android:hint="code"
-                android:layout_margin="10dp"
-                android:gravity="center"
-            android:singleLine="true" />
+            android:id="@+id/etCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="code"
+            android:singleLine="true"
+            android:tag="hint_code" />
 
         <Button
-                android:layout_width="fill_parent"
-                android:layout_height="45dp"
-                android:text="@string/bt_text_continue"
-                android:id="@+id/btContinue"
-                android:layout_margin="5dp"
-                style="@style/button"
-                />
+            android:id="@+id/btContinue"
+            style="@style/button"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:tag="bt_text_continue" />
 
         <Button
-                android:layout_width="fill_parent"
-                android:layout_height="45dp"
-                android:text="@string/bt_text_resend_code"
-                android:id="@+id/btResend"
-                android:layout_margin="5dp"
-                style="@style/button"
-                />
-
+            android:id="@+id/btResend"
+            style="@style/button"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:tag="bt_text_resend_code" />
     </LinearLayout>
+
 </LinearLayout>

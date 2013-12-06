@@ -1,6 +1,0 @@
-Installation guide:
-1. import android-support-v7-appcompat from support libraries into workspace if it is not present(<sdk_dir>/extras/android/support/v7/appcompat);
-2. import google play service from android sdk into workspace if it is not imported(<sdk_dir>/extras/google/google_play_services/libproject/google-play-services_lib).
-3. import CountryPicker project.
-4. import pager_sliding_tab_strip project.
-3. import CharityApp project and add all imported projects as libraries.

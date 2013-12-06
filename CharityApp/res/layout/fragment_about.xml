@@ -1,23 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView"
-            android:layout_margin="10dp"
-            >
-        <TextView
+        android:id="@+id/scrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+
+        <LinearLayout
+            android:id="@+id/aboutMe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvAbout"
                 android:autoLink="all"
-    			android:linksClickable="true"
-                android:textSize="15dp"
-                />
+                android:linksClickable="true"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:id="@+id/changePassLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="80dp"
+                 >
+
+                <RadioGroup
+                    android:id="@+id/radioLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" 
+                     android:layout_marginLeft="100dp"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/radioEnglish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="English" 
+                        android:tag="0"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radioHebrew"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="עברית" 
+                        android:tag="1"
+                        />
+                </RadioGroup>
+                
+                
+            </LinearLayout>
+            <Button
+        android:id="@+id/btnDisplay"
+        style="@style/button"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0" />
+        </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
