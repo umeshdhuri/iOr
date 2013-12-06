@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  iOR
+
+  Created by Krunal on 11/8/13.
+  Copyright (c) 2013 Krunal Doshi. All rights reserved.
+*/
+
+"Register" = "Register";
+
+
+"mlt_title_main" = "iOr";
+"mlt_title_need_help" = "I Need Help";
+"mlt_title_profile" = "I Can Help";
+"mlt_title_about" = "About";
+"mlt_title_requests" = "My Requests";
+
+"mlt_need_help" = "I Need Help";
+"mlt_my_requests" = "My requests";
+"mlt_want_to_help" = "I Can Help";
+"mlt_who_we_are" = "About";
+"mlt_description" = "iOr";
+"mlt_concept" = "Concept";
+"mlt_more" = "More";
+"mlt_ok" = "ОК";
+"mlt_answer_accepted" = "Your request was sent. Please check the screen \"My Rquests\" soon for users reply";
+"mlt_no" = "No";
+"mlt_yes" = "Yes";
+"mlt_can_you_help" = ". Can you help him?";
+"mlt_needs_help_with" = " needs help with ";
+"mlt_country_picker" = "Select Country";
+"mlt_call_him" = "Call him";
+"mlt_wait_for_new_code" = "Please wait for new code!";
+"mlt_enter_value" = "Please enter value";
+"mlt_req_sent_wait_for_user" = "Your request was sent. Please check the screen \"My Rquests\" soon for users reply ";
+"mlt_error_network" = "Error! Please check internet connection";
+"ml_txt_select_categories_of_help" = "What can you help with?";
+"hint_description" = "Type Here";
+"hint_sponsor_name" = "Sponsor\'s Name";
+"hint_name" = "Name";
+"hint_phone_number" = "Phone Number";
+"hint_code" = "Code";
+"app_name"= "iOr";
+"action_settings" = "Settings";
+"hello_world" = "Hello world!";
+"login" = "Register";
+"bt_text_i_need_help" = "I Need Help";
+"bt_text_profile" = "Profile";
+"bt_text_about" = "About";
+"bt_text_resend_code" = "Resend code";
+"bt_text_continue" = "Continue";
+"send_code_page_text" = "Enter the code which you recieved by SMS";
+"bt_text_can_not_find" = "Can\'t find what you want?";
+"need_help_screen_text" = "People in your area who are willing to help";
+"need_help_people_screen" = "People who are willing to help you";
+"people_find_text" = "Can help you with \"%@\".";
+"no_people_text" = "No results %dkm around me";
+"search_range_text" = "Search %dkm around me?";
+"search_to_push_range" = "Send my request %dkm around me?";
+"no_results_text" = "Please check the screen \"My Rquests\" soon for users reply";
+"notif_dialog_header" = "Describe the help you need";
+"notif_dialog_description" = "Your request was sent. Please check the screen \"My Rquests\" soon for users reply";
+"cancel" = "Cancel";
+"send" = "Send";
+"sending_request" = "Sending request";
+"empty_description_error" = "Please type a description";
+"bt_send" = "SEND";
+"activity_profile" = "I Can Help";
+"activity_need_help" = "I Need Help";
+"request_accepted" = "Your acount will be validate by our team soon. Thanks!";
+
+//<!-- Texts for "About" Screen -->
+//<!-- WARNING: Please don't change name attribute of  tags -->
+"description" = "\tiOr is the only application that aims to strengthen mutual help among our people and in the world in general.\n\t Whether you are an individual, a professional or an association, we all need others to live and move forward, whether by giving or by receiving from his neighbor.\n\t Because the world has not been created by accident, because the man who lives there is its main actor, and because a Jew is never alone, iOr offers anybody to find help and/or to help others.\n\t Through an good action, a good word or a smile, you can turn anything around you into goodness! Enlighten the world by loving and helping your fellow jew can make it suitable to the Divine revelation ...\n \n\t Those listed in the App as \"ready to help\", could be any Jewish willing to help others with no compensation. At the launch of this application, listed are Shloukhim of Chabad (Lubavitcher), currently in action around the world having the mission to prepare the world to receive Mashiach.\n\t \n\t Mashmaout, founder and sponsor of iOr App, has a Facebook page that broadcasts original and profound will of the Creator, to gather the Jews around their mission and objective, and to achieve it.\n\t For more information, log on to our page: <a href='http://www.facebook.com/mashmaout.'>http://www.facebook.com/mashmaout.</a>";
+"concept" = "Concept text";
+"more" = "More text";
+//<!-- ******************************************** -->
+
+"activity_about" = "About";
+"set_sponsor" = "MY SPONSOR";
+"about_sponsor" = "Please enter sponsor\'s name and phone number";
+"set" = "Send";
+"bt_text_requests" = "My Requests";
+"activity_requests" = "My Requests";
+"no_requests" = "You have no requests yet";
+"mlt_change_language" = "Change Language";
+"mt_km" = "km";
+"no_result_text" = "No results";
+"mlt_enter_wrong_code" = "Entered code is wrong. Please try again";

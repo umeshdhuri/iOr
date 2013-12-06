@@ -1,0 +1,24 @@
+//
+// Prefix header for all source files of the 'iOR' target in the 'iOR' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import "AppDelegate.h"
+    #import "UIViewController+MJPopupViewController.h"
+    #import <MessageUI/MessageUI.h>
+    #import "JSONKit.h"
+    #import "SSKeychain.h"
+    #import "Localization.h"
+    #import "Constant.h"
+    #import "Global.h"
+    #import "ILHTTPClient.h"
+    #import "Utility.h"
+#endif
