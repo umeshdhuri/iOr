@@ -70,6 +70,7 @@ public class AboutFragment extends ParentFragment {
 		super.onCreate(savedInstanceState);
 		stringPicker = new StringPicker(getActivity(), getLanguageFileName());
 		strings_about = new String[] { stringPicker.getString("description"),
+				stringPicker.getString("concept"),
 				"Change Language Text"
 		};
 

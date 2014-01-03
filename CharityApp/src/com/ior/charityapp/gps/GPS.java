@@ -43,9 +43,6 @@ public class GPS extends Service implements Listener, LocationListener {
 	@Override
 	public void onLocationChanged(final Location location) {
 		
-		log("Latitude === ", String.valueOf(location.getLatitude()));
-		log("Longitude ==== ", String.valueOf(location.getLongitude()));
-		
 		if (location.getTime() >= lastUpdated) {
 			lastUpdated = location.getTime();
 
