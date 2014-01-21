@@ -1,0 +1,631 @@
+package com.tcv.model.manager;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.SocketException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.concurrent.RejectedExecutionException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import com.tcv.model.Exception.UserRegistrationException;
+import com.tcv.model.XMLHandler.UserRegistrationXMLHandler;
+import com.tcv.model.pojo.UserRegistration;
+import com.tcv.util.DBHelper;
+
+/**
+ * Start of class UserRegistrationManager
+ */
+
+/**
+ * UserRegistration Manager class.
+ * 
+ * @since <b>Updated:</b> 24/April/2012
+ * @author <p>
+ *         <b>Created:</b> surya
+ *         </p>
+ * 
+ */
+
+public class UserRegistrationManager extends Handler {
+	public Context mContext;
+	public Activity mParentActivity;
+	private DBHelper mDBHelper;
+	private XMLReader mXMLReader;
+	private SAXParserFactory mSAXParserFactory;
+	private SAXParser mSAXParser;
+
+	UserRegistration mUserRegistration;
+
+	// Progress bar related variables
+	public static boolean mShowProgressDialog;
+	public static String mProgressMessage;
+
+	// Operation commands
+	public static enum EOperation {
+		ADD_USER_REGISTRATION, UPDATE_USER_REGISTRATION, DELETE_USER_REGISTRATION, DELETE_ALL_USER_REGISTRATION, GET_ALL_USER_REGISTRATIONS, GET_SINGLE_USER_REGISTRATION, GET_USER_REGISTRATION_COUNT
+	}
+
+	/**
+	 * Default Constructor
+	 * 
+	 * @param mContext
+	 */
+	public UserRegistrationManager(Context mContext) {
+		this(mContext, false, "Loading data... ");
+		mShowProgressDialog = false;
+		mProgressMessage = "Loading data... ";
+	}
+
+	/**
+	 * Constructor to handle the progress dialog and its relative data
+	 * 
+	 * @param mContext
+	 * @param showProgressDialog
+	 * @param progressMessage
+	 */
+	public UserRegistrationManager(Context mContext,
+			boolean showProgressDialog, String progressMessage) {
+		System.out.println("UserRegistrationManager.UserRegistrationManager()");
+		this.mContext = mContext;
+		this.mDBHelper = DBHelper.getInstance(mContext);
+		mShowProgressDialog = showProgressDialog;
+		mProgressMessage = progressMessage;
+	}
+
+	/**
+	 * Adds new record to the mUserRegistration table.
+	 * 
+	 * @param mUserRegistration
+	 * @throws UserRegistrationException
+	 */
+	public void addUserRegistration(UserRegistration mUserRegistration)
+			throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(EOperation.ADD_USER_REGISTRATION)
+					.execute(mUserRegistration);
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Updates the mUserRegistration data.
+	 * 
+	 * @param mUserRegistration
+	 * @throws UserRegistrationException
+	 */
+	public void updateUserRegistration(UserRegistration mUserRegistration)
+			throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(EOperation.UPDATE_USER_REGISTRATION)
+					.execute(mUserRegistration);
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Deletes the specified mUserRegistration.
+	 * 
+	 * @param id
+	 * @throws UserRegistrationException
+	 */
+	public void deleteUserRegistration(Integer id)
+			throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(EOperation.DELETE_USER_REGISTRATION)
+					.execute(id);
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Deletes all mUserRegistration in the table
+	 * 
+	 * @throws UserRegistrationException
+	 */
+	public void deletAllUserRegistration() throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(
+					EOperation.DELETE_ALL_USER_REGISTRATION).execute();
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Gets all the mUserRegistration in the table
+	 * 
+	 * @throws UserRegistrationException
+	 */
+	public void getAllUserRegistration() throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(EOperation.GET_ALL_USER_REGISTRATIONS)
+					.execute();
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Gets the specified mUserRegistration details
+	 * 
+	 * @param id
+	 * @throws UserRegistrationException
+	 */
+	public void getSingleUserRegistration() throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(
+					EOperation.GET_SINGLE_USER_REGISTRATION).execute();
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Gets the specified mUserRegistration details
+	 * 
+	 * @param id
+	 * @throws UserRegistrationException
+	 */
+	public UserRegistration getSingleUserRegistrationWithOutAsync()
+			throws UserRegistrationException {
+		UserRegistration userRegistration = null;
+		Cursor cursor = mDBHelper.select("User_Registrations", null, null,
+				null, null, null, null);
+		if (cursor.moveToFirst()) {
+			userRegistration = new UserRegistration(
+
+			cursor.getInt(cursor.getColumnIndex("id")), cursor.getString(cursor
+					.getColumnIndex("user_id")), cursor.getString(cursor
+					.getColumnIndex("email_id")), cursor.getString(cursor
+					.getColumnIndex("fname")), cursor.getString(cursor
+					.getColumnIndex("lname")), cursor.getString(cursor
+					.getColumnIndex("result")), cursor.getString(cursor
+					.getColumnIndex("alreadyExist")), cursor.getString(cursor
+					.getColumnIndex("downloaded_date")),
+					cursor.getString(cursor.getColumnIndex("downloaded_time")),
+					cursor.getString(cursor.getColumnIndex("org_name")),
+					cursor.getString(cursor.getColumnIndex("org_url")),
+					/*cursor.getString(cursor.getColumnIndex("org_demographics"))*/
+					
+					//Ajay:
+					cursor.getString(cursor.getColumnIndex("phoneNo")),
+					cursor.getString(cursor.getColumnIndex("streetAddress")),
+					cursor.getString(cursor.getColumnIndex("cityString")),
+					cursor.getString(cursor.getColumnIndex("stateString")),
+					cursor.getString(cursor.getColumnIndex("countryString")),
+					cursor.getString(cursor.getColumnIndex("zipCode"))
+					);
+
+		}
+		return userRegistration;
+	}
+
+	/**
+	 * Gets the number of mUserRegistration in the table
+	 * 
+	 * @throws UserRegistrationException
+	 */
+	public void getUserRegistrationCount() throws UserRegistrationException {
+		try {
+			new UserRegistrationAsyncTask(
+					EOperation.GET_USER_REGISTRATION_COUNT).execute();
+		} catch (RejectedExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * To close the database
+	 * 
+	 * @throws UserRegistrationException
+	 */
+	public void closeDb() throws UserRegistrationException {
+		try {
+			mDBHelper.closeDb();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
+			throw new UserRegistrationException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserRegistrationException(e.getMessage());
+		}
+	}
+
+	/**
+	 * This method is used to parse the XML and insert it into Database.
+	 * 
+	 * @param sourceUrl
+	 * @throws UserRegistrationException
+	 */
+	public void xmlAddUserRegistrationInfo(URL sourceUrl, Context context)
+			throws UserRegistrationException, SocketException {
+		try {
+			mSAXParserFactory = SAXParserFactory.newInstance();
+			mSAXParser = mSAXParserFactory.newSAXParser();
+			mXMLReader = mSAXParser.getXMLReader();
+			UserRegistrationXMLHandler xmlHandler = new UserRegistrationXMLHandler();
+			mXMLReader.setContentHandler(xmlHandler);
+			URLConnection getXMLDataconnection = sourceUrl.openConnection();
+			getXMLDataconnection.setConnectTimeout(10000);
+			// Reader reader = new InputStreamReader(
+			// getXMLDataconnection.getInputStream());
+
+			BufferedReader r = new BufferedReader(new InputStreamReader(
+					getXMLDataconnection.getInputStream()));
+			StringBuilder total = new StringBuilder();
+			String line;
+			while ((line = r.readLine()) != null) {
+				total.append(line);
+			}
+
+			String xmlPath = context.getFilesDir() + "/" + "user_regi.xml";
+
+			File file = new File(xmlPath);
+			file.createNewFile();
+			// if we append data to the file, xml parser errors will be thrown later
+			// so this file must be overwritten 
+			FileWriter fbWriter = new FileWriter(file, false);
+			BufferedWriter out = new BufferedWriter(fbWriter);
+			out.write(total.toString());
+			out.close();
+			Log.d(getClass().getName(), total.toString());
+
+			InputStream is = new FileInputStream(file);
+			Reader reader = new InputStreamReader(is);
+
+			InputSource source = new InputSource(reader);
+			mXMLReader.parse(source);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+
+		mUserRegistration = UserRegistrationXMLHandler.user_registration;
+		ArrayList<UserRegistration> allmUserRegistration = new ArrayList<UserRegistration>();
+		allmUserRegistration
+				.addAll(UserRegistrationXMLHandler.allUserRegistration);
+		for (UserRegistration mUserRegistration : allmUserRegistration) {
+			this.addUserRegistration(mUserRegistration);
+		}
+	}
+
+	/**
+	 * This method is used to parse the xml and return the array object of
+	 * result.
+	 * 
+	 * @param sourceUrl
+	 * @return ArrayList of Object.
+	 */
+	public ArrayList<UserRegistration> xmlGetUserRegistrationinfo(URL sourceUrl) {
+
+		try {
+			mSAXParserFactory = SAXParserFactory.newInstance();
+			mSAXParser = mSAXParserFactory.newSAXParser();
+			mXMLReader = mSAXParser.getXMLReader();
+			UserRegistrationXMLHandler xmlHandler = new UserRegistrationXMLHandler();
+			mXMLReader.setContentHandler(xmlHandler);
+			mXMLReader.parse(new InputSource(sourceUrl.openStream()));
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("%%%IO Exception " + sourceUrl.toString());
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+
+		mUserRegistration = UserRegistrationXMLHandler.user_registration;
+		return UserRegistrationXMLHandler.allUserRegistration;
+	}
+	/**
+	 * ASync task for all DB operations to overcome the delay in UI transitions
+	 * and ANR
+	 * 
+	 * @author fahim
+	 * 
+	 */
+	public class UserRegistrationAsyncTask
+			extends
+				AsyncTask<Object, String, String> {
+		EOperation mOperation;
+		ProgressDialog progressDialog;
+		Message msg = UserRegistrationManager.this.obtainMessage();
+		Bundle bundle = new Bundle();
+
+		/**
+		 * Constructor
+		 * 
+		 * @param operation
+		 */
+		public UserRegistrationAsyncTask(EOperation operation) {
+			mOperation = operation;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mShowProgressDialog) {
+				progressDialog = new ProgressDialog(mContext);
+				progressDialog.setMessage(mProgressMessage);
+				progressDialog.setTitle("");
+				progressDialog.show();
+			}
+		}
+
+		/**
+		 * All the db operations handled in this method for avoiding ANR
+		 * PostExecute is called after successful execution of this logic
+		 */
+		@Override
+		protected String doInBackground(Object... params) {
+			try {
+
+				bundle.putString("Operation", mOperation.toString());
+				UserRegistration mUserRegistration;
+				Cursor cursor;
+				switch (mOperation) {
+					case ADD_USER_REGISTRATION :
+					case UPDATE_USER_REGISTRATION :
+						mUserRegistration = (UserRegistration) params[0];
+						ContentValues contentValues = new ContentValues();
+						Log.d("Country Name===", "Country === " + mUserRegistration.cityString);
+						contentValues.put("user_id", mUserRegistration.user_id);
+						contentValues.put("email_id",
+								mUserRegistration.email_id);
+						contentValues.put("fname", mUserRegistration.fname);
+						contentValues.put("lname", mUserRegistration.lname);
+						contentValues.put("result", mUserRegistration.result);
+						contentValues.put("alreadyExist",
+								mUserRegistration.alreadyExist);
+						contentValues.put("downloaded_date",
+								mUserRegistration.downloaded_date);
+						contentValues.put("downloaded_time",
+								mUserRegistration.downloaded_time);
+						
+						//Ajay:
+						contentValues.put("phoneNo",
+								mUserRegistration.phoneNo);
+						contentValues.put("streetAddress",
+								mUserRegistration.streetAddress);
+						contentValues.put("cityString",
+								mUserRegistration.cityString);
+						contentValues.put("stateString",
+								mUserRegistration.stateString);
+						contentValues.put("countryString",
+								mUserRegistration.countryString);
+						contentValues.put("zipCode",
+								mUserRegistration.zipCode);
+						// new
+						contentValues.put("org_name",
+								mUserRegistration.organizationName);
+						contentValues.put("org_url",
+								mUserRegistration.organizationUrl);
+						/*contentValues.put("org_demographics",
+								mUserRegistration.organizationDemographics);*/
+
+						if (mOperation.equals(EOperation.ADD_USER_REGISTRATION)) {
+							cursor = mDBHelper
+									.select("USER_REGISTRATIONS",
+											null,
+											"user_id" + "=?",
+											new String[]{String
+													.valueOf(mUserRegistration.user_id)},
+											null, null, null);
+							if (cursor.moveToFirst()) {
+								System.out.println("Update count");
+								msg.obj = mDBHelper
+										.update("USER_REGISTRATIONS",
+												contentValues,
+												"user_id" + "=?",
+												new String[]{String
+														.valueOf(mUserRegistration.user_id)});
+							} else {
+								msg.obj = mDBHelper.insert(
+										"USER_REGISTRATIONS", contentValues);
+							}
+							cursor.close();
+						} else
+							msg.obj = mDBHelper.update("USER_REGISTRATIONS",
+									contentValues, "user_id" + "=?",
+									new String[]{String
+											.valueOf(mUserRegistration.id)});
+						break;
+					case DELETE_USER_REGISTRATION :
+						msg.obj = mDBHelper.delete("User_Registrations", "id"
+								+ "=?", new String[]{params[0].toString()});
+						break;
+					case DELETE_ALL_USER_REGISTRATION :
+						msg.obj = mDBHelper.delete("User_Registrations", "",
+								null);
+						break;
+					case GET_ALL_USER_REGISTRATIONS :
+						ArrayList<UserRegistration> list = new ArrayList<UserRegistration>();
+						cursor = mDBHelper.select("User_Registrations", null,
+								null, null, null, null, null);
+
+						if (cursor.moveToFirst()) {
+							do {
+								mUserRegistration = new UserRegistration(
+
+										cursor.getInt(cursor
+												.getColumnIndex("id")),
+										cursor.getString(cursor
+												.getColumnIndex("user_id")),
+										cursor.getString(cursor
+												.getColumnIndex("email_id")),
+										cursor.getString(cursor
+												.getColumnIndex("fname")),
+										cursor.getString(cursor
+												.getColumnIndex("lname")),
+										cursor.getString(cursor
+												.getColumnIndex("result")),
+										cursor.getString(cursor
+												.getColumnIndex("alreadyExist")),
+										cursor.getString(cursor
+												.getColumnIndex("downloaded_date")),
+										cursor.getString(cursor
+												.getColumnIndex("downloaded_time")),
+										cursor.getString(cursor
+												.getColumnIndex("org_name")),
+										cursor.getString(cursor
+												.getColumnIndex("org_url")),
+												//Ajay:
+												cursor.getString(cursor.getColumnIndex("phoneNo")),
+												cursor.getString(cursor.getColumnIndex("streetAddress")),
+												cursor.getString(cursor.getColumnIndex("cityString")),
+												cursor.getString(cursor.getColumnIndex("stateString")),
+												cursor.getString(cursor.getColumnIndex("countryString")),
+												cursor.getString(cursor.getColumnIndex("zipCode"))
+										/*cursor.getString(cursor
+												.getColumnIndex("org_demographics"))*/
+
+								);
+								list.add(mUserRegistration);
+							} while (cursor.moveToNext());
+						}
+
+						msg.obj = list;
+						cursor.close();
+						break;
+					case GET_SINGLE_USER_REGISTRATION :
+						cursor = mDBHelper.select("User_Registrations", null,
+								null, null, null, null, null);
+						if (cursor.moveToFirst()) {
+							mUserRegistration = new UserRegistration(
+
+									cursor.getInt(cursor.getColumnIndex("id")),
+									cursor.getString(cursor
+											.getColumnIndex("user_id")),
+									cursor.getString(cursor
+											.getColumnIndex("email_id")),
+									cursor.getString(cursor
+											.getColumnIndex("fname")),
+									cursor.getString(cursor
+											.getColumnIndex("lname")),
+									cursor.getString(cursor
+											.getColumnIndex("result")),
+									cursor.getString(cursor
+											.getColumnIndex("alreadyExist")),
+									cursor.getString(cursor
+											.getColumnIndex("downloaded_date")),
+									cursor.getString(cursor
+											.getColumnIndex("downloaded_time")),
+									cursor.getString(cursor
+											.getColumnIndex("org_name")),
+									cursor.getString(cursor
+											.getColumnIndex("org_url")),
+									//Ajay:
+									cursor.getString(cursor.getColumnIndex("phoneNo")),
+									cursor.getString(cursor.getColumnIndex("streetAddress")),
+									cursor.getString(cursor.getColumnIndex("cityString")),
+									cursor.getString(cursor.getColumnIndex("stateString")),
+									cursor.getString(cursor.getColumnIndex("countryString")),
+									cursor.getString(cursor.getColumnIndex("zipCode"))
+																							
+										/*cursor.getString(cursor
+											.getColumnIndex("org_demographics"))*/
+									);
+							msg.obj = mUserRegistration;
+						} else {
+							msg.obj = null;
+						}
+						cursor.close();
+						break;
+					case GET_USER_REGISTRATION_COUNT :
+						cursor = mDBHelper.select("User_Registrations", null,
+								null, null, null, null, null);
+						msg.obj = cursor.getCount();
+						cursor.close();
+						break;
+					default :
+						break;
+				}
+
+			} catch (SQLiteException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		/**
+		 * Called after the background thread in completed.
+		 */
+		protected void onPostExecute(String result) {
+			if (mShowProgressDialog) {
+				progressDialog.dismiss();
+			}
+			msg.setData(bundle);
+			UserRegistrationManager.this.handleMessage(msg);
+		}
+	}
+
+	@Override
+	/**
+	 * Handler for the calling Activity to receive the result set.
+	 * @param Message
+	 */
+	public void handleMessage(Message msg) {
+		super.handleMessage(msg);
+		// handle message
+	}
+}
+
+/**
+ * End of class UserRegistrationManager
+ */
+

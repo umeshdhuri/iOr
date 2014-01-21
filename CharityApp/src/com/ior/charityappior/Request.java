@@ -20,6 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class Request {
 	private static final String ACCEPT_REQUEST = "acceptHelpRequest";
 	private static final String UPDATE_PROFILE = "updateProfile";
 	private static final String GET_PROFILE = "getProfile";
+	private static final String GET_INVITE_TEXT = "invitetext";
 	private static final String MY_REQUESTS = "MyRequests";
 	private static final String REQUEST_DESCRIPTION = "description";
 	private static final String REQUEST_DATE_TIME = "date_time";
@@ -123,7 +125,7 @@ public class Request {
 				+ "&category_id=" + categoryId + "&lang=" + getLang(context);
 
 		log("People", "URL ===" + url);
-		
+
 		HttpPost post = new HttpPost(url);
 
 		try {
@@ -160,7 +162,7 @@ public class Request {
 				helpers.add(new Helper(helper.getString(HELPER_NAME), helper
 						.getString(DISTANCE), helper.getString(PHONE_NUMBER),
 						helper.getInt(HELPER_ID), helper
-								.getString(HELPER_PUSH_ID), null));
+						.getString(HELPER_PUSH_ID), null));
 			}
 			log("getPeople", result);
 		} catch (IOException e) {
@@ -207,8 +209,16 @@ public class Request {
 			log("login", result);
 			if (result.contains("false"))
 				return "Error";
-			JSONObject jsonResult = new JSONObject(result);
-			String token = jsonResult.getJSONObject(DATA).getString(TOKEN);
+			log("login", "result=" + result);
+			JSONObject jsonResult = null;
+			try {
+				jsonResult = new JSONObject(result);
+			} catch(Exception ex) {
+				JSONTokener t = new JSONTokener(result);
+				t.nextValue();
+				jsonResult = new JSONObject(t);
+			}
+			String token = jsonResult.getJSONObject(DATA).getString(TOKEN); 
 			log("login", "token=" + token);
 			Utils.saveToken(context, token);
 		} catch (IOException e) {
@@ -232,7 +242,7 @@ public class Request {
 			postParameters.add(new BasicNameValuePair("User[push_id]", pushId));
 			postParameters.add(new BasicNameValuePair("User[country_code]", context.getSharedPreferences("app_settings",
 					Context.MODE_PRIVATE).getString("countryCode", "")));
-			
+
 			post.setEntity(new UrlEncodedFormEntity(postParameters, "utf-8"));
 
 			HttpClient client = new DefaultHttpClient();
@@ -309,7 +319,7 @@ public class Request {
 
 		log("Latitude === ", String.valueOf(location.getLatitude()));
 		log("Longitude ==== ", String.valueOf(location.getLongitude()));
-		
+
 		postParameters.add(new BasicNameValuePair("User[lat]", String
 				.valueOf(location.getLatitude())));
 		postParameters.add(new BasicNameValuePair("User[lon]", String
@@ -350,8 +360,8 @@ public class Request {
 		}
 		return "Success";
 	}
-	
-	
+
+
 	public static String updateCoordinates(Context context, Location location) {
 		String url = BASE_URL + UPDATE_COORDINATES + "?token="
 				+ Utils.getToken(context) + "&lang=" + getLang(context);
@@ -362,7 +372,7 @@ public class Request {
 
 		log("Latitude === ", String.valueOf(location.getLatitude()));
 		log("Longitude ==== ", String.valueOf(location.getLongitude()));
-		
+
 		postParameters.add(new BasicNameValuePair("User[lat]", String
 				.valueOf(location.getLatitude())));
 		postParameters.add(new BasicNameValuePair("User[lon]", String
@@ -416,7 +426,7 @@ public class Request {
 					+ description + "&lang=" + getLang(context);
 			HttpPost post = new HttpPost(url);
 			log("Message URL", "URL===="+url);
-			
+
 			HttpClient client = new DefaultHttpClient();
 			StringBuilder builder = new StringBuilder();
 			log("sendMessage", post.getURI().toString());
@@ -466,9 +476,9 @@ public class Request {
 		String url = BASE_URL
 				+ ACCEPTED_HELPERS + "?token=" + Utils.getToken(context)
 				+ "&request_id=" + requestId + "&lang=" + getLang(context);
-		
+
 		log("Get Request", "URL === " + url);
-		
+
 		String result = sendRequest("getRequestHelpers", url, null);
 		try {
 			if (result == null)
@@ -532,7 +542,7 @@ public class Request {
 		String url = BASE_URL
 				+ ACCEPT_REQUEST + "?token=" + Utils.getToken(context)
 				+ "&request_id=" + requestId + "&lang=" + getLang(context);
-		
+
 		log("acceptHelpRequest" , "URL ====" + url);
 		String result = sendRequest("acceptHelpRequest", url, null);
 		if (result == null)
@@ -562,12 +572,12 @@ public class Request {
 
 		return result;
 	}
-	
+
 	public static String updateLanguage(Context context, String langValue) {
-		
+
 		String url = BASE_URL + CHANGE_LANGUAGE
 				+ "?token=" + Utils.getToken(context) + "&lang=" + langValue;
-		
+
 		String result = sendRequest("updateProfile", url, null);
 		if (result == null)
 			return null;
@@ -575,6 +585,40 @@ public class Request {
 			return null;
 
 		return result;
+	}
+
+	/**
+	 * Returns invite text to be sent as invitation message
+	 * @param context
+	 * @return
+	 */
+	public static String getInviteText(Context context) {
+		String url = BASE_URL + GET_INVITE_TEXT
+				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
+		String result = sendRequest("invitetext", url, null);
+		if (result == null)
+			return null;
+		if (result.contains("false"))
+			return null;
+
+		try {
+			JSONObject jsonResult = null;
+			try {
+				jsonResult = new JSONObject(result);
+			} catch(Exception ex) {
+				JSONTokener t = new JSONTokener(result);
+				t.nextValue();
+				jsonResult = new JSONObject(t);
+			}
+
+			JSONObject jsonData = jsonResult.getJSONObject(DATA);
+			String invitetext = jsonData.getString("invitetext");
+			return invitetext;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public static ArrayList<Integer> getProfile(Context context) {
@@ -642,7 +686,7 @@ public class Request {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("User[sponsor_name]", name));
 		nameValuePairs
-				.add(new BasicNameValuePair("User[sponsor_phone]", phone));
+		.add(new BasicNameValuePair("User[sponsor_phone]", phone));
 		String url = BASE_URL + CHANGE_SPONSOR
 				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
 		String result = sendRequest("changeSponsor", url, nameValuePairs);

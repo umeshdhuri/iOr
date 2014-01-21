@@ -6,5 +6,8 @@
     <string name="activity_requests">My requests</string>
     <string name="activity_profile">I want to help</string>
     <string name="activity_need_help">I need help!</string>
+    
+    <!-- fb id -->
+    <string name="fb_app_id">1374787546116688</string>
 
 </resources>

@@ -1,0 +1,137 @@
+package com.tcv.model.XMLHandler;
+
+import java.util.ArrayList;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import android.util.Log;
+
+import com.tcv.model.pojo.UserRegistration;
+import com.tcv.util.BaseUrl;
+
+/**
+ * 
+ * @author surya.
+ * 
+ */
+public class UserRegistrationXMLHandler extends DefaultHandler {
+	public static ArrayList<UserRegistration> allUserRegistration = new ArrayList<UserRegistration>();
+	public static String regresult = null;
+	public static String regstatus = null;
+	public static String downloadedDate = null;
+	public static String downloadedTime = null;
+
+	public static final String USERINFO = "userInfo";
+	public static final String RESULT = "result";
+	public static final String USERID = "userId";
+	public static final String EMAILID = "emailId";
+	public static final String FNAME = "fname";
+	public static final String LNAME = "lname";
+	//Ajay
+	public static final String PHONENO="phoneNo";
+	public static final String STREETADDRESS="streetAddress";
+	public static final String CITY="country";
+	public static final String STATE="state";
+	public static final String COUNTRY="country";
+	public static final String ZIP="ZipCode";
+
+	public static final String ORGNAME = "org_name";
+	public static final String ORGURL = "org_url";
+	public static final String ORGDEMO = "org_demographics";
+	public static final String ALREADYEXIST = "alreadyExist";
+	public static final String DOWNTDATE = "downloadedDate";
+	public static final String DOWNTIME = "downloadedTime";
+
+	private String mCurrentValue = null;
+	private boolean mCurrentElement = true;
+
+	private boolean isOrgUrl = false;
+	private boolean isOrgName = false;
+	private String orgUrlString = "";
+	private String orgNameString = "";
+	private String mTagValue = "";
+
+	public static UserRegistration user_registration = null;
+
+	@Override
+	public void startElement(String uri, String localName, String qName,
+			Attributes attributes) throws SAXException {
+		mTagValue = localName;
+		mCurrentElement = true;
+
+		if (localName.equals(USERINFO)) {
+			user_registration = new UserRegistration();
+		} else if (localName.equals(ORGNAME)) {
+			isOrgName = true;
+		} else if (localName.equals(ORGURL)) {
+			isOrgUrl = true;
+		}
+	}
+
+	@Override
+	public void endElement(String uri, String localName, String qName)
+			throws SAXException {
+		if (localName.equals(USERINFO)) {
+			allUserRegistration.add(user_registration);
+		} else if (localName.equals(USERID)) {
+			user_registration.user_id = mCurrentValue;
+			BaseUrl.LoginId = user_registration.user_id;
+		} else if (localName.equals(RESULT)) {
+			user_registration.result = mCurrentValue;
+			regresult = mCurrentValue;
+		} else if (localName.equals(EMAILID)) {
+			user_registration.email_id = mCurrentValue;
+		} else if (localName.equals(FNAME)) {
+			user_registration.fname = mCurrentValue;
+		} else if (localName.equals(LNAME)) {
+			user_registration.lname = mCurrentValue;
+		} else if (localName.equals(ZIP)) {
+			user_registration.zipCode = mCurrentValue;
+		}else if (localName.equals(PHONENO)) {
+			user_registration.phoneNo = mCurrentValue;
+		}else if (localName.equals(STREETADDRESS)) {
+			user_registration.streetAddress = mCurrentValue;
+		}else if (localName.equals(CITY)) {
+			user_registration.cityString = mCurrentValue;
+		}else if (localName.equals(STATE)) {
+			user_registration.stateString = mCurrentValue;
+		}else if (localName.equals(COUNTRY)) {
+			user_registration.countryString = mCurrentValue;
+			Log.d("Country String", "Country === " + user_registration.countryString);
+		}else if (localName.equals(ORGNAME)) {
+			isOrgName = false;
+			user_registration.organizationName = orgNameString;
+		} else if (localName.equals(ORGURL)) {
+			isOrgUrl = false;
+			user_registration.organizationUrl = orgUrlString;
+		} /*else if (localName.equals(ORGDEMO)) {
+			user_registration.organizationDemographics = mCurrentValue;
+		} */else if (localName.equals(ALREADYEXIST)) {
+			user_registration.alreadyExist = mCurrentValue;
+		} else if (localName.equals(DOWNTDATE)) {
+			user_registration.downloaded_date = mCurrentValue;
+			downloadedDate = mCurrentValue;
+		} else if (localName.equals(DOWNTIME)) {
+			user_registration.downloaded_time = mCurrentValue;
+			downloadedTime = mCurrentValue;
+		}
+	}
+
+	public void characters(char[] ch, int start, int length)
+			throws SAXException {
+		if (mCurrentElement) {
+			mCurrentValue = new String(ch, start, length);
+			if (isOrgName && mTagValue.equals(ORGNAME)) {
+				orgNameString = orgNameString + mCurrentValue;
+				mCurrentElement = true;
+			} else if (isOrgUrl && mTagValue.equals(ORGURL)) {
+				orgUrlString = orgUrlString + mCurrentValue;
+				mCurrentElement = true;
+			} else {
+				mCurrentElement = false;
+			}
+		}
+	}
+}

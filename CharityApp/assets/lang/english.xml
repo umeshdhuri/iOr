@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- labels for invite screens -->
+    <string name="mlt_invite_friends">Invite Friends</string>
+    <string name="mlt_invite_from_fb">invite friends from facebook</string>
+    <string name="mlt_invite_from_phonebook">invite friends from phone book</string>
+    <string name="mlt_invite_from_plus">invite friends from google+</string>
+    <string name="mlt_invite_from_gmail">invite friends from gmail</string>
+    <string name="mlt_check_all">check all</string>
+    <string name="mlt_send_invite">Send Invitation</string>
+    <string name="mlt_my_contact_list">My Contact List</string>
+    <string name="mlt_my_email_list">My Email List</string>
+    <string name="mlt_my_gmail_contacts">My Gmail Contacts</string>
+    <string name="mlt_my_fb_friends">My Facebook Friends</string>
+    <string name="mlt_my_plus_friends">My G+ Friends</string>
+    
     <!-- activity titles -->
     <string name="mlt_title_main">iOr</string>
     <string name="mlt_title_need_help">I Need Help</string>

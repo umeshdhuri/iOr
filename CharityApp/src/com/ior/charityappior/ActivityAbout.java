@@ -174,7 +174,8 @@ public class ActivityAbout extends DialogActivity {
 		private final String[] TITLES = {
 				stringPicker.getString("mlt_description"),
 				stringPicker.getString("mlt_concept"),
-				stringPicker.getString("mlt_change_language")
+				stringPicker.getString("mlt_change_language"),
+				stringPicker.getString("mlt_invite_friends")
 		};
 
 		public MyPagerAdapter(FragmentManager fm) {

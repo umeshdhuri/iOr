@@ -36,7 +36,6 @@ public class DialogActivity extends ActionBarActivity {
 		 }
 		
 		mProgressDialog = Utils.showProgressDialog(sendingMsg, this);
-		
 	}
 	
 	public void showProgressDialogDynamic(String msg) {

@@ -9,8 +9,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
-import static com.ior.charityappior.Utils.log;
 
 import com.ior.charityappior.Request;
 
@@ -23,12 +21,16 @@ public class GPS extends Service implements Listener, LocationListener {
 	public void onCreate() {
 		super.onCreate();
 
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm.addGpsStatusListener(this);
+		try {
+			lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			lm.addGpsStatusListener(this);
 
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
-				this);
+			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
+					this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
