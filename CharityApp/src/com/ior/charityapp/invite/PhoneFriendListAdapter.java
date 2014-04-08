@@ -26,6 +26,6 @@ public class PhoneFriendListAdapter extends FriendListAdapter<PhoneContact> {
 
 	@Override
 	protected Bitmap getIcon(int position) {
-		return getItem(position).photo;
+		return getPhoto(getItem(position).contactId);
 	}
 }

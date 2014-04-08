@@ -61,7 +61,6 @@ public class NeedHelpCategoriesFragment extends ParentFragment {
 	}
 
 	private void setupView(View root) {
-
 		ListView lvCategories = (ListView) root.findViewById(R.id.lvCategories);
 		ArrayList<String> categoryNames = new ArrayList<String>();
 		for (Category category : categories) {

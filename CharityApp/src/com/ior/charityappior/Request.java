@@ -1,13 +1,14 @@
 package com.ior.charityappior;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
-import android.util.Log;
+import static com.ior.charityappior.Utils.log;
 
-import com.ior.charityapp.models.Category;
-import com.ior.charityapp.models.Helper;
-import com.ior.charityapp.models.UserRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -22,15 +23,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 
-import static com.ior.charityappior.Utils.log;
+import com.ior.charityapp.models.Category;
+import com.ior.charityapp.models.Helper;
+import com.ior.charityapp.models.UserRequest;
 
 /**
  * Created by android-dev on 27.08.13.
@@ -162,7 +161,7 @@ public class Request {
 				helpers.add(new Helper(helper.getString(HELPER_NAME), helper
 						.getString(DISTANCE), helper.getString(PHONE_NUMBER),
 						helper.getInt(HELPER_ID), helper
-						.getString(HELPER_PUSH_ID), null));
+								.getString(HELPER_PUSH_ID), null));
 			}
 			log("getPeople", result);
 		} catch (IOException e) {
@@ -180,9 +179,11 @@ public class Request {
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("User[phone]", phone));
 		postParameters.add(new BasicNameValuePair("User[sms_code]", code));
-		postParameters.add(new BasicNameValuePair("User[lang]", getLang(context)));
-		postParameters.add(new BasicNameValuePair("User[country_code]", context.getSharedPreferences("app_settings",
-				Context.MODE_PRIVATE).getString("countryCode", "")));
+		postParameters.add(new BasicNameValuePair("User[lang]",
+				getLang(context)));
+		postParameters.add(new BasicNameValuePair("User[country_code]", context
+				.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+				.getString("countryCode", "")));
 
 		try {
 			post.setEntity(new UrlEncodedFormEntity(postParameters, "utf-8"));
@@ -213,12 +214,12 @@ public class Request {
 			JSONObject jsonResult = null;
 			try {
 				jsonResult = new JSONObject(result);
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				JSONTokener t = new JSONTokener(result);
 				t.nextValue();
 				jsonResult = new JSONObject(t);
 			}
-			String token = jsonResult.getJSONObject(DATA).getString(TOKEN); 
+			String token = jsonResult.getJSONObject(DATA).getString(TOKEN);
 			log("login", "token=" + token);
 			Utils.saveToken(context, token);
 		} catch (IOException e) {
@@ -230,7 +231,8 @@ public class Request {
 		return "Success";
 	}
 
-	public static String registerUser(String name, String pushId, String phone, Context context) {
+	public static String registerUser(String name, String pushId, String phone,
+			Context context) {
 		HttpPost post = new HttpPost(BASE_URL + REGISTER);
 
 		try {
@@ -240,8 +242,11 @@ public class Request {
 			postParameters.add(new BasicNameValuePair("User[name]", name));
 			postParameters.add(new BasicNameValuePair("User[phone]", phone));
 			postParameters.add(new BasicNameValuePair("User[push_id]", pushId));
-			postParameters.add(new BasicNameValuePair("User[country_code]", context.getSharedPreferences("app_settings",
-					Context.MODE_PRIVATE).getString("countryCode", "")));
+			postParameters
+					.add(new BasicNameValuePair("User[country_code]", context
+							.getSharedPreferences("app_settings",
+									Context.MODE_PRIVATE).getString(
+									"countryCode", "")));
 
 			post.setEntity(new UrlEncodedFormEntity(postParameters, "utf-8"));
 
@@ -361,7 +366,6 @@ public class Request {
 		return "Success";
 	}
 
-
 	public static String updateCoordinates(Context context, Location location) {
 		String url = BASE_URL + UPDATE_COORDINATES + "?token="
 				+ Utils.getToken(context) + "&lang=" + getLang(context);
@@ -425,7 +429,7 @@ public class Request {
 					+ "&max_radius=" + maxRadius + "&description="
 					+ description + "&lang=" + getLang(context);
 			HttpPost post = new HttpPost(url);
-			log("Message URL", "URL===="+url);
+			log("Message URL", "URL====" + url);
 
 			HttpClient client = new DefaultHttpClient();
 			StringBuilder builder = new StringBuilder();
@@ -434,9 +438,9 @@ public class Request {
 			HttpResponse response = null;
 
 			response = client.execute(post);
-			log("response", "response===="+response);
+			log("response", "response====" + response);
 			int status = response.getStatusLine().getStatusCode();
-			log("status", "status===="+status);
+			log("status", "status====" + status);
 			if (status != 200) {
 				return null;
 			}
@@ -473,9 +477,9 @@ public class Request {
 	public static ArrayList<Helper> getRequestHelpers(Context context,
 			int requestId) {
 		ArrayList<Helper> helpers = new ArrayList<Helper>();
-		String url = BASE_URL
-				+ ACCEPTED_HELPERS + "?token=" + Utils.getToken(context)
-				+ "&request_id=" + requestId + "&lang=" + getLang(context);
+		String url = BASE_URL + ACCEPTED_HELPERS + "?token="
+				+ Utils.getToken(context) + "&request_id=" + requestId
+				+ "&lang=" + getLang(context);
 
 		log("Get Request", "URL === " + url);
 
@@ -539,11 +543,11 @@ public class Request {
 	}
 
 	public static String acceptHelpRequest(Context context, String requestId) {
-		String url = BASE_URL
-				+ ACCEPT_REQUEST + "?token=" + Utils.getToken(context)
-				+ "&request_id=" + requestId + "&lang=" + getLang(context);
+		String url = BASE_URL + ACCEPT_REQUEST + "?token="
+				+ Utils.getToken(context) + "&request_id=" + requestId
+				+ "&lang=" + getLang(context);
 
-		log("acceptHelpRequest" , "URL ====" + url);
+		log("acceptHelpRequest", "URL ====" + url);
 		String result = sendRequest("acceptHelpRequest", url, null);
 		if (result == null)
 			return null;
@@ -562,8 +566,8 @@ public class Request {
 					"category_ids[" + i + "]", String.valueOf(checkedItems
 							.get(i))));
 		}
-		String url = BASE_URL + UPDATE_PROFILE
-				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
+		String url = BASE_URL + UPDATE_PROFILE + "?token="
+				+ Utils.getToken(context) + "&lang=" + getLang(context);
 		String result = sendRequest("updateProfile", url, nameValuePairs);
 		if (result == null)
 			return null;
@@ -575,8 +579,8 @@ public class Request {
 
 	public static String updateLanguage(Context context, String langValue) {
 
-		String url = BASE_URL + CHANGE_LANGUAGE
-				+ "?token=" + Utils.getToken(context) + "&lang=" + langValue;
+		String url = BASE_URL + CHANGE_LANGUAGE + "?token="
+				+ Utils.getToken(context) + "&lang=" + langValue;
 
 		String result = sendRequest("updateProfile", url, null);
 		if (result == null)
@@ -589,42 +593,52 @@ public class Request {
 
 	/**
 	 * Returns invite text to be sent as invitation message
+	 * 
 	 * @param context
 	 * @return
 	 */
-	public static String getInviteText(Context context) {
-		String url = BASE_URL + GET_INVITE_TEXT
-				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
+	public static void getInviteText(Context context,
+			OnInviteTextLoadListener listener, boolean isHebrew) {
+		String url = BASE_URL + GET_INVITE_TEXT + "?token="
+				+ Utils.getToken(context) + "&lang=" + getLang(context);
 		String result = sendRequest("invitetext", url, null);
 		if (result == null)
-			return null;
+			return;
 		if (result.contains("false"))
-			return null;
+			return;
 
 		try {
 			JSONObject jsonResult = null;
 			try {
 				jsonResult = new JSONObject(result);
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				JSONTokener t = new JSONTokener(result);
 				t.nextValue();
 				jsonResult = new JSONObject(t);
 			}
 
 			JSONObject jsonData = jsonResult.getJSONObject(DATA);
-			String invitetext = jsonData.getString("invitetext");
-			return invitetext;
+
+			String email = jsonData.getString(isHebrew ? "gmail_hebrew"
+					: "gmail");
+			String facebook = jsonData.getString(isHebrew ? "facebook_hebrew"
+					: "facebook");
+			String phone = jsonData.getString(isHebrew ? "phone_number_hebrew"
+					: "phone_number");
+
+			// callback
+			listener.onLoadEmailInviteText(email);
+			listener.onLoadFacebookInviteText(facebook);
+			listener.onLoadPhoneInviteText(phone);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		return null;
 	}
 
 	public static ArrayList<Integer> getProfile(Context context) {
 		ArrayList<Integer> categoryIds = new ArrayList<Integer>();
-		String url = BASE_URL + GET_PROFILE
-				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
+		String url = BASE_URL + GET_PROFILE + "?token="
+				+ Utils.getToken(context) + "&lang=" + getLang(context);
 		String result = sendRequest("getProfile", url, null);
 		if (result == null)
 			return null;
@@ -646,8 +660,8 @@ public class Request {
 
 	public static ArrayList<UserRequest> myRequests(Context context) {
 		ArrayList<UserRequest> requests = new ArrayList<UserRequest>();
-		String url = BASE_URL + MY_REQUESTS
-				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
+		String url = BASE_URL + MY_REQUESTS + "?token="
+				+ Utils.getToken(context) + "&lang=" + getLang(context);
 		String result = sendRequest("myRequests", url, null);
 		if (result == null)
 			return null;
@@ -670,9 +684,9 @@ public class Request {
 	}
 
 	public static String removeRequest(Context context, Integer requestId) {
-		String url = BASE_URL + REMOVE_REQUEST
-				+ "?token=" + Utils.getToken(context) + "&request_id="
-				+ requestId + "&lang=" + getLang(context);
+		String url = BASE_URL + REMOVE_REQUEST + "?token="
+				+ Utils.getToken(context) + "&request_id=" + requestId
+				+ "&lang=" + getLang(context);
 		String result = sendRequest("removeRequest", url, null);
 		if (result == null)
 			return null;
@@ -686,9 +700,9 @@ public class Request {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("User[sponsor_name]", name));
 		nameValuePairs
-		.add(new BasicNameValuePair("User[sponsor_phone]", phone));
-		String url = BASE_URL + CHANGE_SPONSOR
-				+ "?token=" + Utils.getToken(context) + "&lang=" + getLang(context);
+				.add(new BasicNameValuePair("User[sponsor_phone]", phone));
+		String url = BASE_URL + CHANGE_SPONSOR + "?token="
+				+ Utils.getToken(context) + "&lang=" + getLang(context);
 		String result = sendRequest("changeSponsor", url, nameValuePairs);
 		if (result == null)
 			return null;
@@ -705,5 +719,13 @@ public class Request {
 		}
 
 		return "";
+	}
+
+	public static interface OnInviteTextLoadListener {
+		public void onLoadEmailInviteText(String text);
+
+		public void onLoadPhoneInviteText(String text);
+
+		public void onLoadFacebookInviteText(String text);
 	}
 }

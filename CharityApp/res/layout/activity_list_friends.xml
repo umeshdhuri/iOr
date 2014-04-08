@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="4dp"
+    android:padding="20dp"
     android:orientation="vertical" >
 
     <!-- title section -->
@@ -11,21 +11,17 @@
         android:id="@+id/vg_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:background="@drawable/gray_textfiled"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="2dp" >
 
         <CheckBox
             android:id="@+id/check_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:gravity="center_vertical|center_horizontal"
-            android:background="@drawable/unselected_chkbox"
-           	android:layout_marginLeft="7dp"
-           	android:layout_marginBottom="5dp"
-            android:checked="false" />
+            android:layout_margin="5dp"
+            android:button="@drawable/checkbox_selector"
+            android:checked="false"
+            android:layout_centerVertical="true"/>
 
         <ImageView
             android:id="@+id/img_icon"
@@ -33,6 +29,7 @@
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:background="@drawable/ic_circle_fb"
             android:contentDescription="@string/app_name" />
 
@@ -44,7 +41,6 @@
             android:layout_toLeftOf="@id/img_icon"
             android:layout_toRightOf="@id/check_all"
             android:gravity="right"
-            android:padding="4dp"
             android:tag="mlt_my_fb_friends"
             android:text="My Facebook Friends"
             android:textColor="@color/black"
@@ -70,9 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_send_invite"
         android:layout_below="@id/vg_title"
-        android:layout_marginBottom="4dp"
+        android:divider="@drawable/divider_line"
         android:cacheColorHint="#00000000"
-        android:transcriptMode="normal"
-        android:layout_marginTop="4dp" />
+        android:transcriptMode="normal" />
 
 </RelativeLayout>

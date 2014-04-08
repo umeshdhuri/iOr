@@ -52,7 +52,7 @@ public class FacebookInviteActivity extends DialogActivity {
 		ImageView icon = (ImageView) findViewById(R.id.img_icon);
 		TextView title = (TextView) findViewById(R.id.txt_title);
 
-		icon.setBackgroundResource(R.drawable.ic_circle_fb);
+		icon.setBackgroundResource(R.drawable.ic_facebook);
 		title.setTag("mlt_my_fb_friends");
 
 		adapter = new FacebookFriendListAdapter(this);

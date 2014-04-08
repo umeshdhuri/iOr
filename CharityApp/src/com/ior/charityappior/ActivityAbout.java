@@ -59,7 +59,7 @@ public class ActivityAbout extends DialogActivity {
 					break;
 				case 2:
 					changeColor(0xFF00a0d9);
-					break;	
+					break;
 				}
 			}
 
@@ -72,102 +72,19 @@ public class ActivityAbout extends DialogActivity {
 		changeColor(currentColor);
 	}
 
-	/*
-	 * @Override public boolean onCreateOptionsMenu(Menu menu) {
-	 * getMenuInflater().inflate(R.menu.main, menu); return true; }
-	 *//*
-		 * @Override public boolean onOptionsItemSelected(MenuItem item) {
-		 * 
-		 * switch (item.getItemId()) {
-		 * 
-		 * case R.id.action_contact: QuickContactFragment dialog = new
-		 * QuickContactFragment(); dialog.show(getSupportFragmentManager(),
-		 * "QuickContactFragment"); return true;
-		 * 
-		 * }
-		 * 
-		 * return super.onOptionsItemSelected(item); }
-		 */
-
-	private void changeColor(int newColor) {
-
-		tabs.setIndicatorColor(newColor);
-
-		/*
-		 * // change ActionBar color just if an ActionBar is available if
-		 * (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-		 * 
-		 * Drawable colorDrawable = new ColorDrawable(newColor); Drawable
-		 * bottomDrawable =
-		 * getResources().getDrawable(R.drawable.actionbar_bottom);
-		 * LayerDrawable ld = new LayerDrawable(new Drawable[] { colorDrawable,
-		 * bottomDrawable });
-		 * 
-		 * if (oldBackground == null) {
-		 * 
-		 * if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-		 * ld.setCallback(drawableCallback); } else {
-		 * getActionBar().setBackgroundDrawable(ld); }
-		 * 
-		 * } else {
-		 * 
-		 * TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-		 * oldBackground, ld });
-		 * 
-		 * // workaround for broken ActionBarContainer drawable handling on //
-		 * pre-API 17 builds //
-		 * https://github.com/android/platform_frameworks_base
-		 * /commit/a7cc06d82e45918c37429a59b14545c6a57db4e4 if
-		 * (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-		 * td.setCallback(drawableCallback); } else {
-		 * getActionBar().setBackgroundDrawable(td); }
-		 * 
-		 * td.startTransition(200);
-		 * 
-		 * }
-		 * 
-		 * oldBackground = ld;
-		 * 
-		 * // http://stackoverflow.com/questions/11002691/actionbar-
-		 * setbackgrounddrawable-nulling-background-from-thread-handler
-		 * getActionBar().setDisplayShowTitleEnabled(false);
-		 * getActionBar().setDisplayShowTitleEnabled(true);
-		 * 
-		 * }
-		 */
-		currentColor = newColor;
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (getIntent().hasExtra("tabIndex")) {
+			int tabIndex = getIntent().getIntExtra("tabIndex", 0);
+			pager.setCurrentItem(tabIndex, true); 
+		}
 	}
 
-	/*
-	 * 
-	 * public void onColorClicked(View v) {
-	 * 
-	 * int color = Color.parseColor(v.getTag().toString()); changeColor(color);
-	 * 
-	 * }
-	 * 
-	 * @Override protected void onSaveInstanceState(Bundle outState) {
-	 * super.onSaveInstanceState(outState); outState.putInt("currentColor",
-	 * currentColor); }
-	 * 
-	 * @Override protected void onRestoreInstanceState(Bundle
-	 * savedInstanceState) { super.onRestoreInstanceState(savedInstanceState);
-	 * currentColor = savedInstanceState.getInt("currentColor");
-	 * changeColor(currentColor); }
-	 * 
-	 * private Drawable.Callback drawableCallback = new Drawable.Callback() {
-	 * 
-	 * @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	 * 
-	 * @Override public void invalidateDrawable(Drawable who) {
-	 * getActionBar().setBackgroundDrawable(who); }
-	 * 
-	 * @Override public void scheduleDrawable(Drawable who, Runnable what, long
-	 * when) { handler.postAtTime(what, when); }
-	 * 
-	 * @Override public void unscheduleDrawable(Drawable who, Runnable what) {
-	 * handler.removeCallbacks(what); } };
-	 */
+	private void changeColor(int newColor) {
+		tabs.setIndicatorColor(newColor);
+		currentColor = newColor;
+	}
 
 	public class MyPagerAdapter extends FragmentPagerAdapter {
 
@@ -175,8 +92,7 @@ public class ActivityAbout extends DialogActivity {
 				stringPicker.getString("mlt_description"),
 				stringPicker.getString("mlt_concept"),
 				stringPicker.getString("mlt_change_language"),
-				stringPicker.getString("mlt_invite_friends")
-		};
+				stringPicker.getString("mlt_invite_friends") };
 
 		public MyPagerAdapter(FragmentManager fm) {
 			super(fm);

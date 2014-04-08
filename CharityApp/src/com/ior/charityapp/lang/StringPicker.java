@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -108,11 +109,15 @@ public class StringPicker {
 					process((ViewGroup) child);
 				} else if (child instanceof EditText) {
 					EditText input = (EditText) child;
-					try {
-						//input.setTextDirection(EditText.TEXT_DIRECTION_RTL);
-					} catch (NoSuchMethodError ex) {
-						ex.printStackTrace();
-					}
+					input.setGravity(Gravity.RIGHT);
+					/*
+					 * try {
+					 * input.setTextDirection(EditText.TEXT_DIRECTION_RTL); }
+					 * catch (NoSuchMethodError ex) { ex.printStackTrace(); }
+					 */
+				} else if (child instanceof TextView) {
+					TextView label = (TextView) child;
+					label.setGravity(Gravity.RIGHT);
 				}
 			}
 		} catch (Exception ex) {
@@ -129,11 +134,15 @@ public class StringPicker {
 					process((ViewGroup) child);
 				} else if (child instanceof EditText) {
 					EditText input = (EditText) child;
+					input.setGravity(Gravity.LEFT);
 					try {
-						//input.setTextDirection(EditText.TEXT_DIRECTION_LTR);
+						// input.setTextDirection(EditText.TEXT_DIRECTION_LTR);
 					} catch (NoSuchMethodError ex) {
 						ex.printStackTrace();
 					}
+				} else if (child instanceof TextView) {
+					TextView label = (TextView) child;
+					label.setGravity(Gravity.LEFT);
 				}
 			}
 		} catch (Exception ex) {

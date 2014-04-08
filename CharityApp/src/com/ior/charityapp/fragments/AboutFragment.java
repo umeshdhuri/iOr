@@ -5,6 +5,11 @@ package com.ior.charityapp.fragments;
  */
 
 import static com.ior.charityappior.Utils.log;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,11 +30,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Session;
+import com.facebook.SessionLoginBehavior;
+import com.facebook.Session.OpenRequest;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.FacebookDialog.ShareDialogBuilder;
+import com.facebook.widget.WebDialog;
+import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.android.gms.plus.PlusShare;
 import com.ior.charityapp.invite.DeviceEmailListActivity;
 import com.ior.charityapp.invite.PhoneFriendListActivity;
@@ -38,9 +49,11 @@ import com.ior.charityapp.lang.ViewProcessor;
 import com.ior.charityappior.ActivityMain;
 import com.ior.charityappior.R;
 import com.ior.charityappior.Request;
+import com.ior.charityappior.Request.OnInviteTextLoadListener;
 
 public class AboutFragment extends ParentFragment implements OnClickListener {
 
+	public static final String TAG = "AboutFragment";
 	private static final String ARG_POSITION = "position";
 
 	private int position;
@@ -58,6 +71,7 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 	String languageResponse;
 	private ProgressDialog progressDialog;
 	int selectedRadioBtn;
+	private String fbInviteText = "invite on Facebook";
 
 	public static AboutFragment newInstance(int position) {
 		log("About View", "position === " + position);
@@ -78,10 +92,15 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 		// "Change Language Text",
 		// stringPicker.getString("mlt_invite_friends")
 		// };
-		strings_about = new String[] {
-				stringPicker.getString("description"),
-				stringPicker.getString("concept"),
-				"Change Language Text",
+		/*
+		 * strings_about = new String[] {
+		 * stringPicker.getString("mlt_description"),
+		 * stringPicker.getString("mlt_concept"),
+		 * stringPicker.getString("mlt_change_language"),
+		 * stringPicker.getString("mlt_invite_friends") };
+		 */
+		strings_about = new String[] { stringPicker.getString("description"),
+				stringPicker.getString("concept"), "Change Language Text",
 				stringPicker.getString("mlt_invite_friends") };
 
 		position = getArguments().getInt(ARG_POSITION);
@@ -90,6 +109,12 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		// Facebook fallback to Feed Dialog
+		if (savedInstanceState != null) {
+			pendingPublishReauthorization = savedInstanceState.getBoolean(
+					PENDING_PUBLISH_KEY, false);
+		}
 
 		root = inflater.inflate(R.layout.fragment_about, container, false);
 		tvText = (TextView) root.findViewById(R.id.tvAbout);
@@ -120,6 +145,9 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 		log("About View", "spanText === " + descText);
 
 		// "Change Language Text"
+		// final String changeLang =
+		// stringPicker.getString("mlt_change_language");
+		// if (descText.equalsIgnoreCase(changeLang)) {
 		if (descText.equalsIgnoreCase("Change Language Text")) {
 			tvText.setVisibility(View.GONE);
 			languageLayout.setVisibility(View.VISIBLE);
@@ -131,7 +159,7 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 					// get selected radio button from radioGroup
 					int selectedId = radioLangGroup.getCheckedRadioButtonId();
 
-					// find the radiobutton by returned id
+					// find the radio button by returned id
 					radioLangButton = (RadioButton) root
 							.findViewById(selectedId);
 					langVal = (String) radioLangButton.getTag();
@@ -156,19 +184,24 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 
 		} else if (position == 3) {
 			inviteLayout.setVisibility(View.VISIBLE);
+
 			View fb = inviteLayout.findViewById(R.id.vg_fb);
 			View phone = inviteLayout.findViewById(R.id.vg_phone);
-			//View plus = inviteLayout.findViewById(R.id.vg_plus);
+			// View plus = inviteLayout.findViewById(R.id.vg_plus);
 			View gmail = inviteLayout.findViewById(R.id.vg_gmail);
 
 			fb.setOnClickListener(this);
 			phone.setOnClickListener(this);
-			//plus.setOnClickListener(this);
+			// plus.setOnClickListener(this);
 			gmail.setOnClickListener(this);
+
 		} else {
 			changeLagnBtn.setVisibility(View.GONE);
 			tvText.setText(spanText);
 		}
+
+		// apply language
+		viewProcessor();
 
 		return root;
 
@@ -223,18 +256,11 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 				}
 
 				getActivity()
-				.getSharedPreferences("app_settings",
-						Context.MODE_PRIVATE).edit()
+						.getSharedPreferences("app_settings",
+								Context.MODE_PRIVATE).edit()
 						.putString("lang", tempLang).commit();
 
-				try {
-					ViewProcessor.process(getActivity(),
-							(ViewGroup) getActivity().getWindow()
-							.getDecorView().getRootView(),
-							getLanguageFileName());
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				viewProcessor();
 
 				Intent intent = new Intent(getActivity(), ActivityMain.class);
 				intent.putExtra("ChangeLanguage", true);
@@ -243,6 +269,16 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 			}
 		}
 
+	}
+
+	private void viewProcessor() {
+		try {
+			ViewProcessor.process(getActivity(), (ViewGroup) getActivity()
+					.getWindow().getDecorView().getRootView(),
+					getLanguageFileName());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private void changeLanguageSync() {
@@ -256,8 +292,9 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 
 		// log("Token Key", getActivity().getSharedPreferences("app_settings",
 		// Context.MODE_PRIVATE).getString("TOKEN_KEY", null));
-		String TokenValue = getActivity().getSharedPreferences("app_settings",
-				Context.MODE_PRIVATE).getString("TOKEN_KEY", null);
+		// String TokenValue =
+		// getActivity().getSharedPreferences("app_settings",
+		// Context.MODE_PRIVATE).getString("TOKEN_KEY", null);
 
 		languageResponse = Request.updateLanguage(getActivity(), passLang);
 	}
@@ -269,6 +306,11 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 		@Override
 		public void call(Session session, SessionState state,
 				Exception exception) {
+			if (exception != null) {
+				exception.printStackTrace();
+			} else {
+				onStateChanged();
+			}
 		}
 	};
 
@@ -279,19 +321,53 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		Thread th = new Thread() {
+			public void run() {
+				try {
+					Request.getInviteText(getActivity(),
+							new OnInviteTextLoadListener() {
+
+								@Override
+								public void onLoadPhoneInviteText(String text) {
+									// unused
+								}
+
+								@Override
+								public void onLoadFacebookInviteText(String text) {
+									fbInviteText = text;
+								}
+
+								@Override
+								public void onLoadEmailInviteText(String text) {
+									// unused
+								}
+							}, isHebrew());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		};
+		th.start();
+	}
+
+	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.vg_fb) {
 			post();
 
-			// Intent i = new Intent(this, FacebookInviteActivity.class);
+			// Intent i = new Intent(getActivity(), NewFBShare.class);
 			// i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			// startActivity(i);
 		} else if (v.getId() == R.id.vg_phone) {
 			Intent i = new Intent(getActivity(), PhoneFriendListActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			startActivity(i);
-		/*} else if (v.getId() == R.id.vg_plus) {
-			plus();*/
+			/*
+			 * } else if (v.getId() == R.id.vg_plus) { plus();
+			 */
 		} else if (v.getId() == R.id.vg_gmail) {
 			Intent i = new Intent(getActivity(), DeviceEmailListActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -301,78 +377,155 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 
 	private void plus() {
 		// Launch the Google+ share dialog with attribution to your app.
-//		Intent shareIntent = new PlusShare.Builder(getActivity())
-//		.setType("text/plain")
-//		.setText("iOr")
-//		.setContentUrl(
-//				Uri.parse("https://play.google.com/store/apps/details?id="
-//						+ getActivity().getPackageName())).getIntent();
-//
-//		startActivityForResult(shareIntent, 0);
-		
+		Intent shareIntent = new PlusShare.Builder(getActivity())
+				.setType("text/plain")
+				.setText("iOr")
+				.setContentUrl(
+						Uri.parse("https://play.google.com/store/apps/details?id="
+								+ getActivity().getPackageName())).getIntent();
 
-		new AsyncTask<String, String, String>(){
-			String invitetext;
-
-			protected void onPreExecute() {
-
-			}
-
-			@Override
-			protected String doInBackground(String... params) {
-				if(!isCancelled()){
-					invitetext = Request
-							.getInviteText(getActivity());
-				}
-				return null;
-			}
-
-			protected void onPostExecute(String result) {
-				if(!isCancelled()){
-					Intent shareIntent = new PlusShare.Builder(getActivity())
-					.setType("text/plain")
-					.setText(invitetext).getIntent();
-					startActivityForResult(shareIntent, 0);
-				}
-			}
-		}.execute("");
-
+		startActivityForResult(shareIntent, 0);
 	}
 
 	private void post() {
-		new AsyncTask<String, String, String>(){
-			String invitetext;
+		// final String picture =
+		// "http://ior.applistore.mobi/images/logoImage.png";
+		final String caption = "ior.applistore.mobi";
+		final String picture = "http://ior.applistore.mobi/images/logoImage1.png";
+		final String appName = "iOr";
+		final String link = "https://play.google.com/store/apps/details?id="
+				+ getActivity().getPackageName();
 
-			protected void onPreExecute() {
-				if (FacebookDialog.canPresentShareDialog(getActivity(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)==false) {
-					cancel(true);
-					Toast.makeText(getActivity(), "You do not have Facebook app installed on your device.", Toast.LENGTH_SHORT).show();
+		if (FacebookDialog.canPresentShareDialog(getActivity(),
+				FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+			// Publish the post using the Share Dialog
+			ShareDialogBuilder builder = new ShareDialogBuilder(getActivity());
+			builder.setApplicationName(appName);
+			builder.setName(appName);
+			builder.setCaption(caption);
+			builder.setLink(link);
+			builder.setPicture(picture);
+			builder.setDescription(fbInviteText);
+			FacebookDialog dialog = builder.build();
+
+			uiHelper.trackPendingDialogCall(dialog.present());
+		} else {
+			Session session = Session.getActiveSession();
+			if (session == null
+					|| session.getState().equals(
+							SessionState.CLOSED_LOGIN_FAILED)) {
+				session = Session.openActiveSession(getActivity(), this, true,
+						callback);
+				Session.setActiveSession(session);
+			}
+
+			// Check for publish permissions
+			List<String> permissions = session.getPermissions();
+			if (!isSubsetOf(PERMISSIONS, permissions)) {
+				// mark as pending
+				pendingPublishReauthorization = true;
+
+				if (!session.getState().equals(
+						SessionState.OPENED_TOKEN_UPDATED)
+						&& !session.getState().equals(SessionState.OPENED)) {
+					// open session
+					OpenRequest openRequest = new OpenRequest(this);
+					openRequest
+							.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
+					openRequest.setCallback(callback);
+					openRequest.setPermissions(PERMISSIONS);
+					try {
+						session.openForPublish(openRequest);
+						return;
+					} catch (UnsupportedOperationException ex) {
+						ex.printStackTrace();
+					}
+				}
+
+				Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
+						this, PERMISSIONS);
+				try {
+					session.requestNewPublishPermissions(newPermissionsRequest);
+					return;
+				} catch (UnsupportedOperationException ex) {
+					ex.printStackTrace();
 				}
 			}
 
-			@Override
-			protected String doInBackground(String... params) {
-				if(!isCancelled()){
-					invitetext = Request
-							.getInviteText(getActivity());
-				}
-				return null;
+			if (pendingPublishReauthorization
+					&& session.getState().equals(SessionState.OPENED)) {
+				pendingPublishReauthorization = false;
 			}
 
-			protected void onPostExecute(String result) {
-				if(!isCancelled()){
-					ShareDialogBuilder builder = new ShareDialogBuilder(getActivity());
-					builder.setApplicationName("iOr");
-					builder.setLink("https://play.google.com/store/apps/details?id="
-							+ getActivity().getPackageName());
-					builder.setDescription(invitetext +"");
-					FacebookDialog dialog = builder.build();
+			log(TAG, "session state=" + session.getState());
 
-					uiHelper.trackPendingDialogCall(dialog.present());
-				}
-			}
-		}.execute("");
+			// Fallback. For example, publish the post using the Feed Dialog
+			publishFeedDialog(session, appName, caption, fbInviteText, link,
+					picture);
+		}
+	}
 
+	private void publishFeedDialog(Session session, String name,
+			String caption, String desc, String link, String pictureLink) {
+
+		if (session == null || !session.getState().equals(SessionState.OPENED)) {
+			Log.e(TAG, "publish failed, FB session not opened");
+			return;
+		}
+
+		Bundle params = new Bundle();
+		params.putString("name", name);
+		params.putString("caption", caption);
+		params.putString("description", desc);
+		params.putString("link", link);
+		params.putString("picture", pictureLink);
+
+		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(getActivity(),
+				session, params)).setOnCompleteListener(
+				new OnCompleteListener() {
+
+					@Override
+					public void onComplete(Bundle values,
+							FacebookException error) {
+						// if (values != null) {
+						// for (String key : values.keySet()) {
+						// Log.d(TAG, key + "=" + values.get(key));
+						// }
+						// }
+
+						if (error == null) {
+							// When the story is posted, echo the success
+							// and the post Id.
+							final String postId = values.getString("post_id");
+							if (postId != null) {
+								Toast.makeText(getActivity(),
+										"Posted story, id: " + postId,
+										Toast.LENGTH_SHORT).show();
+							} else {
+								// User clicked the Cancel button
+								Toast.makeText(
+										getActivity().getApplicationContext(),
+										"Publish cancelled", Toast.LENGTH_SHORT)
+										.show();
+							}
+						} else if (error instanceof FacebookOperationCanceledException) {
+							// User clicked the "x" button
+							Toast.makeText(
+									getActivity().getApplicationContext(),
+									"Publish cancelled", Toast.LENGTH_SHORT)
+									.show();
+						} else {
+							// Generic, ex: network error
+							Toast.makeText(
+									getActivity().getApplicationContext(),
+									"Error posting story", Toast.LENGTH_SHORT)
+									.show();
+						}
+					}
+
+				}).build();
+		feedDialog.setOwnerActivity(getActivity());
+		feedDialog.show();
 	}
 
 	@Override
@@ -381,25 +534,45 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 
 		uiHelper.onActivityResult(requestCode, resultCode, data,
 				new FacebookDialog.Callback() {
-			@Override
-			public void onError(FacebookDialog.PendingCall pendingCall,
-					Exception error, Bundle data) {
-				Log.e("Activity",
-						String.format("Error: %s", error.toString()));
-			}
+					@Override
+					public void onError(FacebookDialog.PendingCall pendingCall,
+							Exception error, Bundle data) {
+						Log.e("Activity",
+								String.format("Error: %s", error.toString()));
+						toast(error.getMessage());
+					}
 
-			@Override
-			public void onComplete(
-					FacebookDialog.PendingCall pendingCall, Bundle data) {
-				Log.i("Activity", "Success!");
-			}
-		});
+					@Override
+					public void onComplete(
+							FacebookDialog.PendingCall pendingCall, Bundle data) {
+						Log.i("Activity", "Success!");
+					}
+				});
+
+		onStateChanged();
+	}
+
+	private void onStateChanged() {
+		if (pendingPublishReauthorization
+				&& Session.getActiveSession() != null
+				&& Session.getActiveSession().getState()
+						.equals(SessionState.OPENED)) {
+			pendingPublishReauthorization = false;
+			post();
+		}
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		uiHelper.onSaveInstanceState(outState);
+		if (outState != null) {
+			outState.putBoolean(PENDING_PUBLISH_KEY,
+					pendingPublishReauthorization);
+
+			if (uiHelper != null) {
+				uiHelper.onSaveInstanceState(outState);
+			}
+		}
 	}
 
 	@Override
@@ -417,6 +590,30 @@ public class AboutFragment extends ParentFragment implements OnClickListener {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		uiHelper.onDestroy();
+		if (uiHelper != null) {
+			uiHelper.onDestroy();
+		}
+	}
+
+	// Facebook publish - fallback to Feed (old) Dialog
+
+	private boolean isSubsetOf(Collection<String> subset,
+			Collection<String> superset) {
+		for (String string : subset) {
+			if (!superset.contains(string)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static final List<String> PERMISSIONS = Arrays.asList("basic_info",
+			"publish_actions", "publish_stream");
+	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+	private boolean pendingPublishReauthorization = false;
+
+	private void toast(String text) {
+		Toast.makeText(getActivity().getApplicationContext(), text,
+				Toast.LENGTH_LONG).show();
 	}
 }

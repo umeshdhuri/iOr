@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
+    <string name="mlt_not_now">לא כעת</string>
+    <string name="mlt_sms_will_cost">האם לשלוח הודעות SMS לכל אנשי הקשר שסימנת?</string>
+
     <!-- activity titles -->
     <string name="mlt_title_main">iOr</string>
     <string name="mlt_title_need_help">אני צריך עזרה!</string>
     <string name="mlt_title_profile">אני רוצה לעזור</string>
     <string name="mlt_title_about">אודות</string>
     <string name="mlt_title_requests">הבקשות שלי</string>
-
     <string name="mlt_need_help">אני צריך עזרה</string>
     <string name="mlt_my_requests">הבקשות שלי</string>
     <string name="mlt_want_to_help">אני רוצה לעזור</string>
@@ -63,7 +65,7 @@
 
     <!-- Texts for "About" Screen -->
     <!-- WARNING: Please don't change name attribute of  tags -->
-    
+
     <string name="description">‫ior, האפליקציה הראשונה והיחידה המאפשרת מצב של ערבות הדדית בקרב עמנו ובעולם בכלל.
 
 לא משנה אם אתה אדם פרטי, חברת עסקים או עמותה, כולנו תלויים אחד בשני וכולנו חייבים לעזור ולהיעזר אחד בשני.
@@ -77,9 +79,7 @@
 מייסד וספונסור של האפליקציה הוא מייסד הדף פייסבוק "משמעות", התכלית המשותפת היא לאחד את כל היהודים סביב מטרתם ושליחותם בעולם - קיום רצונו הפנימי של הבורא לעשות מהעולם הזה מקום טוב, ומוכשר להשראת שכינתו יתברך. 
 
 להסברים נוספים, נא להתחבר לדף 'משמעות': http://www.facebook.com/mashmaout
-
-    </string>
-    
+</string>
     <string name="concept">במדרשי חכמינו ובספרי הקבלה מובא כי תכלית הבריאה היא "נתאווה הקב"ה להיות לו דירה בתחתונים". כלומר, העולם הירוד מבחינה רוחנית,  נברא כדי שהאדם שהוא בעל בחירה חפשית ישלים ויתקן אותו בזכות עצמו ויכין אותו להשראת השכינה בעולם. דבר זה נעשה על ידי שהוא מתקן את עצמו ואת העולם והופך את החושך לאור והמר למתוק.
 כיצד יידע האדם יודע מה טוב ומה לא, מה זה אור ומה זה חושך?
 
@@ -98,22 +98,32 @@
     <string name="activity_requests">הבקשות שלי</string>
     <string name="no_requests">עדיין לא פירסמת בקשות</string>
     <string name="mlt_change_language">החלף שפה</string>
-	<string name="mt_km">ק"מ</string>
-	<string name="mt_min">לפני</string>
-	<string name="mt_ago">דקות</string>
+    <string name="mt_km">ק"מ</string>
+    <string name="mt_min">לפני</string>
+    <string name="mt_ago">דקות</string>
+    
+    <!-- in-progress messages -->
+    <string name="mlt_loading">טוען אנשי קשר</string>
+    <string name="mlt_sending_sms">שולח הודעות</string>
+    
+    <!-- labels for invite screens -->
+    <string name="mlt_invite_friends">הזמן חברים</string>
+    <string name="mlt_invite_from_fb">פרסם על הקיר שלך</string>
+    <string name="mlt_invite_from_phonebook">הזמן חברים ב-SMS</string>
+    <string name="mlt_invite_from_gmail">הזמן חברים באימייל</string>
+    <string name="mlt_invite_from_plus">הזמן חברים מגוגל פלוס</string>
+    <string name="mlt_check_all">סמן הכל</string>
+    <string name="mlt_send_invite">שלח הזמנות</string>
+    <string name="mlt_my_contact_list">אנשי קשר - SMS</string>
+    <string name="mlt_my_email_list">אנשי קשר - אימייל</string>
+    <string name="mlt_my_gmail_contacts">אנשי קשר - gmail</string>
+    <string name="mlt_my_fb_friends">החברים שלי בפייסבוק</string>
+    <string name="mlt_my_plus_friends">החברים שלי בגוגל פלוס</string>
+    
+    <string name="mlt_sending_sms_msg">האם לשלוח הודעות SMS לכל אנשי הקשר שסימנת?</string>
+    <string name="mlt_facebook_loading_msg">ממתין לפייסבוק</string>
+    
+    
+    
 
-	
-	<!-- labels for invite screens -->
-    <string name="mlt_invite_friends">Invite Friends</string>
-    <string name="mlt_invite_from_fb">invite friends from facebook</string>
-    <string name="mlt_invite_from_phonebook">invite friends from phone book</string>
-    <string name="mlt_invite_from_plus">invite friends from google+</string>
-    <string name="mlt_invite_from_gmail">invite friends from gmail</string>
-    <string name="mlt_check_all">check all</string>
-    <string name="mlt_send_invite">Send Invitation</string>
-    <string name="mlt_my_contact_list">My Contact List</string>
-    <string name="mlt_my_email_list">My Email List</string>
-    <string name="mlt_my_gmail_contacts">My Gmail Contacts</string>
-    <string name="mlt_my_fb_friends">My Facebook Friends</string>
-    <string name="mlt_my_plus_friends">My G+ Friends</string>
 </resources>

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;appcompat&apos;" deleteContents="false" description="Delete resource &apos;appcompat&apos;" element1="/appcompat" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1393878402324"/>&#x0A;<refactoring comment="Delete 5 resources" deleteContents="false" description="Delete 5 resources" element1="/CharityApp" element2="/CountryPicker" element3="/facebook" element4="/google-play-services_lib" element5="/pager_sliding_tab_strip" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="5" stamp="1393878417909"/>
+</session>

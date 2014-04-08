@@ -24,24 +24,21 @@ public class DialogActivity extends ActionBarActivity {
 	private ProgressDialog mProgressDialog;
 	protected StringPicker stringPicker;
 	private SharedPreferences pref;
-	private String sendingMsg ; 
-	
+	private String sendingMsg;
+
 	public void showProgressDialog() {
-		
 		pref = this.getSharedPreferences("app_settings", MODE_PRIVATE);
-		if(pref.getString("lang", "").equalsIgnoreCase("English")) {
+		if (pref.getString("lang", "").equalsIgnoreCase("English")) {
 			sendingMsg = "Sending request";
-		 }else if(pref.getString("lang", "").equalsIgnoreCase("Hebrew")) {
-			 sendingMsg = "שולח בקשה";
-		 }
-		
+		} else if (pref.getString("lang", "").equalsIgnoreCase("Hebrew")) {
+			sendingMsg = "שולח בקשה";
+		}
+
 		mProgressDialog = Utils.showProgressDialog(sendingMsg, this);
 	}
-	
+
 	public void showProgressDialogDynamic(String msg) {
-		
 		mProgressDialog = Utils.showProgressDialog(msg, this);
-		
 	}
 
 	public void closeProgressDialog() {
@@ -60,12 +57,13 @@ public class DialogActivity extends ActionBarActivity {
 	}
 
 	public void showEmptyValueToast() {
-		Toast.makeText(this, stringPicker.getString("mlt_enter_value"), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, stringPicker.getString("mlt_enter_value"),
+				Toast.LENGTH_SHORT).show();
 	}
 
 	public void showResendSuccessToast() {
-		Toast.makeText(this, stringPicker.getString("mlt_wait_for_new_code"), Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(this, stringPicker.getString("mlt_wait_for_new_code"),
+				Toast.LENGTH_SHORT).show();
 	}
 
 	public Dialog showDialog(String name, String category,
@@ -78,7 +76,10 @@ public class DialogActivity extends ActionBarActivity {
 
 		// set dialog message
 		alertDialogBuilder
-				.setMessage(String.format(stringPicker.getString("people_find_text"), category))
+				.setMessage(
+						String.format(
+								stringPicker.getString("people_find_text"),
+								category))
 				.setCancelable(false)
 				.setNegativeButton(stringPicker.getString("mlt_call_him"),
 						new DialogInterface.OnClickListener() {
@@ -137,5 +138,11 @@ public class DialogActivity extends ActionBarActivity {
 			return "hebrew.xml";
 
 		return "english.xml";
+	}
+
+	protected boolean isHebrew() {
+		String lang = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+				.getString("lang", "English");
+		return lang.equalsIgnoreCase("hebrew");
 	}
 }

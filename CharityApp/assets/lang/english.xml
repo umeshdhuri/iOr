@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- labels for invite screens -->
-    <string name="mlt_invite_friends">Invite Friends</string>
-    <string name="mlt_invite_from_fb">invite friends from facebook</string>
-    <string name="mlt_invite_from_phonebook">invite friends from phone book</string>
-    <string name="mlt_invite_from_plus">invite friends from google+</string>
-    <string name="mlt_invite_from_gmail">invite friends from gmail</string>
-    <string name="mlt_check_all">check all</string>
-    <string name="mlt_send_invite">Send Invitation</string>
-    <string name="mlt_my_contact_list">My Contact List</string>
-    <string name="mlt_my_email_list">My Email List</string>
-    <string name="mlt_my_gmail_contacts">My Gmail Contacts</string>
-    <string name="mlt_my_fb_friends">My Facebook Friends</string>
-    <string name="mlt_my_plus_friends">My G+ Friends</string>
-    
+    <string name="mlt_not_now">Not Now</string>
+    <string name="mlt_sms_will_cost">Sending SMS invites will cost you. Do you really want to send invitation to selected contacts?</string>
+
+    <!-- in-progress messages -->
+    <string name="mlt_loading">loading, please wait...</string>
+    <string name="mlt_sending_sms">sending sms...</string>
+
     <!-- activity titles -->
     <string name="mlt_title_main">iOr</string>
     <string name="mlt_title_need_help">I Need Help</string>
     <string name="mlt_title_profile">I Can Help</string>
     <string name="mlt_title_about">About</string>
     <string name="mlt_title_requests">My Requests</string>
-    
     <string name="mlt_need_help">I Need Help</string>
     <string name="mlt_my_requests">My Requests</string>
     <string name="mlt_want_to_help">I Can Help</string>
-    <string name="mlt_who_we_are">About</string>
+    <string name="mlt_who_we_are">Who we are</string>
     <string name="mlt_description">iOr</string>
     <string name="mlt_concept">Concept</string>
     <string name="mlt_ok">ОК</string>
@@ -77,7 +69,7 @@
 
     <!-- Texts for "About" Screen -->
     <!-- WARNING: Please don't change name attribute of  tags -->
-    <string name="description">iOr is the only application that aims to strengthen mutual help among our people and in the world in general.
+    <string name="description">		iOr is the only application that aims to strengthen mutual help among our people and in the world in general.
         
         Whether you are an individual, a professional or an association, we all need others to live and move forward, whether by giving or by receiving from his neighbor.
         
@@ -89,13 +81,15 @@
         
         Mashmaout, founder and sponsor of iOr App, has a Facebook page that broadcasts original and profound will of the Creator, to gather the Jews around their mission and objective, and to achieve it.
         For more information, log on to our page: http://www.facebook.com/mashmaout.</string>
-    <string name="concept">Midrashic sages and Kabbalah books mentions that the purpose of creation is "He wished God to be his apartment in his underwear." So the world is poor spiritually, created to a person who has a free choice to complete and fix it on its own and will make it to the Divine presence in the world. This is done by he corrects himself and the world and turn darkness into light and bitter sweet. 
-How about knowing the person knows what is good and what is not, what is light and what it dark? 
+    <string name="concept">		Our sages and Kabbalah books mention that the purpose of creation is to fulfill "God's desire to have a dwelling place on the Earth".  This means that the earthly world which was created spiritually lacking would be given to humans with freewill to complete and fix it in order to prepare it for the Divine presence in the world. This is done by people improving themselves and the world which thereby converts darkness into light and bitterness into sweetness.
 
-Person is named Creator - "Land to the Supreme Court." The purpose of man is to get closer to his Creator and he knows he right direction. Physical proximity to the Creator because the Creator is not a physical reality. When the human will to the will of God coming to man become closer to the Creator. 
-When a person immersed in worldly desires and indulgence only and there is hard as he is doing the opposite of the Creator - the purpose of grace. Conversely, a person who does things for the benefit of others, benefit the world or to practice their Creator, he overcomes his desires and lusts and self that becomes the mental substance approaching the Creator and inspires the Shechinah down in the world. 
+		How can a person know what is good and what is not, what is light and what is dark?
 
-Wish this app would allow any Jew to strengthen the good deeds for the benefit of others, and because of this improve the situation of our country and our world and prepare it for the Shechinah soon, the building of the Third Temple, speedily in our days. Amen! </string>
+		A person is named after the Creator - "Resemble the Supreme" (Adam - Edamay le Elyon). The purpose of man is to get closer to his Creator, this way he knows he is in the right direction. Proximity to the Creator is not physical, as the Creator is not a physical entity. As the human will gets closer to the will of God, then he becomes closer to the Creator.
+
+		When a person is immersed and invests all his energy only in worldly desires and indulgences, he is doing the opposite of what the Creator is - the ultimate in goodness. Conversely, if a person does things for the benefit of others, for the benefit of the world or to fulfill the Creator's will, then he overcomes his own selfish desires and lust. This transforms the physical to spiritual and brings the person closer to the divine as well as bringing the presence of the Shechinah down to the world.
+
+		We hope that this app would allow any Jew to strengthen their good deeds for the benefit of others, and in the merit of this - we will improve the situation of our country and the whole world and prepare it for receiving of the Shechinah (divine presence) soon with the building of the Third Temple very soon. Amen!</string>
     <string name="more">More text</string>
     <!-- ******************************************** -->
 
@@ -106,8 +100,25 @@ Wish this app would allow any Jew to strengthen the good deeds for the benefit o
     <string name="bt_text_requests">My Requests</string>
     <string name="activity_requests">My Requests</string>
     <string name="no_requests">You have no requests yet</string>
-	<string name="mlt_change_language">Change Language</string>
-	<string name="mt_km">km</string>
-	<string name="mt_min">min</string>
-	<string name="mt_ago">ago</string>
+    <string name="mlt_change_language">Change Language</string>
+    <string name="mt_km">km</string>
+    <string name="mt_min">min</string>
+    <string name="mt_ago">ago</string>
+
+    <!-- labels for invite screens -->
+    <string name="mlt_invite_friends">Invite Friends</string>
+    <string name="mlt_invite_from_fb">Post on your wall</string>
+    <string name="mlt_invite_from_phonebook">Invite friends by SMS</string>
+    <string name="mlt_invite_from_gmail">Invite friends by EMAIL</string>
+    <string name="mlt_invite_from_plus">Invite friends from google+</string>
+    <string name="mlt_check_all">Check All</string>
+    <string name="mlt_send_invite">Send Invitation</string>
+    <string name="mlt_my_contact_list">My Contact List</string>
+    <string name="mlt_my_email_list">My Email List</string>
+    <string name="mlt_my_gmail_contacts">My Gmail Contacts</string>
+    <string name="mlt_my_fb_friends">My Facebook Friends</string>
+    <string name="mlt_my_plus_friends">My G+ Friends</string>
+    <string name="mlt_sending_sms_msg">Are you sure you want to send SMS to these friends? </string>
+    <string name="mlt_facebook_loading_msg">Post on your wall</string>
+
 </resources>

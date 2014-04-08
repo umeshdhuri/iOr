@@ -3,11 +3,18 @@
 	<section name="">
 		<item value="1000" key="org.eclipse.search.resultpage.limit"/>
 	</section>
+	<section name="org.eclipse.jdt.ui.JavaSearchResultPage">
+		<item value="TRUE" key="org.eclipse.jdt.search.resultpage.limit_enabled"/>
+		<item value="1000" key="org.eclipse.jdt.search.resultpage.limit"/>
+	</section>
+	<section name="">
+		<item value="1000" key="org.eclipse.search.resultpage.limit"/>
+	</section>
 	<section name="DialogBounds_SearchDialog">
 		<item value="532" key="DIALOG_WIDTH"/>
-		<item value="84" key="DIALOG_Y_ORIGIN"/>
+		<item value="108" key="DIALOG_Y_ORIGIN"/>
 		<item value="472" key="DIALOG_HEIGHT"/>
-		<item value="534" key="DIALOG_X_ORIGIN"/>
+		<item value="644" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="Search">
@@ -31,11 +38,55 @@
 		<item value="false" key="CASE_SENSITIVE"/>
 		<item value="false" key="REG_EX_SEARCH"/>
 		<item value="false" key="SEARCH_DERIVED"/>
-		<item value="1" key="HISTORY_SIZE"/>
+		<item value="5" key="HISTORY_SIZE"/>
+		<section name="HISTORY2">
+			<item value="false" key="isRegExSearch"/>
+			<item value="Horizontal (0" key="textPattern"/>
+			<item value="0" key="scope"/>
+			<item value="true" key="ignoreCase"/>
+			<list key="fileNamePatterns">
+				<item value="*"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
 		<section name="EXTENSIONS">
 			<item value="*" key="0"/>
 		</section>
+		<section name="HISTORY3">
+			<item value="false" key="isRegExSearch"/>
+			<item value="registerUser(" key="textPattern"/>
+			<item value="0" key="scope"/>
+			<item value="true" key="ignoreCase"/>
+			<list key="fileNamePatterns">
+				<item value="*"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
 		<section name="HISTORY0">
+			<item value="false" key="isRegExSearch"/>
+			<item value="D-15: Color Ordering Test" key="textPattern"/>
+			<item value="0" key="scope"/>
+			<item value="true" key="ignoreCase"/>
+			<list key="fileNamePatterns">
+				<item value="*"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY1">
+			<item value="false" key="isRegExSearch"/>
+			<item value="buy" key="textPattern"/>
+			<item value="0" key="scope"/>
+			<item value="true" key="ignoreCase"/>
+			<list key="fileNamePatterns">
+				<item value="*"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY4">
 			<item value="false" key="isRegExSearch"/>
 			<item value="USER_REGISTRATIONS" key="textPattern"/>
 			<item value="0" key="scope"/>
