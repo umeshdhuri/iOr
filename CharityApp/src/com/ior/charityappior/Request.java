@@ -111,7 +111,7 @@ public class Request {
 			for (int i = 0; i < jsonCategories.length(); i++) {
 				JSONObject category = jsonCategories.getJSONObject(i);
 				categories.add(new Category(category.getInt(ID), category
-						.getString(CATEGORY_NAME), getCategoryList.getString("availability")));
+						.getString(CATEGORY_NAME), getCategoryList.getString("availability"), getCategoryList.getString("alreadyregistered")));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -639,10 +639,10 @@ public class Request {
 	//public static String login(Context context, String code, String phone) {
 	public static String HelperRegistration(Context context, String fname, String lname, String emailAddress, String phoneNumber, String occupation, String address, String faceBookID, String twitterID, String sponserID) {
 		
-		HttpPost post = new HttpPost(BASE_URL + HELPER_REGISTRATION + "?token="
-				+ Utils.getToken(context));
+		HttpPost post = new HttpPost(BASE_URL + HELPER_REGISTRATION);
 
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		postParameters.add(new BasicNameValuePair("User[token]", Utils.getToken(context)));
 		postParameters.add(new BasicNameValuePair("User[first_name]", fname));
 		postParameters.add(new BasicNameValuePair("User[last_name]", lname));
 		postParameters.add(new BasicNameValuePair("User[email]", emailAddress));

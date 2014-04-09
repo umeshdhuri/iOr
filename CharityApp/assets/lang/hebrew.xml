@@ -123,7 +123,20 @@
     <string name="mlt_sending_sms_msg">האם לשלוח הודעות SMS לכל אנשי הקשר שסימנת?</string>
     <string name="mlt_facebook_loading_msg">ממתין לפייסבוק</string>
     
-    
-    
+     <!-- Labels for CR points -->
+    <string name="search_next_dist_helper">Search helper %dkm around you?</string>
+	<string name="about_update_profile">Update Profile</string>
+	<string name="hint_fname">First Name</string>
+	<string name="hint_lname">Last Name</string>
+	<string name="hint_email">Email</string>
+	<string name="hint_phone">Home Phone</string>
+	<string name="hint_occupation">Occupation</string>
+	<string name="hint_address">Address</string>
+	<string name="hint_facebook">Facebook ID</string>
+	<string name="hint_twitter">Twitter ID</string>
+	<string name="hint_sponser">Sponser</string>
+	<string name="helper_available">Available</string>
+	<string name="helper_notavailable">Not Available</string>
+	<string name="submit">Submit</string>
 
 </resources>

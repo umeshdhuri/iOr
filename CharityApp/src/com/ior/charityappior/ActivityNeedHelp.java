@@ -248,7 +248,7 @@ public class ActivityNeedHelp extends DialogActivity {
 						e.printStackTrace();
 					}
 					people = Request.getRequestHelpers(mContext, mId);
-					setSelectedCategory(new Category(-1, mDescription, ""));
+					setSelectedCategory(new Category(-1, mDescription, "", ""));
 				}
 			} else {
 				people = Request.getPeople(mContext, mMinRadius, mMaxRadius,

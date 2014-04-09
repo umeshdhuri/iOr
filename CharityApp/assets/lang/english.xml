@@ -135,4 +135,5 @@
 	<string name="hint_sponser">Sponser</string>
 	<string name="helper_available">Available</string>
 	<string name="helper_notavailable">Not Available</string>
+	<string name="submit">Submit</string>
 </resources>

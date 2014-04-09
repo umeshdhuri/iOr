@@ -188,7 +188,7 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 						showSearchPeopleDialog(mMaxRadius, newDistance, mId,
 								mIsPushSearch, mDescriptionValue);
 					} else {
-						startDistValue = 0 ;
+						startDistValue = 1 ;
 						 btCustomSearch.setText( String.format(stringPicker.getString("search_next_dist_helper"), startDistValue)) ;
 						showNoResultDialog();
 					}
