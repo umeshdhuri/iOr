@@ -3,28 +3,29 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="263" key="DIALOG_WIDTH"/>
 		<item value="29" key="DIALOG_Y_ORIGIN"/>
-		<item value="399" key="DIALOG_HEIGHT"/>
 		<item value="1091" key="DIALOG_X_ORIGIN"/>
+		<item value="399" key="DIALOG_HEIGHT"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="mSetUpdateProfileDialog" key="selection"/>
+		<item value="categoryId" key="selection"/>
 		<list key="findhistory">
-			<item value="mSetUpdateProfileDialog"/>
-			<item value="btUpdateProfileCancel"/>
-			<item value="btSendEn"/>
-			<item value="userSequenceVectorList"/>
-			<item value="Severity"/>
-			<item value="Seve"/>
-			<item value="Se"/>
-			<item value="Scatter"/>
+			<item value="categoryId"/>
+			<item value="mId"/>
+			<item value="FragmentNeedHelpPeople"/>
+			<item value="new FragmentNeedHelpPeople"/>
+			<item value="startDistValue"/>
+			<item value="btCustomSearch"/>
+			<item value="btSend"/>
+			<item value="btCustomCategory"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 		</list>
 	</section>
 </section>
