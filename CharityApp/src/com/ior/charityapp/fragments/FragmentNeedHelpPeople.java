@@ -5,16 +5,21 @@ import static java.lang.Thread.sleep;
 
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +27,6 @@ import android.widget.Toast;
 
 import com.ior.charityapp.models.Category;
 import com.ior.charityapp.models.Helper;
-import com.ior.charityappior.ActivityNeedHelp;
 import com.ior.charityappior.DialogActivity;
 import com.ior.charityappior.R;
 import com.ior.charityappior.Request;
@@ -36,7 +40,7 @@ public class FragmentNeedHelpPeople extends ParentFragment {
     private final Category mCategory;
     private int startDistValue ;
     private String descMsg ;
-    private final ArrayList<Helper> mPeople;
+    public ArrayList<Helper> mPeople;
     private static final int SEC = 1000;
 	private static final int WAIT_TIME = 30;
 	int nextDistance ;
@@ -44,6 +48,7 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 	AlertDialog mSearchPeopleDialog;
 	ListView lvPeople ;
 	String requestestIdValue ;
+	private ProgressDialog mProgressDialog;
     AsyncTask<Void, Integer, Void> mSearchPeopleTask;
     @SuppressLint("ValidFragment")
 	public FragmentNeedHelpPeople(Category category, final int startDist, final String message ,ArrayList<Helper> people, String requestId) {
@@ -62,7 +67,6 @@ public class FragmentNeedHelpPeople extends ParentFragment {
         View root = inflater.inflate(R.layout.fragment_need_help_peoples, container, false);
         setupView(root);
         return root;
-
     }
 
     private void setupView(View root) {
@@ -152,7 +156,7 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 			if (mIsPushSearch) {
 				log("fds", "mIsPushSearch=true");
 				
-				String id = Request.sendMessage(getActivity(), mMinRadius, mMaxRadius, mDescriptionValue, "1", requestestIdValue);
+				String id = Request.sendMessage(getActivity(), 0, mMaxRadius, mDescriptionValue, "1", requestestIdValue);
 				if (id == null)
 					return null;
 				mId = Integer.valueOf(id);
@@ -160,14 +164,32 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 					people = new ArrayList<Helper>();
 				} else {
 					try {
+						getActivity().runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								showHelperProgressDialog(0) ;
+							}
+						});
+						
 						for (int i = WAIT_TIME; i > 0; i--) {
-							onProgressUpdate(i);
+							//onProgressUpdate(i);
+							final int k = i ;
+							getActivity().runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									mProgressDialog.setMessage(stringPicker.getString("mlt_req_sent_wait_for_user") + k);
+								}
+							});
 							sleep(SEC);
 						}
+						
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					people = Request.getRequestHelpers(mContext, mId);
+					if(mProgressDialog.isShowing()) {
+						mProgressDialog.dismiss() ;
+					}
 					//setSelectedCategory(new Category(-1, mDescription));
 				}
 			} else {
@@ -177,6 +199,7 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 			return null;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected void onPostExecute(Void v) {
 			((DialogActivity) getActivity()).closeProgressDialog();
@@ -187,16 +210,20 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 						showSearchPeopleDialog(mMaxRadius, newDistance, mId,
 								mIsPushSearch, mDescriptionValue);
 					} else {
-						startDistValue = 1 ;
-						 btCustomSearch.setText( String.format(stringPicker.getString("search_next_dist_helper"), startDistValue)) ;
+						startDistValue = 0 ;
+						 btCustomSearch.setText( String.format(stringPicker.getString("search_next_dist_helper"), 1)) ;
 						showNoResultDialog();
 					}
 				} else {
 					int newDistances = Utils.getNewDistance(mMaxRadius);
 					startDistValue = mMaxRadius ;
 					 btCustomSearch.setText( String.format(stringPicker.getString("search_next_dist_helper"), newDistances)) ;
-						
-					lvPeople.invalidateViews();
+					 mPeople = people ;
+					 //((ArrayAdapter<Helper>) lvPeople.getAdapter()).notifyDataSetChanged();
+					 //lvPeople.invalidateViews() ;
+					 log("mpeople", "==" + people) ;
+					 log("mPeople", "==" + mPeople) ;
+					 lvPeople.setAdapter(new PeopleAdapter(getActivity(),R.layout.people_list_item, people));
 					//setFragment(new FragmentNeedHelpPeople(mSelectedCategory, people));
 				}
 			} else {
@@ -214,6 +241,39 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 		alertDialog.show();
 	}
 
+	
+	public ProgressDialog showHelperProgressDialog (Integer countValue) {
+		
+		mProgressDialog = new ProgressDialog(getActivity());
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setMessage(stringPicker.getString("mlt_req_sent_wait_for_user") + countValue);
+		mProgressDialog.setCancelable(false);
+		//
+		/*mProgressDialog
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						// activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+					}
+				});*/
+		try {
+			mProgressDialog.show();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return mProgressDialog;
+		
+		/*AlertDialog.Builder alertProgressBuilder = new AlertDialog.Builder(getActivity()) ;
+		
+		AlertDialog progressDialog = alertProgressBuilder.create() ;
+		progressDialog.show() ;
+		mProgressDialog = progressDialog ;
+		return mProgressDialog;*/
+		
+		
+		
+	}
+	
 	public AlertDialog showSearchPeopleDialog(final int oldDistance,
 			final int newDistance, final int categoryId,
 			final boolean isPushMessage, final String description) {
@@ -246,7 +306,7 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 							public void onClick(DialogInterface dialog, int id) {
 								startDistValue = newDistance;
 								mSearchPeopleTask = new SearchPeopleTask(
-										getActivity(), oldDistance,
+										getActivity(), 0,
 										newDistance, categoryId, isPushMessage,
 										description).execute();
 								mSearchPeopleDialog.cancel();
@@ -266,4 +326,18 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 		mSearchPeopleDialog = alertDialog;
 		return alertDialog;
 	}
+	
+	protected void onShowProgressUpdate(final Integer... values) {
+		log("dfs", "onProgressUpdate");
+	
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				((DialogActivity) getActivity()).updateProgressDialogMessage(values[0]);
+			}
+		});
+
+	}
+	
+	
 }

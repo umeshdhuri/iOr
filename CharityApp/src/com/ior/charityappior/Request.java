@@ -523,7 +523,7 @@ public class Request {
 			JSONObject data = jsonResult.getJSONObject(DATA);
 			idResult = data.getString(REQUEST_ID);
 
-			log("sendMessage", "id " + idResult);
+			log("sendMessage", "id== " + idResult);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -849,10 +849,13 @@ public class Request {
 		if (result.contains("false"))
 			return null;
 		try {
+			
 			JSONObject jsonResult = new JSONObject(result);
-			JSONArray jsonData = jsonResult.getJSONArray(DATA);
-			for (int i = 0; i < jsonData.length(); i++) {
-				JSONObject categoryId = jsonData.getJSONObject(i);
+			//JSONArray jsonCategories = jsonResult.getJSONArray(DATA);
+			JSONObject getCategoryList = jsonResult.getJSONObject(DATA) ;
+			JSONArray jsonCategories = getCategoryList.getJSONArray("categoryList");
+			for (int i = 0; i < jsonCategories.length(); i++) {
+				JSONObject categoryId = jsonCategories.getJSONObject(i);
 				categoryIds.add(categoryId.getInt(CATEGORY_ID));
 			}
 		} catch (JSONException e) {

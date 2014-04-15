@@ -297,4 +297,15 @@ public class ActivityNeedHelp extends DialogActivity {
 			closeProgressDialog();
 		}
 	}
+	
+	public void onProgressUpdateDialog(final Integer... values) {
+		log("dfs", "onProgressUpdate");
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				updateProgressDialogMessage(values[0]);
+			}
+		});
+
+	}
 }

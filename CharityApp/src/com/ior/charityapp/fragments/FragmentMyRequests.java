@@ -80,7 +80,7 @@ public class FragmentMyRequests extends ParentFragment {
                         } else {
                             //TO DO
                             ((ActivityRequests) getActivity()).
-                                    setFragment(new FragmentNeedHelpPeople(new Category(0,mRequests.get(position).getDescription(), "", ""), 0, "", result, ""));
+                                    setFragment(new FragmentNeedHelpPeople(new Category(0,mRequests.get(position).getDescription(), "", ""), 0, mRequests.get(position).getDescription(), result, mRequests.get(position).getId()));
                         }
                     }
                 }.execute();
