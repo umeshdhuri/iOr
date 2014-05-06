@@ -139,17 +139,21 @@ public class ActivityProfile extends DialogActivity {
 			mCategoryNames.add(category.mName);
 			availableStatus = category.available ;
 			alreadyProfileUpdateStatus = category.alreadyRegister ;
-		}
+		} 
 		
 		btAvailability = (ToggleButton) findViewById(R.id.btAvailability) ;
-		
+		/*
 		if(availableStatus.equals("1")) {
-			availableTxtView.setText(stringPicker.getString("helper_notavailable"));
+			availableTxtView.setText(stringPicker.getString("helper_available"));
 			availableValue = 0 ;
-		}else if(availableStatus.equals("0")){
+		}else */
+		
+		
+		 if(availableStatus.equals("0")){
 			availableTxtView.setText(stringPicker.getString("helper_available"));
 			availableValue = 1 ;
-		}else{
+		}
+		 if(availableStatus.equals("1")){
 			availableTxtView.setText(stringPicker.getString("helper_notavailable"));
 			availableValue = 0 ;
 		}
@@ -162,7 +166,7 @@ public class ActivityProfile extends DialogActivity {
 				}else{
 					showAvailablityDialog(stringPicker.getString("helper_available_confirmation")) ;
 				}
-				
+				  
 				
 				/*showProgressDialog();
 				new AsyncTask<Void, Void, String>() {
