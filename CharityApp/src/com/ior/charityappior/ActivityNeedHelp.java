@@ -279,7 +279,7 @@ public class ActivityNeedHelp extends DialogActivity {
 		}
 	}
 
-	private void showNoResultDialog() {
+	public void showNoResultDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		alertDialogBuilder
 				.setMessage(stringPicker.getString("no_results_text"))

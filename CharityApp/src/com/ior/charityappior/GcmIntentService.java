@@ -67,15 +67,18 @@ public class GcmIntentService extends IntentService {
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
-
-                log(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
+            	log(TAG, "Received: " + "==" + extras.toString());
+               /* log(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
                 log("message ===", extras.getString("message"));
                 log("user_name ===", extras.getString("user_name"));
-                log("help_request_id ===", extras.getString("help_request_id"));
-                
-                sendNotification(extras.getString("message"), extras.getString("user_name"), extras.getString("help_request_id"));
-                log(TAG, "Received: " + extras.toString());
+                log("help_request_id ===", extras.getString("help_request_id"));*/
+                if(extras.getString("user_name").equals("Admin")) {
+                	sendNotificationWithOnlyMsg(extras.getString("message"), "", "");
+                }else{
+                	sendNotification(extras.getString("message"), extras.getString("user_name"), extras.getString("help_request_id"));
+                }
+              //  log(TAG, "Received: " + extras.toString());
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -92,6 +95,7 @@ public class GcmIntentService extends IntentService {
         intent.putExtra("message",msg);
         intent.putExtra("name",name);
         intent.putExtra("request_id",id);
+        intent.putExtra("type","findseller");
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -118,6 +122,50 @@ public class GcmIntentService extends IntentService {
                                 .bigText(msg))
                         .setAutoCancel(true)
                         .setContentText(name+ notification_body + msg+ "!!!");
+
+        mBuilder.setContentIntent(contentIntent);
+        Notification notif = mBuilder.build();
+        notif.defaults |= Notification.DEFAULT_SOUND;
+        notif.defaults |= Notification.DEFAULT_VIBRATE;
+        mNotificationManager.notify(NOTIFICATION_ID, notif);
+    }
+    
+    private void sendNotificationWithOnlyMsg(String msg, String name,String id) {
+        log("gcm","sendNotification");
+        mNotificationManager = (NotificationManager)
+                this.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent intent = new Intent(this, ActivityMain.class);
+        intent.putExtra("notif",true);
+        intent.putExtra("message",msg);
+        intent.putExtra("name",name);
+        intent.putExtra("request_id",id);
+        intent.putExtra("type","notification");
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        pref = this.getSharedPreferences("app_settings", MODE_PRIVATE);
+		editer = pref.edit();
+
+       
+        
+        if(pref.getString("lang", "").equalsIgnoreCase("English")) {
+        		notification_header = "iOr!";
+        		notification_body = "";
+	        }else if(pref.getString("lang", "").equalsIgnoreCase("Hebrew")) {
+	        	notification_header = "iOr!";
+	        	notification_body = "";
+	        }
+        
+        
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle(notification_header)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(msg))
+                        .setAutoCancel(true)
+                        .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
         Notification notif = mBuilder.build();

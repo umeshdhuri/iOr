@@ -104,8 +104,13 @@ public class FragmentNeedHelpPeople extends ParentFragment {
 				}
 			}) ;
             
-            nextDistance = Utils.getNewDistance(startDistValue);
-            btCustomSearch.setText( String.format(stringPicker.getString("search_next_dist_helper"), nextDistance)) ;
+            if(descMsg == null || descMsg.length() == 0) {
+            	btCustomSearch.setVisibility(View.GONE) ;
+            }else{
+            	btCustomSearch.setVisibility(View.VISIBLE) ;
+            	nextDistance = Utils.getNewDistance(startDistValue);
+                btCustomSearch.setText( String.format(stringPicker.getString("search_next_dist_helper"), nextDistance)) ;
+            }
     }
     
     class SearchPeopleTask extends AsyncTask<Void, Integer, Void> {

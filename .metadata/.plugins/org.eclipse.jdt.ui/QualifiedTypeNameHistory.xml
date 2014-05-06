@@ -3,7 +3,6 @@
 <fullyQualifiedTypeName name="com.ior.charityapp.invite.FacebookInviteActivity"/>
 <fullyQualifiedTypeName name="com.ior.charityappior.Request"/>
 <fullyQualifiedTypeName name="com.ior.charityapp.models.Category"/>
-<fullyQualifiedTypeName name="com.ior.charityappior.ActivityNeedHelp"/>
 <fullyQualifiedTypeName name="com.ior.charityappior.SearchHelperListing"/>
 <fullyQualifiedTypeName name="android.support.v7.app.ActionBarActivity"/>
 <fullyQualifiedTypeName name="android.R.integer"/>
@@ -14,4 +13,11 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="com.ior.charityappior.DialogActivity"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="java.util.Calendar"/>
+<fullyQualifiedTypeName name="android.text.format.DateFormat"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.lang.Boolean"/>
+<fullyQualifiedTypeName name="android.view.View"/>
+<fullyQualifiedTypeName name="com.ior.charityappior.ActivityNeedHelp"/>
 </qualifiedTypeNameHistroy>

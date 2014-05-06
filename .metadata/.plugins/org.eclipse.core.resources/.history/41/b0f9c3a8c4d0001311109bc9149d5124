@@ -1,0 +1,2093 @@
+package com.tcv.controller;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.datacolor.spyder.sdk.SpyderSDK;
+import com.tcv.callback.IOnSaveListener;
+import com.tcv.model.Exception.DiagnosisdetailsException;
+import com.tcv.model.manager.ColorResultManager;
+import com.tcv.model.manager.DiagnosisdetailsManager;
+import com.tcv.model.pojo.ColorResult;
+import com.tcv.model.pojo.Diagnosisdetails;
+import com.tcv.model.pojo.DiscCordinates;
+import com.tcv.model.pojo.ReportItem;
+import com.tcv.model.pojo.TableItem;
+import com.tcv.model.pojo.TestInfo;
+import com.tcv.model.pojo.TestResult;
+import com.tcv.model.pojo.UserRegistration;
+import com.tcv.util.AndroidUtility;
+import com.tcv.util.AppConstants;
+import com.tcv.util.AppUtils;
+import com.tcv.util.BaseUrl;
+import com.tcv.wifi.FileListActivity;
+
+public class ResultActivity extends Activity {
+
+	// To display version on result page get from shared preferences and display
+	// using text view line no 190
+	private static final String TAG = ResultActivity.class.getSimpleName();
+	private String mSelectedTestName;
+
+	private Context mContext;
+	private TextView mPatientName;
+	private TextView mPatientAge;
+	private TextView mTestDate;
+	// private TextView mTestLevel;
+	private TextView mUserName;
+	private TextView mOrganizationUrl;
+	private TextView mAge;
+	private TextView mTestName;
+	private TextView mTestConditions;
+	private TextView mCalibrationDate;
+	private TextView mTestId;
+	private TextView mPatientID;
+	private TextView mGender;
+	private TextView mEyeTested;
+
+	// private TextView mDiagonosisMessageTextview;
+
+	private LinearLayout mTableViewHolder;
+
+	private FetchResulTask mFetchResultTask;
+	private ProgressDialog progressDialog;
+	private String mDiagnosisMessage = "";
+
+	private ArrayList<ArrayList<TableItem>> mTablesResultList;
+
+	public static final int PROTAN = 1;
+	public static final int DEUTAN = 2;
+	public static final int TRITAN = 3;
+	public static final int HORIZONTAL_VERTICAL_LINES_COUNT = 3;
+	public static final int VERTICAL_CELL_COUNT = 4;
+	public static final int HORIZONTAL_CELL_COUNT = 4;
+	public static final int BAR_STROKE = 26;
+	public static final int POINTS_COUNT = 16;
+	// making below 4 values dynamic 
+	public static int CELL_HEIGHT = 105;
+	public static int CELL_WIDTH = 100;
+	public static int GRAPH_HEIGHT = CELL_HEIGHT * VERTICAL_CELL_COUNT;
+	public static int GRAPH_WIDTH = CELL_WIDTH * HORIZONTAL_CELL_COUNT;
+
+	private Paint mPaint;
+
+	private int mSequenceLineColor;
+	private int mDeutanLineColor;
+	private int mProtanLineColor;
+	private int mTritanLineColor;
+
+	private int mDeutanTextColor;
+	private int mProtanTextColor;
+	private int mTritanTextColor;
+	private int mPointRadius;
+
+	private String mDeutanText;
+	private String mDeutanMConeText;
+	private String mProtanText;
+	private String mProtanLConeText;
+	private String mTritanText;
+	private String mTritanSConeText;
+
+	private Resources mResources;
+
+	private ArrayList<Point> mPointsList;
+
+	private RelativeLayout mColorGraphLayout;
+	private RelativeLayout inertia_show_view;
+	private View mColorArrangmentResultParentView;
+	private boolean mIsGraphViewRequired = false;
+	private TextView test_name_textview;
+	private TextView color_test_name_textview;
+	private TextView general_test_result_message_textview;
+	private TextView color_test_result_message_textview;
+	private TextView txtVersiononResult;
+	private RelativeLayout test_results_content_view;
+
+	private int[] seqNos;
+	private ArrayList<DiscCordinates> userSequenceVectorList;
+
+	private ReportItem reportItem;
+
+	/** Color arrangement result view. */
+	private ColorArrangementResultView mColorArrangementResultView;
+
+	private View logo_relative;
+	private View user_information;
+	private View test_strip_view;
+	private View test_result_strip_view;
+	SpyderSDK spdrSDK = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.show_result_layout);
+		spdrSDK = SpyderSDK.sharedInstance();
+		spdrSDK.setContext(this);
+		mContext = ResultActivity.this;
+		pdfReceiver = new PdfActionReceiver();
+		AppUtils.registerActionListener(mContext, pdfReceiver);
+		test_name_textview = (TextView) findViewById(R.id.test_name_textview);
+		color_test_name_textview = (TextView) findViewById(R.id.color_test_name_textview);
+		general_test_result_message_textview = (TextView) findViewById(R.id.general_test_result_message_textview);
+		color_test_result_message_textview = (TextView) findViewById(R.id.color_test_result_message_textview);
+		txtVersiononResult = (TextView) findViewById(R.id.txtVersionResult);
+
+		test_results_content_view = (RelativeLayout) findViewById(R.id.test_results_content_view);
+		logo_relative = findViewById(R.id.logo_relative);
+		user_information = findViewById(R.id.user_information);
+		test_strip_view = findViewById(R.id.test_strip_view);
+		test_result_strip_view = findViewById(R.id.test_result_strip_view);
+
+		SharedPreferences verSharedPre = getApplicationContext()
+				.getSharedPreferences("ver_pref", Context.MODE_PRIVATE);
+
+		String verString = verSharedPre.getString("versi", "");
+		if (verString != null) {
+			if (!verString.equalsIgnoreCase("No Records Found")) {
+				txtVersiononResult.setText("1." + verString);
+			} else {
+				txtVersiononResult.setVisibility(View.GONE);
+			}
+		} else {
+			txtVersiononResult.setVisibility(View.GONE);
+		}
+
+		initComponents();
+		populateUserDetails();
+		if (TestContentManager.getInstance().isColorArrangementRequired()
+				&& !TestContentManager.getInstance().isPlateVerticalRequired()
+				&& TestContentManager.getInstance().isD15onServer) {
+			mIsGraphViewRequired = true;
+		} else {
+			mIsGraphViewRequired = false;
+		}
+		// Ritesh cHanges for D15 CR
+		if (TestContentManager.getInstance().isD15DirectStarted()) {
+			mIsGraphViewRequired = true;
+		}
+		reportItem.setColorShown(mIsGraphViewRequired);
+		if (info == null) {
+			startFetchResultTask();
+		} else {
+			mHandler.sendEmptyMessageDelayed(1, 100);
+		}
+	}
+
+	public static String REPORT_HEADER_IMAGE = "report_header.png";
+	public static String REPORT_HEADER_TEXT_IMAGE = "color_vision_report_text_image.png";
+	public static String REPORT_USER_DETAILS_IMAGE = "%s_%s_%s_%s_report_user_details.png";
+	public static String REPORT_TEST_HEADER_IMAGE = "%s_%s_%s_%s_report_test_header.png";
+	public static String REPORT_RESULT_VIEW_IMAGE = "%s_%s_%s_%s_report_result_view.png";
+	public static String REPORT_MESSAGE_IMAGE = "%s_%s_%s_%s_report_message.png";
+	public static String REPORT_BOTTOM_IMAGE = "report_bottom_image.png";
+
+	@Override
+	public File getFilesDir() {
+		return new File(Environment.getExternalStorageDirectory().toString());
+	}
+
+	private void createAndSaveImages() {
+		if (info != null) {
+			String headerImagePath = getFilesDir() + "/" + REPORT_HEADER_IMAGE;
+			headerImagePath = AppUtils.getReplacedPath(headerImagePath);
+			saveImageOnStorage(logo_relative, headerImagePath);
+
+			String headerTextImagePath = REPORT_HEADER_TEXT_IMAGE;
+			headerTextImagePath = AppUtils.getReplacedPath(headerTextImagePath);
+
+			String fname = info.fname;
+			String lname = info.lname;
+			String testname = mSelectedTestName;
+			String testinfoid = String.valueOf(info.Infoid);
+
+			// Ajay:changes for user detail in pdf
+			String testcondition = info.testcondition;
+			String gender = info.gender;
+			String eyetested = info.eyetested;
+
+			String userDetailsImagePath = getFilesDir()
+					+ "/"
+					+ String.format(REPORT_USER_DETAILS_IMAGE, fname, lname,
+							testname, testinfoid, testcondition, gender,
+							eyetested);
+			userDetailsImagePath = AppUtils
+					.getReplacedPath(userDetailsImagePath);
+			saveImageOnStorage(user_information, userDetailsImagePath);
+
+			String testHeaderImagePath = getFilesDir()
+					+ "/"
+					+ String.format(REPORT_TEST_HEADER_IMAGE, fname, lname,
+							testname, testinfoid);
+			testHeaderImagePath = AppUtils.getReplacedPath(testHeaderImagePath);
+			saveImageOnStorage(test_strip_view, testHeaderImagePath);
+
+			String testResultViewImagePath = getFilesDir()
+					+ "/"
+					+ String.format(REPORT_RESULT_VIEW_IMAGE, fname, lname,
+							testname, testinfoid);
+			testResultViewImagePath = AppUtils
+					.getReplacedPath(testResultViewImagePath);
+			saveImageOnStorage(test_results_content_view,
+					testResultViewImagePath);
+
+			String testMessageViewImagePath = getFilesDir()
+					+ "/"
+					+ String.format(REPORT_MESSAGE_IMAGE, fname, lname,
+							testname, testinfoid);
+			testMessageViewImagePath = AppUtils
+					.getReplacedPath(testMessageViewImagePath);
+			saveImageOnStorage(test_result_strip_view, testMessageViewImagePath);
+
+			String bottomImagePath = REPORT_BOTTOM_IMAGE;
+
+			StringBuilder combinedImagesPath = new StringBuilder();
+			combinedImagesPath.append(headerImagePath + ":");
+			combinedImagesPath.append(headerTextImagePath + ":");
+			combinedImagesPath.append(userDetailsImagePath + ":");
+			combinedImagesPath.append(testHeaderImagePath + ":");
+			combinedImagesPath.append(testResultViewImagePath + ":");
+			combinedImagesPath.append(testMessageViewImagePath + ":");
+			combinedImagesPath.append(bottomImagePath);
+			reportItem.setGraphResultPath(combinedImagesPath.toString());
+			TestContentManager.getInstance().updateTestInformation(mContext,
+					String.valueOf(info.Infoid), combinedImagesPath.toString());
+		}
+	}
+
+	private boolean saveImageOnStorage(View view, String location) {
+		boolean result = false;
+		if (view != null && !TextUtils.isEmpty(location)) {
+			Bitmap bitmap = getBitmapFromView(view);
+			File file = new File(location);
+			try {
+				file.createNewFile();
+				FileOutputStream ostream = new FileOutputStream(file);
+				bitmap.compress(CompressFormat.PNG, 100, ostream);
+				ostream.close();
+				result = true;
+			} catch (Exception e) {
+				Log.e(TAG, "saveViewToPersistentStorage() : " + e.getMessage());
+			}
+		}
+		Log.d(TAG, "saveImageOnStorage : location:  " + location + " status :"
+				+ result);
+		return result;
+	}
+
+	private void saveDiagnosisDetails() {
+		DiagnosisdetailsManager diagnosisDetailsManager = new DiagnosisdetailsManager(
+				mContext) {
+			public void handleMessage(Message msg) {
+				if (msg.getData().getString("Operation")
+						.equals(EOperation.ADD_DIAGNOSISDETAILS.toString())) {
+					msg.obj.toString();
+				}
+			};
+		};
+		if (info != null) {
+			Diagnosisdetails diagnosisDetails = new Diagnosisdetails();
+			diagnosisDetails.fName = info.fname;
+			diagnosisDetails.lName = info.lname;
+			diagnosisDetails.Testname = TestContentManager.getInstance()
+					.getSelectedTest().title;
+			diagnosisDetails.Createddate = info.created_date;
+			diagnosisDetails.Diagnosismessage = TestContentManager
+					.getInstance().getDiagnosisMessage();
+			diagnosisDetails.Testid = TestContentManager.getInstance()
+					.getSelectedTest().testId;
+			diagnosisDetails.testInfoId = info.Infoid;
+
+			try {
+				diagnosisDetailsManager.addDiagnosisdetails(diagnosisDetails);
+			} catch (DiagnosisdetailsException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	private void saveReportItem(String testInfoId) {
+		ReportManager.getInstance().putReportItem(mContext, testInfoId,
+				reportItem);
+	}
+
+	private void startFetchResultTask() {
+		if (mFetchResultTask != null) {
+			mFetchResultTask.cancel(true);
+			mFetchResultTask = null;
+		}
+		mFetchResultTask = new FetchResulTask();
+		mFetchResultTask.execute();
+	}
+
+	private void createAnShowResultTable() {
+		if (mTablesResultList != null && mTablesResultList.size() > 0) {
+			for (int i = 0; i < mTablesResultList.size(); i++) {
+				View view = getTableView(mTablesResultList.get(i));
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				if (i != 0) {
+					params.setMargins(0, 15, 0, 0);
+				}
+				if (view != null) {
+					view.setLayoutParams(params);
+					mTableViewHolder.addView(view);
+				}
+			}
+		}
+		populateUserDetails();
+	}
+
+	private TestInfo info;
+
+	/**
+	 * Populates the result page with user details.
+	 */
+	private void populateUserDetails() {
+		if (info != null) {
+			String testname = mSelectedTestName;
+
+			String patientname = info.fname + " " + info.lname;
+			/*
+			 * if (!TextUtils.isEmpty(info.identifier)) { patientname =
+			 * info.identifier + " " + info.fname + " " + info.lname; } else {
+			 * patientname = info.fname + " " + info.lname; }
+			 */
+
+			if (!TextUtils.isEmpty(patientname) && !TextUtils.isEmpty(testname)) {
+				if (patientname.length() < testname.length()) {
+					mTestName.setText(testname);
+				} else {
+					mPatientName.setText(patientname);
+				}
+				if (patientname.length() < testname.length()) {
+					mPatientName.setText(patientname);
+				} else {
+					mTestName.setText(testname);
+				}
+			}
+
+			if (!TextUtils.isEmpty(info.birthday)) {
+				mPatientAge.setText(info.birthday);
+			} else {
+				mPatientAge.setText("");
+			}
+			// Ajay:
+			if (!info.testcondition.equals("")) {
+				mTestConditions.setText(info.testcondition);
+			} else {
+				mTestConditions.setText("");
+			}
+			if (!info.identifier.equals("")) {
+				mPatientID.setText(info.identifier);
+			} else {
+				mPatientID.setText("");
+			}
+			if (!info.eyetested.equals("")) {
+				mEyeTested.setText(info.eyetested);
+			} else {
+				mEyeTested.setText("");
+			}
+			if (!info.gender.equals("")) {
+				mGender.setText(info.gender);
+			} else {
+				mGender.setText("");
+			}
+
+			String newDateStr = info.created_date;
+			try {
+				SimpleDateFormat curFormater = new SimpleDateFormat(
+						"MM-dd-yyyy HH:mm aaa");
+				Date dateObj = null;
+				SimpleDateFormat df2 = null;
+				try {
+					dateObj = curFormater.parse(newDateStr);
+					df2 = new SimpleDateFormat("MM/dd/yy");
+					newDateStr = df2.format(dateObj);
+				} catch (ParseException e) {
+					e.printStackTrace();
+					curFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					try {
+						dateObj = curFormater.parse(newDateStr);
+						df2 = new SimpleDateFormat("MM/dd/yy");
+						newDateStr = df2.format(dateObj);
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+				}
+			} catch (Exception e) {
+			}
+			mTestDate.setText(newDateStr);
+
+			// Ajay:Changes for Calibration Date
+			Date lastCalibrationDate = spdrSDK.lastCalibrationDate();
+			String today = null;
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+				today = dateFormat.format(lastCalibrationDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (lastCalibrationDate != null)
+				mCalibrationDate.setText(today.toString());
+			else
+				mCalibrationDate.setText("Unknown");
+
+			if (info.birthday.equals("")) {
+				mAge.setText(" - ");
+			} else {
+				mAge.setText(info.birthday);
+			}
+			mTestId.setText(info.Infoid + "");
+
+			ArrayList<UserRegistration> mUserReg = TestContentManager
+					.getInstance().getUserRegistrationWhere(mContext,
+							"user_id", String.valueOf(info.user_id));
+			if (mUserReg != null) {
+				String value = mUserReg.get(0).organizationName;
+				// String demographicsValue =
+				// mUserReg.get(0).organizationDemographics;
+				if (TextUtils.isEmpty(value)) {
+					value = " ";
+				}
+				mUserName.setText(value);
+				// Remove demographics value - 03 April 2013
+				// mUserName.setText(value + ", " + demographicsValue);
+				mOrganizationUrl.setText(mUserReg.get(0).organizationUrl);
+				reportItem.setUserRegistration(mUserReg.get(0));
+			}
+			reportItem.setTestname(TestContentManager.getInstance()
+					.getTestName());
+			reportItem.setTestInfo(info);
+
+		}
+	}
+
+	private void insertColorArrangementResults(InertiaProvider inertiaProvider) {
+		if (info != null) {
+			StringBuilder csv = new StringBuilder();
+			for (int i = 0; i < seqNos.length; i++) {
+				csv.append(String.valueOf(seqNos[i]));
+				csv.append(",");
+			}
+			String answers = csv.length() > 0 ? csv.substring(0,
+					csv.length() - 1) : "";
+			ColorResult colorResult = new ColorResult();
+			colorResult.setAngle(inertiaProvider.getMajorAngle());
+			colorResult.setMajor(inertiaProvider.getMajorRadius());
+			colorResult.setMinor(inertiaProvider.getMinorRadius());
+			colorResult.setCindex(inertiaProvider.getCIndex());
+			colorResult.setSindex(inertiaProvider.getSIndex());
+			colorResult.setTes(inertiaProvider.getTES());
+			colorResult.setResult(inertiaProvider.getResultMessage());
+			colorResult.setAnswers(answers);
+			colorResult.setTestInfoId(info.Infoid);
+			colorResult.setAge(info.birthday);
+			colorResult.setFname(info.fname);
+			colorResult.setLname(info.lname);
+			colorResult.setTestId(info.test_id);
+			colorResult.setTestDate(info.created_date);
+			colorResult.setLoginId(BaseUrl.LoginId);
+			colorResult.setSyncWithServer(0);
+			colorResult.setGraphPath(graph_path);
+			ColorResultManager colorResultManager = new ColorResultManager(
+					mContext);
+			colorResultManager.addColorResult(colorResult);
+		}
+	}
+
+	InertiaProvider inertiaProvider;
+	private void showInertiaResults() {
+
+		inertiaProvider = new InertiaProvider(userSequenceVectorList);
+		inertiaProvider.setUserSequence(seqNos);
+		View inertiaView = findViewById(R.id.inertia_show_view);
+		TextView angleTextview = (TextView) inertiaView
+				.findViewById(R.id.angle_textview);
+		TextView radiiTextview = (TextView) inertiaView
+				.findViewById(R.id.radii_textview);
+		TextView tesTextview = (TextView) inertiaView
+				.findViewById(R.id.tes_textview);
+		TextView sIndexTextview = (TextView) inertiaView
+				.findViewById(R.id.sindex_textview);
+		TextView cIndexTextview = (TextView) inertiaView
+				.findViewById(R.id.cindex_textview);
+		angleTextview.setText("Angle of Inertia = "
+				+ new DecimalFormat("##.##").format(inertiaProvider
+						.getMajorAngle()));
+		radiiTextview.setText("Radii: Major = "
+				+ new DecimalFormat("##.##").format(inertiaProvider
+						.getMajorRadius())
+				+ "\n           Minor = "
+				+ new DecimalFormat("##.##").format(inertiaProvider
+						.getMinorRadius()));
+		tesTextview.setText("TES = "
+				+ new DecimalFormat("##.##").format(inertiaProvider.getTES()));
+		sIndexTextview
+				.setText("S Index = "
+						+ new DecimalFormat("##.##").format(inertiaProvider
+								.getSIndex()));
+		cIndexTextview
+				.setText("C Index = "
+						+ new DecimalFormat("##.##").format(inertiaProvider
+								.getCIndex()));
+		//color_test_result_message_textview.setText(inertiaProvider.getResultMessage());
+
+		TestContentManager.getInstance().setInertiaProvider(inertiaProvider);
+		reportItem.setInertiaProvider(inertiaProvider);
+		reportItem.setTestInfoId(String.valueOf(info.Infoid));
+		// Save color arrangement view to persistent storage.
+		saveViewToPersistentStorage(mColorArrangementResultView, null);
+		insertColorArrangementResults(inertiaProvider);
+	}
+
+	private View general_view;
+	private TextView marks_textview;
+	private TextView fail_textview;
+	private TextView general_sub_textview;
+	private View protan_view;
+	private TextView protan_marks_textview;
+	private TextView protan_sub_textview;
+	private View deutan_view;
+	private TextView deutan_marks_textview;
+	private TextView deutan_sub_textview;
+	private View tritan_view;
+	private TextView tritan_marks_textview;
+	private TextView tritan_fail_textview;
+	private TextView tritan_sub_textview;
+
+	private void showPlateTestResults() {
+		general_view = findViewById(R.id.general_view);
+		protan_view = findViewById(R.id.protan_view);
+		deutan_view = findViewById(R.id.deutan_view);
+		tritan_view = findViewById(R.id.tritan_view);
+
+		marks_textview = (TextView) general_view
+				.findViewById(R.id.marks_textview);
+		fail_textview = (TextView) general_view
+				.findViewById(R.id.fail_textview);
+		general_sub_textview = (TextView) general_view
+				.findViewById(R.id.general_sub_textview);
+
+		protan_marks_textview = (TextView) protan_view
+				.findViewById(R.id.protan_marks_textview);
+		protan_sub_textview = (TextView) deutan_view
+				.findViewById(R.id.protan_sub_textview);
+		deutan_marks_textview = (TextView) deutan_view
+				.findViewById(R.id.deutan_marks_textview);
+		deutan_sub_textview = (TextView) deutan_view
+				.findViewById(R.id.deutan_sub_textview);
+
+		tritan_marks_textview = (TextView) tritan_view
+				.findViewById(R.id.tritan_marks_textview);
+		tritan_fail_textview = (TextView) tritan_view
+				.findViewById(R.id.tritan_fail_textview);
+		tritan_sub_textview = (TextView) tritan_view
+				.findViewById(R.id.tritan_sub_textview);
+
+		TestResult generalTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.GENERAL_TEST);
+		TestResult tritanTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.TRITAN_TEST);
+		TestResult protanTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.PROTAN_TEST);
+		TestResult deutanTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.DEUTAN_TEST);
+
+		reportItem.setGeneralResult(generalTestResult);
+		reportItem.setProtanResult(protanTestResult);
+		reportItem.setDeutanResult(deutanTestResult);
+		reportItem.setTritanResult(tritanTestResult);
+
+		if (generalTestResult != null) {
+			reportItem.setTestInfoId(String.valueOf(info.Infoid));
+			general_view.setVisibility(View.VISIBLE);
+			marks_textview
+					.setText(generalTestResult.correct_answers
+							+ "/"
+							+ (generalTestResult.no_of_questions - generalTestResult.total_demo_plates_cnt)
+							+ " ");
+			if (TestContentManager.getInstance()
+					.isTestPassed(generalTestResult)) {
+				fail_textview.setText("Pass");
+			} else {
+				fail_textview.setText("Fail");
+			}
+			general_sub_textview
+					.setText("general section"
+							+ "\n"
+							+ "pass criteria: "
+							+ generalTestResult.min_score
+							+ "/"
+							+ (generalTestResult.no_of_questions - generalTestResult.total_demo_plates_cnt));
+		} else {
+			general_view.setVisibility(View.GONE);
+		}
+
+		if (protanTestResult != null) {
+			protan_view.setVisibility(View.VISIBLE);
+			protan_marks_textview
+					.setText(protanTestResult.correct_answers
+							+ "/"
+							+ (protanTestResult.no_of_questions - protanTestResult.total_demo_plates_cnt)
+							+ " correct");
+		} else {
+			protan_view.setVisibility(View.GONE);
+		}
+
+		if (deutanTestResult != null) {
+			deutan_view.setVisibility(View.VISIBLE);
+			deutan_marks_textview
+					.setText(deutanTestResult.correct_answers
+							+ "/"
+							+ (deutanTestResult.no_of_questions - deutanTestResult.total_demo_plates_cnt)
+							+ " correct");
+		} else {
+			deutan_view.setVisibility(View.GONE);
+		}
+
+		if (tritanTestResult != null) {
+			tritan_view.setVisibility(View.VISIBLE);
+			tritan_marks_textview
+					.setText(tritanTestResult.correct_answers
+							+ "/"
+							+ (tritanTestResult.no_of_questions - tritanTestResult.total_demo_plates_cnt)
+							+ " ");
+			if (TestContentManager.getInstance().isTestPassed(tritanTestResult)) {
+				tritan_fail_textview.setText("Pass");
+			} else {
+				tritan_fail_textview.setText("Fail");
+			}
+			tritan_sub_textview
+					.setText("tritan (blue) section"
+							+ "\n"
+							+ "pass criteria: "
+							+ tritanTestResult.min_score
+							+ "/"
+							+ (tritanTestResult.no_of_questions - tritanTestResult.total_demo_plates_cnt));
+		} else {
+			tritan_view.setVisibility(View.GONE);
+		}
+
+	}
+
+	boolean isPdfImagesCreated = false;
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(android.os.Message msg) {
+			if (msg.what == 1) {
+				// if (!TestContentManager.getInstance().isD15DirectStarted()) {
+				// TestResult result = TestContentManager.getInstance()
+				// .getResultSection(AppConstants.GENERAL_TEST);
+				// if (result != null) {
+				// info = TestContentManager.getInstance()
+				// .populateUserInfo(mContext,
+				// String.valueOf(result.test_info_id));
+				// // info = TestContentManager.getInstance()
+				// // .getUserInformation();
+				// }
+				// } else {
+				// info = TestContentManager.getInstance().getUserInfo(
+				// mContext,
+				// TestContentManager.getInstance()
+				// .getSelectedTestId() + "");
+				// }
+				mHandler.removeMessages(1);
+				showPlateTestResults();
+				populateResultsView();
+				saveDiagnosisDetails();
+				if (!mIsGraphViewRequired) {
+					mHandler.sendEmptyMessageDelayed(3, 100);
+				}
+
+			} else if (msg.what == 2) {
+				showInertiaResults();
+				if (mIsGraphViewRequired) {
+					mHandler.sendEmptyMessageDelayed(3, 100);
+				}
+				mHandler.removeMessages(2);
+			} else if (msg.what == 3) {
+				saveReportItem(String.valueOf(TestContentManager.getInstance()
+						.getTestInfoId()));
+				createAndSaveImages();
+				isPdfImagesCreated = true;
+				// emailCertificate();
+				if (progressDialog != null) {
+					progressDialog.dismiss();
+				}
+				mHandler.removeMessages(3);
+			} else if (msg.what == 5) {
+				if (progressDialog != null) {
+					progressDialog.dismiss();
+				}
+			}
+		}
+
+		private void populateResultsView() {
+			if (mIsGraphViewRequired) {
+				color_test_result_message_textview.setVisibility(View.VISIBLE);
+				color_test_name_textview.setVisibility(View.VISIBLE);
+				mColorGraphLayout.setVisibility(View.VISIBLE);
+				inertia_show_view.setVisibility(View.VISIBLE);
+				if (mColorArrangementResultView == null) {
+					mColorArrangementResultView = new ColorArrangementResultView(
+							ResultActivity.this);
+				}
+				mColorGraphLayout.addView(mColorArrangementResultView);
+				mHandler.sendEmptyMessageDelayed(2, 2000);
+			} else {
+				RelativeLayout.LayoutParams params = (LayoutParams) test_results_content_view
+						.getLayoutParams();
+				params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+				test_results_content_view.setLayoutParams(params);
+				color_test_result_message_textview.setVisibility(View.GONE);
+				color_test_name_textview.setVisibility(View.GONE);
+				mColorGraphLayout.setVisibility(View.GONE);
+				inertia_show_view.setVisibility(View.GONE);
+			}
+			populateUserDetails();
+			test_name_textview.setText(mSelectedTestName);
+			general_test_result_message_textview.setText(mDiagnosisMessage);
+			reportItem.setDiagnosisMessage(mDiagnosisMessage);
+		}
+
+	};
+
+	public static Bitmap getBitmapFromView(View view) {
+		Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(),
+				view.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(returnedBitmap);
+		Drawable bgDrawable = view.getBackground();
+		if (bgDrawable != null)
+			bgDrawable.draw(canvas);
+		else
+			canvas.drawColor(Color.WHITE);
+		view.draw(canvas);
+		return returnedBitmap;
+		// return AppUtils.getResizedBitmapNew(returnedBitmap,
+		// returnedBitmap.getWidth() / 4, returnedBitmap.getHeight() / 4);
+	}
+
+	public void viewClickHandler(View view) {
+		switch (view.getId()) {
+			case R.id.calibration_view :
+				showCalibrationPopUp();
+				break;
+			case R.id.notes_view :
+				showNotesPopUp();
+				break;
+			case R.id.save_pdf_button :
+				processForPrintReport(String.valueOf(TestContentManager
+						.getInstance().getTestInfoId()), true, false, false);
+				break;
+			case R.id.save_email_button :
+				// if (info != null && !TextUtils.isEmpty(info.employee_email))
+				// {
+				// processForPrintReport(String.valueOf(TestContentManager
+				// .getInstance().getTestInfoId()), true, true);
+				// } else {
+				showEmailDialog();
+				// }
+				break;
+			case R.id.save_emr_button :
+				// create pdf
+				processForPrintReport(String.valueOf(TestContentManager
+						.getInstance().getTestInfoId()), true, false, false,
+						new IOnSaveListener() {
+
+							@Override
+							public void onSaved(final File src) {
+								runOnUiThread(new Runnable() {
+									public void run() {
+										// copy to any shared folder
+										Intent emr = new Intent(
+												ResultActivity.this,
+												FileListActivity.class);
+										if (src != null) {
+											emr.putExtra("file-copy",
+													src.getPath());
+										}
+										// remove hard coded value
+										// emr.putExtra("file-copy",
+										// "/mnt/sdcard/Download/P2_D_Screening___14_4_1380503981209.pdf");
+										startActivity(emr);
+									}
+								});
+							}
+						});
+				break;
+			case R.id.save_print_button :
+				processForPrintReport(String.valueOf(TestContentManager
+						.getInstance().getTestInfoId()), true, false, true);
+				/*
+				 * if(AndroidUtility.printPDFpath != null){ Intent i = new
+				 * Intent(Intent.ACTION_VIEW);
+				 * i.setPackage("com.dynamixsoftware.printhand");
+				 * i.setDataAndType(Uri.fromFile(new
+				 * File(AndroidUtility.printPDFpath)), "application/pdf");
+				 * startActivity(i); finish(); } else{ Toast.makeText(mContext,
+				 * "Print PDF Path Null", Toast.LENGTH_SHORT).show(); }
+				 */
+				break;
+			case R.id.new_test_button :
+				Intent intent = new Intent(this, TestSummaryActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				finish();
+				break;
+		}
+	}
+
+	private PdfActionReceiver pdfReceiver;
+
+	class PdfActionReceiver extends ActionUpdateListener {
+		@Override
+		public void onPdfError(String errorMessage) {
+			if (mContext != null) {
+				Toast.makeText(mContext, "Error while creating pdf :",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		@Override
+		public void onPdfGenerated(String url, String filename) {
+			if (mContext != null) {
+				sendPDFToEmail(url, filename);
+			}
+		}
+
+		@Override
+		public void onPrintPDF(String url, String filename) {
+			if (mContext != null) {
+				printPDF(url, filename);
+			}
+		}
+	}
+
+	private void showNotesPopUp() {
+		final Dialog discountDialog = new Dialog(mContext,
+				R.style.Theme_Levels_Redeem);
+		WindowManager.LayoutParams params = discountDialog.getWindow()
+				.getAttributes();
+		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		params.dimAmount = 0.9f;
+		discountDialog.getWindow().addFlags(
+				WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+		discountDialog.getWindow().setAttributes(params);
+		discountDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		LayoutInflater inflater = (LayoutInflater) mContext
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+		View dialogLayout = inflater.inflate(R.layout.notes_popup, null);
+		discountDialog.setContentView(dialogLayout);
+
+		discountDialog.setCancelable(false);
+		discountDialog.show();
+
+		Button ok_button = (Button) dialogLayout.findViewById(R.id.ok_button);
+		ok_button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				discountDialog.dismiss();
+
+			}
+		});
+	}
+
+	private void showCalibrationPopUp() {
+		final Dialog discountDialog = new Dialog(mContext,
+				R.style.Theme_Levels_Redeem);
+		WindowManager.LayoutParams params = discountDialog.getWindow()
+				.getAttributes();
+		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		params.dimAmount = 0.9f;
+		discountDialog.getWindow().addFlags(
+				WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+		discountDialog.getWindow().setAttributes(params);
+		discountDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		LayoutInflater inflater = (LayoutInflater) mContext
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+		View dialogLayout = inflater.inflate(R.layout.calibration_popup, null);
+		discountDialog.setContentView(dialogLayout);
+		discountDialog.setCancelable(false);
+		discountDialog.show();
+
+		Button ok_button = (Button) dialogLayout.findViewById(R.id.ok_button);
+		ok_button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				discountDialog.dismiss();
+
+			}
+		});
+	}
+
+	private String emailAddress;
+
+	private void showEmailDialog() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		LayoutInflater inflater = (LayoutInflater) mContext
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+		final View view = inflater.inflate(R.layout.email_dialog_view, null);
+		builder.setView(view)
+				.setPositiveButton(getString(R.string.ok_text),
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								EditText edittext = (EditText) view
+										.findViewById(R.id.email_edittext);
+								if (AndroidUtility.isEmailValid(edittext
+										.getText().toString().trim())) {
+									// info.employee_email = edittext.getText()
+									// .toString().trim();
+									// TestContentManager.getInstance()
+									// .setUserInformation(info);
+
+									emailAddress = edittext.getText()
+											.toString().trim();
+									dialog.dismiss();
+									if (AndroidUtility.isConnected(mContext)) {
+										processForPrintReport(String
+												.valueOf(TestContentManager
+														.getInstance()
+														.getTestInfoId()),
+												true, true, false);
+									} else {
+										AlertDialog.Builder alert = new AlertDialog.Builder(
+												mContext);
+										alert.setCancelable(false).setMessage(
+												"No internet connectivity.");
+										alert.setNegativeButton(
+												getString(R.string.ok_text),
+												new DialogInterface.OnClickListener() {
+													@Override
+													public void onClick(
+															DialogInterface dialog,
+															int which) {
+														dialog.cancel();
+													}
+												});
+										alert.show();
+									}
+								} else {
+									AlertDialog.Builder alert = new AlertDialog.Builder(
+											mContext);
+									alert.setCancelable(false).setMessage(
+											"Email is not valid");
+									alert.setNegativeButton(
+											getString(R.string.ok_text),
+											new DialogInterface.OnClickListener() {
+												@Override
+												public void onClick(
+														DialogInterface dialog,
+														int which) {
+													dialog.cancel();
+													showEmailDialog();
+												}
+											});
+									alert.show();
+								}
+							}
+						})
+				.setNegativeButton(getString(R.string.cancel_text),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.dismiss();
+							}
+						});
+		builder.setCancelable(false);
+		builder.show();
+
+	}
+
+	// Ritesh Code for printpdf
+
+	private void printPDF(String url, String filename) {
+		startPrintPDFTask(url, filename);
+	}
+
+	private PrintPDF printPDF;
+
+	private void startPrintPDFTask(String url, String filename) {
+		if (printPDF != null) {
+			printPDF.cancel(true);
+			printPDF = null;
+		}
+		printPDF = new PrintPDF(url, filename);
+		printPDF.execute();
+	}
+
+	private class PrintPDF extends AsyncTask<Void, Void, Void> {
+
+		boolean success = false;
+		String url;
+		String filename;
+		Dialog progresDialog;
+
+		PrintPDF(String path, String name) {
+			url = path;
+			filename = name;
+		}
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (filename != null) {
+				try {
+					final Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setPackage("com.dynamixsoftware.printhand.premium");
+					i.setDataAndType(Uri.fromFile(new File(filename)),
+							"application/pdf");
+					// Toast.makeText(mContext, url ,Toast.LENGTH_SHORT).show();
+					// Toast.makeText(mContext, Uri.fromFile(new
+					// File(url)).toString() ,Toast.LENGTH_SHORT).show();
+
+					runOnUiThread(new Runnable() {
+						public void run() {
+							startActivity(i);
+							finish();
+						}
+					});
+
+				} catch (Exception e) {
+					Toast.makeText(mContext, e.getLocalizedMessage(),
+							Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				Toast.makeText(mContext, "Path Not Found!", Toast.LENGTH_SHORT)
+						.show();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+		}
+
+	}
+
+	// Ritesh code ends
+
+	private void sendPDFToEmail(String url, String filename) {
+		startSendPDFTask(url, filename);
+	}
+
+	private SendPDFTask sendPDFTask;
+
+	private void startSendPDFTask(String url, String filename) {
+		if (sendPDFTask != null) {
+			sendPDFTask.cancel(true);
+			sendPDFTask = null;
+		}
+		sendPDFTask = new SendPDFTask(url, filename);
+		sendPDFTask.execute();
+	}
+
+	private class SendPDFTask extends AsyncTask<Void, Void, Void> {
+
+		boolean success = false;
+		String url;
+		String filename;
+		Dialog progresDialog;
+
+		SendPDFTask(String path, String name) {
+			url = path;
+			filename = name;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progresDialog = new Dialog(mContext, R.style.Theme_Levels);
+			Display payNowdisp = ((Activity) mContext).getWindowManager()
+					.getDefaultDisplay();
+			int width = payNowdisp.getWidth();
+			int height = payNowdisp.getHeight();
+			progresDialog.getWindow().setLayout((width / 2), (height / 4));
+			progresDialog.getWindow().setBackgroundDrawable(
+					new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			progresDialog.getWindow().setGravity(Gravity.CENTER_VERTICAL);
+			View CreditdialogLayout = ((Activity) mContext).getLayoutInflater()
+					.inflate(R.layout.custom_progressbar, null);
+			TextView progressTxt = (TextView) CreditdialogLayout
+					.findViewById(R.id.progressTitle);
+			progressTxt.setText("Sending email, Please wait...");
+			progresDialog.setContentView(CreditdialogLayout);
+			progresDialog.show();
+			progresDialog.setCancelable(false);
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (isPdfImagesCreated && !TextUtils.isEmpty(url)) {
+				success = uploadPdfToFTP(url, filename);
+				if (success) {
+					success = emailCertificate(filename);
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			if (mContext != null) {
+				progresDialog.dismiss();
+				if (success) {
+					Toast.makeText(mContext, "Email sent successfully.",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(mContext, "PDF not sent.",
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+
+	}
+
+	public boolean uploadPdfToFTP(String pdfFileUrl, String filename) {
+		FTPClient con = null;
+		boolean result = false;
+		Log.e("Email Url", "" + pdfFileUrl);
+		try {
+			con = new FTPClient();
+			con.connect(AppConstants.FTP_HOST_NAME);
+			if (con.login(AppConstants.FTP_USERNAME, AppConstants.FTP_PASSWORD)) {
+				con.enterLocalPassiveMode();
+				con.setFileType(FTP.BINARY_FILE_TYPE);
+				FileInputStream in = new FileInputStream(new File(pdfFileUrl));
+				result = con.storeFile(filename, in);
+				in.close();
+				con.logout();
+				con.disconnect();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private void processForPrintReport(String testInfoId, boolean isSavePdf,
+			boolean isEmailPdf, boolean isPrintPdf) {
+		processForPrintReport(testInfoId, isSavePdf, isEmailPdf, isPrintPdf,
+				null);
+	}
+
+	private void processForPrintReport(String testInfoId, boolean isSavePdf,
+			boolean isEmailPdf, boolean isPrintPdf, IOnSaveListener saveListener) {
+		AndroidUtility.downloadPDFDocument(mContext, testInfoId, isSavePdf,
+				reportItem, isEmailPdf, isPrintPdf, saveListener);
+	}
+
+	private String graph_path;
+
+	/**
+	 * Saves view to persistent location.
+	 * 
+	 * @param view
+	 * @param location
+	 * @return
+	 */
+	private boolean saveViewToPersistentStorage(View view, String location) {
+		boolean result = false;
+		if (view != null) {
+			Bitmap bitmap = getBitmapFromView(view);
+			String pathToSaveImage = null;
+			String subPath = "graph_" + System.currentTimeMillis() + ".png";
+			if (location == null) {
+				pathToSaveImage = getFilesDir() + "/" + subPath;
+			}
+
+			File file = new File(pathToSaveImage);
+			try {
+				file.createNewFile();
+				FileOutputStream ostream = new FileOutputStream(file);
+				bitmap.compress(CompressFormat.PNG, 100, ostream);
+				ostream.close();
+				result = true;
+				reportItem.setGraphBitmap(bitmap);
+				reportItem.setGraphResultPath(subPath);
+				graph_path = subPath;
+			} catch (Exception e) {
+				Log.e(TAG, "saveViewToPersistentStorage() : " + e.getMessage());
+			}
+		}
+		Log.d(TAG, "saveViewToPersistentStorage : " + result);
+		return result;
+	}
+
+	/**
+	 * Initializes components
+	 */
+	private void initComponents() {
+		mSelectedTestName = TestContentManager.getInstance().getTestName();
+		reportItem = new ReportItem();
+		inertia_show_view = (RelativeLayout) findViewById(R.id.inertia_show_view);
+		mColorGraphLayout = (RelativeLayout) findViewById(R.id.color_arrangment_graph_view);
+		mColorArrangmentResultParentView = findViewById(R.id.color_arrangment_result_parent_view);
+		mPatientName = (TextView) findViewById(R.id.userName_text);
+		mPatientAge = (TextView) findViewById(R.id.age_text);
+		mTestDate = (TextView) findViewById(R.id.date_text);
+		// mTestLevel = (TextView) findViewById(R.id.test_level_text);
+		mTestConditions = (TextView) findViewById(R.id.test_condition_text);
+		mTestId = (TextView) findViewById(R.id.testId_text);
+		mOrganizationUrl = (TextView) findViewById(R.id.organiztionUrl);
+		mUserName = (TextView) findViewById(R.id.userName);
+		mTestName = (TextView) findViewById(R.id.testName_text);
+		mAge = (TextView) findViewById(R.id.age_text);
+		mCalibrationDate = (TextView) findViewById(R.id.calibration_date_text);
+
+		// Ajay:changes for new parameters in result
+		mPatientID = (TextView) findViewById(R.id.patientIdValue_text);
+		mGender = (TextView) findViewById(R.id.genderValue_text);
+		mEyeTested = (TextView) findViewById(R.id.eyeTestedValue_text);
+		// mDiagonosisMessageTextview = (TextView)
+		// findViewById(R.id.diagonosis_text);
+		mTableViewHolder = (LinearLayout) findViewById(R.id.table_holder_view);
+		progressDialog = new ProgressDialog(mContext);
+		progressDialog.setMessage(getString(R.string.loading_result_text));
+		progressDialog.setCancelable(false);
+	}
+
+	private View getTableView(ArrayList<TableItem> list) {
+		View view = null;
+		if (list != null && list.size() > 0) {
+			LayoutInflater layoutInflater = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = layoutInflater.inflate(R.layout.table, null);
+			populatePlatesNumbersRow(view, list);
+		}
+		return view;
+	}
+
+	private void populateEvaluationRow(View view, ArrayList<TableItem> list) {
+		LinearLayout mEvaluationRow = null;
+		mEvaluationRow = (LinearLayout) view
+				.findViewById(R.id.answers_row_view);
+
+		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
+				80, 25);
+		params1.addRule(RelativeLayout.CENTER_IN_PARENT);
+		RelativeLayout innerView1 = new RelativeLayout(mContext);
+		TextView textView1 = getTextView(false);
+		textView1.setText("Score");
+		textView1.setBackgroundResource(R.drawable.vertical_bar_image);
+		innerView1.addView(textView1);
+		textView1.setGravity(Gravity.CENTER);
+		textView1.setLayoutParams(params1);
+		mEvaluationRow.addView(innerView1);
+
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+						30, 25);
+				RelativeLayout innerView = new RelativeLayout(mContext);
+				ImageView imageView = new ImageView(mContext);
+				if (list.get(i).isAnswerCorrect()) {
+					imageView.setBackgroundResource(R.drawable.check);
+				} else {
+					imageView.setBackgroundResource(R.drawable.cancel);
+				}
+				innerView.setBackgroundResource(R.drawable.vertical_bar_image);
+				innerView.setGravity(Gravity.CENTER);
+				innerView.addView(imageView);
+				params.addRule(RelativeLayout.CENTER_IN_PARENT);
+				innerView.setLayoutParams(params);
+				mEvaluationRow.addView(innerView);
+
+			}
+		}
+	}
+
+	private void addTableView(LinearLayout view, boolean isFirstCell,
+			String value, int bgResId) {
+		RelativeLayout.LayoutParams params = null;
+		if (isFirstCell) {
+			params = new RelativeLayout.LayoutParams(80, 25);
+		} else {
+			params = new RelativeLayout.LayoutParams(30, 25);
+		}
+		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		RelativeLayout innerView = new RelativeLayout(mContext);
+		TextView textView = getTextView(isFirstCell);
+		textView.setText(value);
+		textView.setBackgroundResource(bgResId);
+		innerView.addView(textView);
+		textView.setGravity(Gravity.CENTER);
+		textView.setLayoutParams(params);
+		view.addView(innerView);
+	}
+
+	private void addTableView(LinearLayout view, boolean isFirstCell,
+			TableItem item, int bgResId) {
+		RelativeLayout.LayoutParams params = null;
+		if (isFirstCell) {
+			params = new RelativeLayout.LayoutParams(80, 25);
+		} else {
+			params = new RelativeLayout.LayoutParams(30, 25);
+		}
+		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		RelativeLayout innerView = new RelativeLayout(mContext);
+		TextView textView = getTextView(isFirstCell);
+		if (!item.isAnswerCorrect()) {
+			textView.setText(item.getPlateAnswer());
+		} else {
+			textView.setText(AppConstants.GRAPH_RESPONSE_FIELD);
+		}
+		textView.setBackgroundResource(bgResId);
+		innerView.addView(textView);
+		textView.setGravity(Gravity.CENTER);
+		textView.setLayoutParams(params);
+		view.addView(innerView);
+	}
+
+	private void populateAnswersRow(View view, ArrayList<TableItem> list) {
+		LinearLayout mAnswersRow = null;
+		mAnswersRow = (LinearLayout) view.findViewById(R.id.answer_row_view);
+		addTableView(mAnswersRow, true, "Response", R.drawable.l_bar_image);
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				addTableView(mAnswersRow, false, list.get(i),
+						R.drawable.l_bar_image);
+			}
+		}
+		populateEvaluationRow(view, list);
+	}
+
+	private void populatePlatesNumbersRow(View view, ArrayList<TableItem> list) {
+		LinearLayout mQuestionsRow = null;
+		mQuestionsRow = (LinearLayout) view
+				.findViewById(R.id.plate_numbers_row_view);
+		addTableView(mQuestionsRow, true, "Plate #", R.drawable.l_bar_image);
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				addTableView(mQuestionsRow, false, list.get(i).getPlateNo(),
+						R.drawable.l_bar_image);
+			}
+		}
+		populateAnswersRow(view, list);
+	}
+
+	private TextView getTextView(boolean isFirstCell) {
+		TextView textview = new TextView(mContext);
+		LinearLayout.LayoutParams params = null;
+		if (isFirstCell) {
+			params = new LinearLayout.LayoutParams(80, 25);
+		} else {
+			params = new LinearLayout.LayoutParams(30, 25);
+		}
+		textview.setTextSize(18);
+		textview.setTextColor(mContext.getResources().getColor(
+				R.color.text_black_color));
+		textview.setLayoutParams(params);
+		return textview;
+	}
+
+	class FetchResulTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (progressDialog == null) {
+				progressDialog = new ProgressDialog(mContext);
+				progressDialog
+						.setMessage(getString(R.string.loading_result_text));
+				progressDialog.setCancelable(false);
+			}
+			progressDialog.show();
+		}
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			// mTablesResultList = TestContentManager.getInstance()
+			// .getTablesContentList(mContext);
+			if (!TestContentManager.getInstance().isD15DirectStarted()) {
+				TestResult result = TestContentManager.getInstance()
+						.getResultSection(AppConstants.GENERAL_TEST);
+				if (result != null) {
+					info = TestContentManager.getInstance().populateUserInfo(
+							mContext, String.valueOf(result.test_info_id));
+				}
+			} else {
+				info = TestContentManager.getInstance().getUserInfo(
+						mContext,
+						TestContentManager.getInstance().getSelectedTestId()
+								+ "");
+			}
+			if (!TestContentManager.getInstance().isD15DirectStarted()) {
+				mDiagnosisMessage = TestContentManager.getInstance()
+						.getDiagnosisMessage();
+			}
+			seqNos = TestContentManager.getInstance().getUserColorSequenceNew();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			if (mContext != null) {
+				// if (progressDialog != null) {
+				// progressDialog.dismiss();
+				// }
+				mHandler.sendEmptyMessageDelayed(1, 100);
+				mHandler.sendEmptyMessageDelayed(5, 3000);
+			}
+		}
+	}
+
+	/**
+	 * The custom class to represent the D15 test result.
+	 * 
+	 */
+	private class ColorArrangementResultView extends View {
+
+		Paint paint = new Paint();
+
+		public ColorArrangementResultView(Context context) {
+			super(context);
+			initDefaults();
+			initPointsPath();
+			
+			reinitGraphScale();
+		}
+
+		@SuppressLint("NewApi")
+		private void reinitGraphScale() {
+			try {
+				Display display = getWindowManager().getDefaultDisplay();
+				int width = 0;
+				int height = 0;
+				
+				try {
+					Point size = new Point();
+					display.getSize(size);
+					width = size.x;
+					height = size.y;
+				} catch(NoSuchMethodError er) {
+					width = display.getWidth();
+					height = display.getHeight();
+				}
+				
+				if(width > 1400) 
+				{
+					// for extra large devices, let's have a bigger graph
+					CELL_HEIGHT = 105 + 50;
+					CELL_WIDTH = 100 + 60;
+					GRAPH_HEIGHT = CELL_HEIGHT * VERTICAL_CELL_COUNT;
+					GRAPH_WIDTH = CELL_WIDTH * HORIZONTAL_CELL_COUNT;
+				}
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			super.onDraw(canvas);
+			paint.setStyle(Paint.Style.FILL);
+			paint.setColor(Color.WHITE);
+			canvas.drawPaint(paint);
+			// draw protan, tritan, deutan lines
+			drawProtanLineAndText(canvas);
+			drawDeutanLineAndText(canvas);
+			drawTritanLineAndText(canvas);
+			
+			// draw vertical and horizontal lines
+			drawCellLines(canvas);
+			
+			// draw middle white circle
+			drawCenterCircle(canvas);
+			
+			// draw numbers for small circles
+			populateAllPoints(canvas);
+			
+			// draw lines to connect small circles
+			drawSequenceArrows(canvas);
+		}
+	}
+
+	/**
+	 * Method to inits the points path
+	 */
+	private void initPointsPath() {
+		mPointsList = new ArrayList<Point>();
+		int[] pointXPositionResIds = getPointXPositionIds();
+		int[] pointYPositionResIds = getPointYPositionIds();
+		for (int i = 0; i < POINTS_COUNT; i++) {
+			Point point = new Point();
+			point.x = (int) mResources.getDimension(pointXPositionResIds[i]);
+			point.y = (int) mResources.getDimension(pointYPositionResIds[i]);
+			mPointsList.add(point);
+		}
+	}
+
+	private int[] getPointXPositionIds() {
+		int[] pointXPositionResIds = {R.dimen.point_1_x, R.dimen.point_2_x,
+				R.dimen.point_3_x, R.dimen.point_4_x, R.dimen.point_5_x,
+				R.dimen.point_6_x, R.dimen.point_7_x, R.dimen.point_8_x,
+				R.dimen.point_9_x, R.dimen.point_10_x, R.dimen.point_11_x,
+				R.dimen.point_12_x, R.dimen.point_13_x, R.dimen.point_14_x,
+				R.dimen.point_15_x, R.dimen.point_16_x};
+		return pointXPositionResIds;
+	}
+
+	private int[] getPointYPositionIds() {
+		int[] pointYPositionResIds = {R.dimen.point_1_y, R.dimen.point_2_y,
+				R.dimen.point_3_y, R.dimen.point_4_y, R.dimen.point_5_y,
+				R.dimen.point_6_y, R.dimen.point_7_y, R.dimen.point_8_y,
+				R.dimen.point_9_y, R.dimen.point_10_y, R.dimen.point_11_y,
+				R.dimen.point_12_y, R.dimen.point_13_y, R.dimen.point_14_y,
+				R.dimen.point_15_y, R.dimen.point_16_y};
+		return pointYPositionResIds;
+	}
+
+	/**
+	 * method to inits the default values
+	 */
+	private void initDefaults() {
+		mResources = mContext.getResources();
+		mPaint = new Paint();
+		mPointRadius = (int) mResources.getDimension(R.dimen.point_radius);
+		mSequenceLineColor = mResources.getColor(R.color.lines_color);
+		mDeutanLineColor = mResources.getColor(R.color.deutan_bar_color);
+		mProtanLineColor = mResources.getColor(R.color.protan_bar_color);
+		mTritanLineColor = mResources.getColor(R.color.tritan_bar_color);
+		mDeutanTextColor = mResources.getColor(R.color.deutan_text_color);
+		mProtanTextColor = mResources.getColor(R.color.protan_text_color);
+		mTritanTextColor = mResources.getColor(R.color.tritan_text_color);
+
+		mProtanText = mResources.getString(R.string.protan_text);
+		mProtanLConeText = mResources.getString(R.string.protan_l_cone_text);
+		mDeutanText = mResources.getString(R.string.deutan_text);
+		mDeutanMConeText = mResources.getString(R.string.deutan_m_cone_text);
+		mTritanText = mResources.getString(R.string.tritan_text);
+		mTritanSConeText = mResources.getString(R.string.tritan_s_cone_text);
+	}
+
+	/**
+	 * method to draw sequence arrows
+	 * 
+	 * @param canvas
+	 */
+
+	private void drawSequenceArrows(Canvas canvas) {
+		ArrayList<DiscCordinates> defaultCordinates = new ArrayList<DiscCordinates>();
+		defaultCordinates.add(new DiscCordinates(-21.54, -38.39));
+		defaultCordinates.add(new DiscCordinates(-23.26, -25.56));
+		defaultCordinates.add(new DiscCordinates(-22.41, -15.53));
+		defaultCordinates.add(new DiscCordinates(-23.11, -7.45));
+		defaultCordinates.add(new DiscCordinates(-22.45, 1.1));
+		defaultCordinates.add(new DiscCordinates(-21.76, 7.35));
+		defaultCordinates.add(new DiscCordinates(-14.08, 18.74));
+		defaultCordinates.add(new DiscCordinates(-2.72, 28.13));
+		defaultCordinates.add(new DiscCordinates(14.84, 31.13));
+		defaultCordinates.add(new DiscCordinates(23.87, 26.35));
+		defaultCordinates.add(new DiscCordinates(31.82, 14.76));
+		defaultCordinates.add(new DiscCordinates(31.42, 6.99));
+		defaultCordinates.add(new DiscCordinates(29.79, 0.1));
+		defaultCordinates.add(new DiscCordinates(26.64, -9.38));
+		defaultCordinates.add(new DiscCordinates(22.92, -18.65));
+		defaultCordinates.add(new DiscCordinates(11.2, -24.61));
+		userSequenceVectorList = new ArrayList<DiscCordinates>();
+		for (int i = 0; i < POINTS_COUNT; i++) {
+			userSequenceVectorList.add(defaultCordinates.get(seqNos[i]));
+		}
+		if (seqNos != null && seqNos.length == POINTS_COUNT) {
+			for (int i = 0; i < POINTS_COUNT - 1; i++) {
+				Point startPoint = mPointsList.get(seqNos[i]);
+				Point endPoint = mPointsList.get(seqNos[i + 1]);
+				drawLineArrow(canvas, startPoint, endPoint, i);
+			}
+		}
+	}
+
+	int[] colorId = AppUtils.getSequenceColors();
+
+	/**
+	 * Method to draw line arrow
+	 * 
+	 * @param canvas
+	 * @param startPoint
+	 * @param endPoint
+	 */
+	private void drawLineArrow(Canvas canvas, Point startPoint, Point endPoint,
+			int i) {
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		paint.setStrokeWidth(1);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setAntiAlias(true);
+
+		Point point = mPointsList.get(seqNos[i]);
+		drawPoint(canvas, point, mResources.getColor(colorId[seqNos[i]]));
+
+		canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y,
+				paint);
+	}
+
+	/**
+	 * method to populate all the points values and coordinates
+	 * 
+	 * @param canvas
+	 */
+	private void populateAllPoints(Canvas canvas) {
+		int[] colorId = AppUtils.getSequenceColors();
+		int yPad = 0;
+		for (int i = 0; i < POINTS_COUNT; i++) {
+			Point point = mPointsList.get(i);
+			drawPoint(canvas, point, mResources.getColor(colorId[i]));
+			if (i < 8) {
+				drawPointText(canvas, point, -50, 0, i);
+			} else {
+				yPad = yPad + 2;
+				drawPointText(canvas, point, 40, yPad, i);
+			}
+		}
+	}
+
+	/**
+	 * Method to draw point text
+	 * 
+	 * @param canvas
+	 * @param point
+	 * @param xPad
+	 * @param ypad
+	 * @param number
+	 */
+	private void drawPointText(Canvas canvas, Point point, int xPad, int ypad,
+			int number) {
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		paint.setAntiAlias(true);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setTextSize(18);
+		String text;
+		if (number == 0) {
+			text = "R";
+		} else {
+			text = String.valueOf(number);
+		}
+		canvas.drawText(text, point.x + xPad, point.y + ypad, paint);
+	}
+
+	/**
+	 * Method to draw points.
+	 * 
+	 * @param canvas
+	 * @param point
+	 * @param colorId
+	 */
+	private void drawPoint(Canvas canvas, Point point, int colorId) {
+		Paint paint = new Paint();
+
+		paint.setColor(Color.BLACK);
+		paint.setAntiAlias(true);
+		paint.setStyle(Paint.Style.FILL);
+		canvas.drawCircle(point.x, point.y, mPointRadius, paint);
+
+		paint.setColor(colorId);
+		paint.setAntiAlias(true);
+		paint.setStyle(Paint.Style.FILL);
+		canvas.drawCircle(point.x, point.y, mPointRadius - 1, paint);
+	}
+
+	/**
+	 * Method to draw center circle
+	 * 
+	 * @param canvas
+	 */
+	private void drawCenterCircle(Canvas canvas) {
+		int circleRadius = (int) mResources.getDimension(R.dimen.circle_radius);
+		int topmargin = (int) mResources
+				.getDimension(R.dimen.circle_top_margin);
+		int rightmmargin = (int) mResources
+				.getDimension(R.dimen.circle_right_margin);
+		int circleXStartPoint = (GRAPH_WIDTH / 2) - rightmmargin;
+		int circleYStartPoint = (GRAPH_HEIGHT / 2) + topmargin;
+		mPaint.setXfermode(new PorterDuffXfermode(Mode.LIGHTEN));
+		mPaint.setColor(Color.WHITE);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setAntiAlias(true);
+		canvas.drawCircle(circleXStartPoint, circleYStartPoint, circleRadius,
+				mPaint);
+	}
+
+	/**
+	 * Method to draw tritan line and text
+	 * 
+	 * @param canvas
+	 */
+	private void drawTritanLineAndText(Canvas canvas) {
+		int lineYStartPoint = 10;
+		int leftmargin = (int) mResources
+				.getDimension(R.dimen.tritan_line_startx_left_margin);
+		int lineXStartPoint = CELL_WIDTH + (CELL_WIDTH / 2) + leftmargin;
+		int rightmmargin = (int) mResources
+				.getDimension(R.dimen.tritan_line_stopx_right_margin);
+		
+		Paint mPaint = new Paint();
+		mPaint.setColor(mTritanLineColor);
+		mPaint.setAntiAlias(true);
+		mPaint.setStrokeWidth(BAR_STROKE);
+		//mPaint.setXfermode(new PorterDuffXfermode(Mode.MULTIPLY));
+		canvas.drawLine(lineXStartPoint, lineYStartPoint, CELL_WIDTH * 2
+				+ rightmmargin, GRAPH_HEIGHT, mPaint);
+
+		mPaint.setColor(mTritanTextColor);
+		mPaint.setTextSize(14);
+		lineYStartPoint = GRAPH_HEIGHT - 15;
+		lineXStartPoint = (CELL_WIDTH * 2 + rightmmargin) + 15;
+		canvas.drawText(mTritanText, lineXStartPoint, lineYStartPoint, mPaint);
+
+		lineYStartPoint = lineYStartPoint + 15;
+		mPaint.setTextSize(12);
+		canvas.drawText(mTritanSConeText, lineXStartPoint, lineYStartPoint,
+				mPaint);
+
+	}
+
+	/**
+	 * Method to draw deutan line and text
+	 * 
+	 * @param canvas
+	 */
+	private void drawDeutanLineAndText(Canvas canvas) {
+		int lineXStartPoint = 5;
+		int topmargin = (int) mResources
+				.getDimension(R.dimen.deutan_line_startx_top_margin);
+		int bottommargin = (int) mResources
+				.getDimension(R.dimen.deutan_line_stopx_bottom_margin);
+		int lineYStartPoint = CELL_HEIGHT + (CELL_HEIGHT / 2) + topmargin;
+		
+		Paint mPaint = new Paint();
+		mPaint.setColor(mDeutanLineColor);
+		mPaint.setAntiAlias(true);
+		mPaint.setStrokeWidth(BAR_STROKE);
+		//mPaint.setXfermode(new PorterDuffXfermode(Mode.MULTIPLY));
+
+		canvas.drawLine(lineXStartPoint, lineYStartPoint, GRAPH_WIDTH
+				- lineXStartPoint, CELL_HEIGHT * 2 + (CELL_HEIGHT / 2)
+				- bottommargin, mPaint);
+
+		mPaint.setColor(mDeutanTextColor);
+		mPaint.setTextSize(14);
+		lineYStartPoint = lineYStartPoint - 30;
+		lineXStartPoint = 0;
+		canvas.drawText(mDeutanText, lineXStartPoint, lineYStartPoint, mPaint);
+
+		lineYStartPoint = lineYStartPoint + 15;
+		mPaint.setTextSize(12);
+		canvas.drawText(mDeutanMConeText, lineXStartPoint, lineYStartPoint,
+				mPaint);
+
+	}
+
+	/**
+	 * Method to draw protan line and text
+	 * 
+	 * @param canvas
+	 */
+	private void drawProtanLineAndText(Canvas canvas) {
+		int lineXStartPoint = 0;
+		int topmargin = (int) mResources
+				.getDimension(R.dimen.protan_line_startx_top_margin);
+		int bottommargin = (int) mResources
+				.getDimension(R.dimen.protan_line_stopx_bottom_margin);
+		int lineYStartPoint = (GRAPH_HEIGHT / 2) + topmargin;
+		Paint mPaint = new Paint();
+		mPaint.setColor(mProtanLineColor);
+		mPaint.setAntiAlias(true);
+		mPaint.setStrokeWidth(BAR_STROKE);
+		canvas.drawLine(lineXStartPoint, lineYStartPoint, GRAPH_WIDTH,
+				(GRAPH_HEIGHT / 2) - bottommargin, mPaint);
+
+		mPaint.setColor(mProtanTextColor);
+		mPaint.setTextSize(14);
+		lineYStartPoint = lineYStartPoint + 10;
+		canvas.drawText(mProtanText, lineXStartPoint, lineYStartPoint, mPaint);
+
+		lineYStartPoint = lineYStartPoint + 15;
+		mPaint.setTextSize(12);
+		canvas.drawText(mProtanLConeText, lineXStartPoint, lineYStartPoint,
+				mPaint);
+	}
+
+	/**
+	 * Method to draw cell lines
+	 * 
+	 * @param canvas
+	 */
+	private void drawCellLines(Canvas canvas) {
+		int lineXStartPoint = CELL_WIDTH;
+		int lineYStartPoint = CELL_HEIGHT;
+		mPaint.setColor(mSequenceLineColor);
+		mPaint.setStrokeWidth(1);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setAntiAlias(true);
+		for (int i = 0; i < HORIZONTAL_VERTICAL_LINES_COUNT; i++) {
+			canvas.drawLine(lineXStartPoint, 0, lineXStartPoint, GRAPH_HEIGHT, 
+					mPaint);
+			canvas.drawLine(5, lineYStartPoint, GRAPH_WIDTH, lineYStartPoint,
+					mPaint);
+			lineXStartPoint = lineXStartPoint + CELL_WIDTH;
+			lineYStartPoint = lineYStartPoint + CELL_HEIGHT;
+		}
+	}
+
+	public boolean emailCertificate(String ftpUrl) {
+		boolean result = false;
+		TestResult generalTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.GENERAL_TEST);
+		TestResult tritanTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.TRITAN_TEST);
+		TestResult protanTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.PROTAN_TEST);
+		TestResult deutanTestResult = TestContentManager.getInstance()
+				.getResultSection(AppConstants.DEUTAN_TEST);
+		String email = emailAddress;
+
+		try {
+			HttpClient httpclient = new DefaultHttpClient();
+			String URL = BaseUrl.baseurl + "SendCertificateMail.php";
+			HttpPost httppost = new HttpPost(URL);
+
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("uploaded_file_name",
+					ftpUrl));
+			nameValuePairs.add(new BasicNameValuePair("fname", info.fname));
+			nameValuePairs.add(new BasicNameValuePair("lname", info.lname));
+			nameValuePairs.add(new BasicNameValuePair("email", email));
+			nameValuePairs.add(new BasicNameValuePair("test_title",
+					mSelectedTestName));
+			if (TestContentManager.getInstance().isD15DirectStarted()) {
+				if (inertiaProvider != null) {
+					nameValuePairs.add(new BasicNameValuePair("diagnosis",
+							inertiaProvider.getResultMessage()));
+				}
+			} else {
+				String mScore = generalTestResult.correct_answers
+						+ "/"
+						+ String.valueOf(generalTestResult.no_of_questions
+								- generalTestResult.total_demo_plates_cnt);
+
+				String mMainResult = generalTestResult.correct_answers < generalTestResult.min_score
+						? "Failed"
+						: "Passed";
+
+				StringBuilder groupNamesBuilder = new StringBuilder();
+				StringBuilder colorNamesBuilder = new StringBuilder();
+				StringBuilder correctAnswersBuilder = new StringBuilder();
+				StringBuilder questionsBuilder = new StringBuilder();
+				if (generalTestResult != null) {
+					correctAnswersBuilder
+							.append(generalTestResult.correct_answers);
+					correctAnswersBuilder.append(",");
+					questionsBuilder.append(String
+							.valueOf(generalTestResult.no_of_questions
+									- generalTestResult.total_demo_plates_cnt));
+					questionsBuilder.append(",");
+				}
+				if (protanTestResult != null) {
+					groupNamesBuilder.append("Protan");
+					groupNamesBuilder.append(",");
+					colorNamesBuilder.append("red");
+					colorNamesBuilder.append(",");
+					correctAnswersBuilder
+							.append(protanTestResult.correct_answers);
+					correctAnswersBuilder.append(",");
+					questionsBuilder.append(String
+							.valueOf(protanTestResult.no_of_questions
+									- protanTestResult.total_demo_plates_cnt));
+					questionsBuilder.append(",");
+
+				}
+				if (deutanTestResult != null) {
+					groupNamesBuilder.append("Deutan");
+					groupNamesBuilder.append(",");
+					colorNamesBuilder.append("green");
+					colorNamesBuilder.append(",");
+					correctAnswersBuilder
+							.append(deutanTestResult.correct_answers);
+					correctAnswersBuilder.append(",");
+					questionsBuilder.append(String
+							.valueOf(deutanTestResult.no_of_questions
+									- deutanTestResult.total_demo_plates_cnt));
+					questionsBuilder.append(",");
+				}
+				if (tritanTestResult != null) {
+					groupNamesBuilder.append("Tritan");
+					groupNamesBuilder.append(",");
+					colorNamesBuilder.append("blue");
+					colorNamesBuilder.append(",");
+					correctAnswersBuilder
+							.append(tritanTestResult.correct_answers);
+					correctAnswersBuilder.append(",");
+					questionsBuilder.append(String
+							.valueOf(tritanTestResult.no_of_questions
+									- tritanTestResult.total_demo_plates_cnt));
+					questionsBuilder.append(",");
+				}
+
+				String groupName = groupNamesBuilder.length() > 0
+						? groupNamesBuilder.substring(0,
+								groupNamesBuilder.length() - 1)
+						: "";
+				String colorName = colorNamesBuilder.length() > 0
+						? colorNamesBuilder.substring(0,
+								colorNamesBuilder.length() - 1)
+						: "";
+				String correctAnswer = correctAnswersBuilder.length() > 0
+						? correctAnswersBuilder.substring(0,
+								correctAnswersBuilder.length() - 1) : "";
+				String questions = questionsBuilder.length() > 0
+						? questionsBuilder.substring(0,
+								questionsBuilder.length() - 1)
+						: "";
+
+				nameValuePairs.add(new BasicNameValuePair("user_result",
+						mMainResult));
+				String mtestZTakendateMail = BaseUrl
+						.getCurrentDatetimeFormail();
+				nameValuePairs.add(new BasicNameValuePair("create_date",
+						mtestZTakendateMail));
+				nameValuePairs.add(new BasicNameValuePair("diagnosis",
+						mDiagnosisMessage));
+
+				nameValuePairs.add(new BasicNameValuePair("score", mScore));
+				nameValuePairs.add(new BasicNameValuePair("group_name",
+						groupName));
+				nameValuePairs.add(new BasicNameValuePair("color_name",
+						colorName));
+				nameValuePairs.add(new BasicNameValuePair("correct_ans",
+						correctAnswer));
+				nameValuePairs.add(new BasicNameValuePair("no_of_ques",
+						questions));
+			}
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httppost);
+			String mresponseFromserver = EntityUtils.toString(response
+					.getEntity());
+			if (!TextUtils.isEmpty(mresponseFromserver)
+					&& mresponseFromserver.contains("Success")
+					|| mresponseFromserver.contains("success")) {
+				result = true;
+			}
+			emailAddress = null;
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	@Override
+	public void onBackPressed() {
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (mContext != null) {
+			if (sendPDFTask != null) {
+				sendPDFTask.cancel(true);
+				sendPDFTask = null;
+			}
+			if (pdfReceiver != null) {
+				AppUtils.unregisterActionListener(mContext, pdfReceiver);
+				pdfReceiver = null;
+			}
+			if (mHandler != null) {
+				mHandler.removeMessages(1);
+				mHandler.removeMessages(2);
+				mHandler.removeMessages(3);
+				mHandler = null;
+			}
+			if (mFetchResultTask != null) {
+				mFetchResultTask.cancel(true);
+				mFetchResultTask = null;
+			}
+			if (progressDialog != null) {
+				progressDialog.dismiss();
+				progressDialog = null;
+			}
+			mContext = null;
+		}
+		super.onDestroy();
+	}
+}

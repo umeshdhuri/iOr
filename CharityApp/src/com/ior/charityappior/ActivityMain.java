@@ -39,7 +39,7 @@ public class ActivityMain extends DialogActivity {
 	private static final String PROPERTY_APP_VERSION = "appVersion";
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 	private static final String TAG = "GCM";
-
+	private Boolean notificationFlag = false ;
 	public static final String SENDER_ID = "527685080878";
 
 	private SharedPreferences pref;
@@ -76,7 +76,7 @@ public class ActivityMain extends DialogActivity {
 		pref = this.getSharedPreferences("app_settings", MODE_PRIVATE);
 		editer = pref.edit();
 		
-		
+		notificationFlag = getIntent().getBooleanExtra("notif", false) ;
 		// show title
 		setTitle(stringPicker.getString("mlt_title_main"));
 
@@ -127,11 +127,16 @@ public class ActivityMain extends DialogActivity {
 	protected void onResume() {
 		super.onResume();
 		log("handle message", "onResume");
-		if (getIntent().getBooleanExtra("notif", false)) {
+		if (notificationFlag) {
 			String message = getIntent().getStringExtra("message");
 			String requestId = getIntent().getStringExtra("request_id");
 			String name = getIntent().getStringExtra("name");
-			showAcceptRequestDialog(message, name, requestId);
+			String typeVal = getIntent().getStringExtra("type");
+			if(typeVal.equalsIgnoreCase("findseller")) {
+				showAcceptRequestDialog(message, name, requestId);
+			}else{
+				showNotificationDialog(message, name, requestId); 
+			}
 		}
 		checkPlayServices();
 	}
@@ -150,7 +155,12 @@ public class ActivityMain extends DialogActivity {
 			String message = intent.getStringExtra("message");
 			String name = intent.getStringExtra("name");
 			String requestId = intent.getStringExtra("request_id");
-			showAcceptRequestDialog(message, name, requestId);
+			if(intent.getStringExtra("type").equalsIgnoreCase("findseller")) {
+				showAcceptRequestDialog(message, name, requestId);
+			}else{
+				showNotificationDialog(message, name, requestId); 
+			}
+			
 		}else if (intent.getBooleanExtra("ChangeLanguage", false)) {
 			setFragment(new MainScreenFragment());
 		}
@@ -196,7 +206,7 @@ public class ActivityMain extends DialogActivity {
 	    				+ " צריך עזרה ב " + description
 	    				+ ". האם אתה יכול לעזור לו?");
 	        }
-		
+		 notificationFlag = false ;
 		
 		 alertDialogBuilder
 				.setCancelable(false)
@@ -235,6 +245,47 @@ public class ActivityMain extends DialogActivity {
 								dialog.cancel();
 							}
 						});
+
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		alertDialog.show();
+		return alertDialog;
+	}
+	
+	private AlertDialog showNotificationDialog(String description,
+			String userName, final String requestId) {
+		
+		yesStr = "";
+		noStr = "";
+		if(pref.getString("lang", "").equalsIgnoreCase("English")) {
+			 yesStr = "Close";
+			
+		 }else if(pref.getString("lang", "").equalsIgnoreCase("Hebrew")) {
+			 yesStr = "סגור";
+			 
+		 }
+		notificationFlag = false ;
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		
+		/*
+		 alertDialogBuilder.setMessage(userName
+						+ stringPicker.getString("mlt_needs_help_with") + description
+						+ stringPicker.getString("mlt_can_you_help"));
+		  */
+		alertDialogBuilder.setMessage(description);
+		
+		
+		 alertDialogBuilder
+				.setCancelable(false)
+				.setPositiveButton( yesStr ,
+						new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+					
+						dialog.cancel();
+						
+					}
+				});
+				
 
 		AlertDialog alertDialog = alertDialogBuilder.create();
 

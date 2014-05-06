@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;tcv_latest_calibration&apos;" deleteContents="false" description="Delete resource &apos;tcv_latest_calibration&apos;" element1="/tcv_latest_calibration" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1397685898038"/>
+</session>

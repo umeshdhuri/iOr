@@ -83,8 +83,8 @@ public class NeedHelpCategoriesFragment extends ParentFragment {
 
 						((ActivityNeedHelp) getActivity())
 								.setSelectedCategory(categories.get(position));
-						final int distance = 1;
-
+						//final int distance = 1;
+						final int distance = 100;
 						((ActivityNeedHelp) getActivity()).showProgressDialog();
 						new AsyncTask<Void, Void, ArrayList<Helper>>() {
 
@@ -106,14 +106,17 @@ public class NeedHelpCategoriesFragment extends ParentFragment {
 											.showErrorToast();
 								} else {
 									if (result.size() == 0) {
-										int newDistance = 5;
+										/*int newDistance = 5;
 										((ActivityNeedHelp) getActivity())
 												.showSearchPeopleDialog(
 														distance,
 														newDistance,
 														categories
 																.get(position).mCategoryId,
-														false, null);
+														false, null);*/
+										
+										((ActivityNeedHelp) getActivity()).showNoResultDialog() ;
+										
 									} else {
 										((ActivityNeedHelp) getActivity())
 												.setFragment(new FragmentNeedHelpPeople(categories.get(position), 0, "", result, ""));

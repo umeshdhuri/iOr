@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,7 +46,8 @@ public class ActivityProfile extends DialogActivity {
 	ArrayList<Category> mCategories = new ArrayList<Category>();
 	ArrayList<String> mCategoryNames = new ArrayList<String>();
 	ArrayList<Integer> mCategoryIds = new ArrayList<Integer>();
-
+	ArrayList<String> userInfoList = new ArrayList<String>() ;
+	
 	TextView tvCode;
 	EditText etCountry;
 	EditText etName;
@@ -53,7 +55,7 @@ public class ActivityProfile extends DialogActivity {
 	Button btSend, btSendHe;
 	ListView mLvCategories;
 	private AlertDialog mSetSponsorDialog, mSetUpdateProfileDialog;
-	
+	private String progressType ;
 	EditText firstNameTxt, lastNameTxt, emailTxt, occupationTxt, addressTxt, 
 	facebookIdTxt, twitterIdTxt, sponsorIdTxt, phoneNumber ;
 	Button btAvailability ;
@@ -110,13 +112,22 @@ public class ActivityProfile extends DialogActivity {
 			btSetSponsor = (TextView) findViewById(R.id.btSetSponsorHe);
 		}
 		
-		SpannableString content = new SpannableString(stringPicker.getString("set_sponsor"));
+		SpannableString content = new SpannableString(stringPicker.getString("set_my_profile"));
 		content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 		btSetSponsor.setText(content);
 		btSetSponsor.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			showSetSponsorDialog();
+			//showSetSponsorDialog();
+			if(alreadyProfileUpdateStatus.equals("1")) {
+				//showUpdateProfileDialog() ;
+				getUserInformation usertask = new getUserInformation();
+				usertask.execute();
+				
+			}else{
+				showUpdateProfileDialog() ;
+			}
+			progressType = "UpdateProfile";
 		}
 		});
 		
@@ -142,7 +153,14 @@ public class ActivityProfile extends DialogActivity {
 		btAvailability.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showProgressDialog();
+				if(availableValue == 0) {
+					showAvailablityDialog(stringPicker.getString("helper_notavailable_confirmation")) ;
+				}else{
+					showAvailablityDialog(stringPicker.getString("helper_available_confirmation")) ;
+				}
+				
+				
+				/*showProgressDialog();
 				new AsyncTask<Void, Void, String>() {
 
 					@Override
@@ -167,7 +185,9 @@ public class ActivityProfile extends DialogActivity {
 							}
 						}
 					}
-				}.execute();
+				}.execute(); */
+				
+				
 			}
 		}) ;
 		
@@ -218,7 +238,7 @@ public class ActivityProfile extends DialogActivity {
 							}else{
 								showUpdateProfileDialog() ;
 							}
-							
+							progressType = "UpdateCategory";
 						}
 					}
 				}.execute();
@@ -246,6 +266,63 @@ public class ActivityProfile extends DialogActivity {
 		}
 	}
 
+	private void showAvailablityDialog(String message) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle(stringPicker.getString("availablity_confirmation"));
+		/*
+		 * alertDialogBuilder .setMessage( isPushMessage ? getString(
+		 * R.string.search_to_push_range, newDistance) :
+		 * getString(R.string.search_range_text, newDistance))
+		 */
+		alertDialogBuilder
+				.setMessage(message)
+				.setCancelable(false)
+				.setNegativeButton(stringPicker.getString("mlt_yes"),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								//mSearchPeopleTask = new SearchPeopleTask( ActivityNeedHelp.this, oldDistance, newDistance, categoryId, isPushMessage, description).execute();
+								//mSearchPeopleDialog.cancel();
+								//showProgressDialog();
+								showProgressDialog();
+								new AsyncTask<Void, Void, String>() {
+
+									@Override
+									protected String doInBackground(Void... params) {
+										return Request.setAvailability(ActivityProfile.this, availableValue);
+									}
+
+									@Override
+									protected void onPostExecute(String result) {
+										closeProgressDialog();
+										if (result == null) {
+											showErrorToast();
+										} else {
+											//showSuccessDialog();
+											//showUpdateProfileDialog() ;
+											if(availableValue == 0) {
+												btAvailability.setText(stringPicker.getString("helper_available"));
+												availableValue = 1 ;
+											}else{
+												btAvailability.setText(stringPicker.getString("helper_notavailable"));
+												availableValue = 0 ;
+											}
+										}
+									}
+								}.execute();
+							}
+						})
+				.setPositiveButton(stringPicker.getString("mlt_no"),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		alertDialog.show();
+	}
+	
 	private void showUpdateProfileDialog() {
 		AlertDialog.Builder builder;
 
@@ -276,7 +353,20 @@ public class ActivityProfile extends DialogActivity {
 		
 		tvCode = (TextView) layout.findViewById(R.id.tvCountryCode);
 		etCountry = (EditText) layout.findViewById(R.id.etCountry);
-
+		
+		
+		if (userInfoList != null && userInfoList.size() > 0) {
+			
+			firstNameTxt.setText(userInfoList.get(2)) ;
+			lastNameTxt.setText(userInfoList.get(3)) ;
+			emailTxt.setText(userInfoList.get(4)) ;
+			etCountry.setText(userInfoList.get(5)) ;
+			occupationTxt.setText(userInfoList.get(7)) ;
+			addressTxt.setText(userInfoList.get(8)) ;
+			facebookIdTxt.setText(userInfoList.get(9)) ;
+			twitterIdTxt.setText(userInfoList.get(10)) ;
+			sponsorIdTxt.setText(userInfoList.get(11)) ;
+		}
 		etCountry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -315,6 +405,14 @@ public class ActivityProfile extends DialogActivity {
 			setCountry(countryID);
 		}
 
+		
+		if (userInfoList != null && userInfoList.size() > 0) {
+			if(tvCode.getText().length() > 0) {
+				phoneNumber.setText(userInfoList.get(6).substring(tvCode.getText().length(), userInfoList.get(6).length())) ;
+			}
+		}
+		
+		
 		Button btNegative = (Button) layout.findViewById(R.id.btUpdateProfileCancel);
 		// if button is clicked, close the custom dialog
 		btNegative.setOnClickListener(new View.OnClickListener() {
@@ -369,6 +467,39 @@ public class ActivityProfile extends DialogActivity {
 		mSetUpdateProfileDialog = builder.show();
 	}
 	
+	public class getUserInformation extends AsyncTask<String, Object, Object> {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			// display progress dialog
+			showProgressDialog(); 
+		}
+		
+		@Override
+		protected Object doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try {
+				userInfoList = Request.getHelperProfileInfo(ActivityProfile.this) ;
+				log("userInfoList", "==" + userInfoList) ;
+			} catch (Exception ex) {
+				// TODO: handle exception
+			}
+			return null;
+		}
+	
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+			// dismiss progress dialog
+			closeProgressDialog() ;
+			log("userInfoList", "==" + userInfoList) ;
+			showUpdateProfileDialog() ;
+			//mSetUpdateProfileDialog.dismiss();
+			//showSuccessDialog();
+		}
+	}
+	
 	public class RegisterTask extends AsyncTask<String, Object, Object>  {
 		
 		@Override
@@ -384,7 +515,12 @@ public class ActivityProfile extends DialogActivity {
 			// dismiss progress dialog
 			closeProgressDialog() ;
 			mSetUpdateProfileDialog.dismiss();
-			showSuccessDialog();
+			if(progressType.equalsIgnoreCase("UpdateCategory")) {
+				showSuccessDialog();
+			}else{
+				showUpdatesSuccessDialog() ;
+			}
+			
 		}
 
 		@Override
@@ -547,6 +683,14 @@ public class ActivityProfile extends DialogActivity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		alertDialogBuilder.setMessage(
 				stringPicker.getString("request_accepted")).setCancelable(true);
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
+	
+	private void showUpdatesSuccessDialog() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setMessage(
+				stringPicker.getString("updated_request")).setCancelable(true);
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
 	}

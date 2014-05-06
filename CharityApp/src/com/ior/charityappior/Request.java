@@ -70,10 +70,9 @@ public class Request {
 	private static final String REMOVE_REQUEST = "removeRequest";
 	private static final String CHANGE_SPONSOR = "ChangeSponsor";
 	private static final String CHANGE_LANGUAGE = "langauge";
-	
+	private static final String GET_HELPER_PROFILE = "gethelperinfo" ;
 	private static final String SET_AVAILABILITY = "setavailability";
 	
-
 	public static ArrayList<Category> getCategories(Context context) {
 		String url = BASE_URL + CATEGORIES + "?token="
 				+ Utils.getToken(context) + "&lang=" + getLang(context);
@@ -839,6 +838,46 @@ public class Request {
 		}
 	}
 
+	public static ArrayList<String> getHelperProfileInfo(Context context) {
+		ArrayList<String> userProfileData = new ArrayList<String>();
+		String url = BASE_URL + GET_HELPER_PROFILE + "?token="
+				+ Utils.getToken(context) + "&lang=" + getLang(context);
+		
+		log("url", "==" + url) ;
+		
+		String result = sendRequest("getProfile", url, null);
+		if (result == null)
+			return null;
+		if (result.contains("false"))
+			return null;
+		try {
+			
+			JSONObject jsonResult = new JSONObject(result);
+			JSONArray jsonUserProfileList = jsonResult.getJSONArray(DATA);
+			JSONObject jsonUserProfile = jsonUserProfileList.getJSONObject(0);
+			
+			log("id", "==" + jsonUserProfile.getString("id")) ;
+			
+			userProfileData.add(jsonUserProfile.getString("id"));
+			userProfileData.add(jsonUserProfile.getString("phone"));
+			userProfileData.add(jsonUserProfile.getString("first_name"));
+			userProfileData.add(jsonUserProfile.getString("last_name"));
+			userProfileData.add(jsonUserProfile.getString("email"));
+			userProfileData.add(jsonUserProfile.getString("country"));
+			userProfileData.add(jsonUserProfile.getString("homephone"));
+			userProfileData.add(jsonUserProfile.getString("occupation"));
+			userProfileData.add(jsonUserProfile.getString("address"));
+			userProfileData.add(jsonUserProfile.getString("facebook"));
+			userProfileData.add(jsonUserProfile.getString("twitter"));
+			userProfileData.add(jsonUserProfile.getString("sponsor"));
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return userProfileData;
+	}
+	
 	public static ArrayList<Integer> getProfile(Context context) {
 		ArrayList<Integer> categoryIds = new ArrayList<Integer>();
 		String url = BASE_URL + GET_PROFILE + "?token="

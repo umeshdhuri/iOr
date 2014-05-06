@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sync_fail_dialog_message">The latest data from server is not downloaded properly. Please try again</string>
+    <string name="notes_message">This is note message 1.\nThis is note message 2.\nThis is note message 3.\nThis is note message 4.</string>
+    <string name="email_pdf_message">Email:</string>
+    <string name="ok_text">OK</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="cindex_desc">Severity of Color Confusion\nNormal &lt; 1.77 (range 0 to xxx)</string>
+    <string name="sindex_desc">Scatter / Selectivity</string>
+    <string name="tes_desc">Total Error Score</string>
+    <string name="angle_desc">Horizontal (0°) = Red / Green\nProtan + horizontal\nDeutan - horizontal\nVertical (90°) = Blue: Tritan -</string>
+    <string name="video_error_message">Sorry, instruction video cannot be played</string>
+    <string name="sendto_trash_text">Sent to Trash</string>
+    <string name="test_level_text">LEVEL: Extended 102</string>
+    <string name="test_level_description">The Extended 102 is an adaptive color vision diagnostic test designed for literate, alert persons which may be teens to Senior adults.</string>
+    <string name="detail_text">Detail:</string>
+    <string name="detail_text_description">The test is administered as follows:\n- Demo plate: introduction to test strategy\n- Standard Section: 29 color dot images with numbers\n- Extended Sections: If general test is scored as FAIL, the test automatically proceeds into a more granular test sequence specific to the images that were missed in the general section.</string>
+    <string name="plate_descr_text1">Each plate is shown for 2 seconds, after which a set of answer buttons is displayed. Select either the number that was displayed or “N” / “n” for nothing when there was no visible content and then “Next” to proceed to the next test.</string>
+    <string name="plate_test_descr_2">Begin the test by selecting “Next”</string>
+    <string name="unknown_text">Unknown</string>
+    <string name="unknown_text">Unknown</string>
+    <string name="deutan_text">Deutan</string>
+    <string name="deutan_m_cone_text">M-cone</string>
+    <string name="protan_text">Protan</string>
+    <string name="protan_l_cone_text">L-cone</string>
+    <string name="tritan_text">Tritan</string>
+    <string name="tritan_s_cone_text">S-cone</string>
+    <string name="video_inst_text">Video Instructions</string>
+    <string name="video_inst_text_1">or visit www.ColorDx.com/video to access video instructions.</string>
+    <string name="starting_text">Starting the Test</string>
+    <string name="begin_instr_text1">Position the test about arms reach away but directly in front with screen perpendicular to line of sight.</string>
+    <string name="begin_instr_text11">Minimize light sources contributing light reflections.</string>
+    <string name="begin_instr_text2">Each test target is shown for:</string>
+    <string name="begin_instr_text3">Select the button(s) of any shape(s) that you see then select &#160;&#160;&#160;&#160; to continue next test target.</string>
+    <string name="begin_instr_text33">Next to each test target is a number pad from which to select the matching number.</string>
+    <string name="begin_instr_text4">Not every plate may have a hidden symbol which you should select &#160;&#160;&#160;&#160;to move to the next test target.</string>
+    <string name="begin_instr_text44">Not every plate may have a hidden number which you should answer as \"n\" for \"none\".</string>
+    <string name="begin_instr_text5">Remember %s seconds for each page.</string>
+    <string name="begin_instr_text55">After selecting the answer, select&#160;&#160;&#160;&#160;&#160;&#160;to advance to the next image.</string>
+    <string name="begin_instr_text6">Select the&#160;&#160;&#160;&#160;&#160;to get started and a demonstration number will be shown for practice.</string>
+    <string name="test_started_text">Test will start in</string>
+    <string name="seconds_text">seconds</string>
+    <string name="seconds_text1">seconds.</string>
+    <string name="print_report_text">Print Report</string>
+    <string name="print_text">print</string>
+    <string name="saveto_emr_text">save: EMR</string>
+    <string name="save_to_pdf">save: PDF</string>
+    <string name="email_pdf">email</string>
+    <string name="new_test_text">new test</string>
+    <string name="loading_text">Loading ...</string>
+    <string name="loading_result_text">Loading results please wait...</string>
+    <string name="logo_text_info">Waggoner evaluations of color vision deficiencies</string>
+    <string name="patient_name">patient name</string>
+    <string name="patient_id">patient id</string>
+    <string name="gender">gender</string>
+    <string name="eye">eye</string>
+    <string name="age">age</string>
+    <string name="testid_plateid">test ID | plate ID</string>
+    <string name="test_date">date</string>
+    <string name="test_level">test level</string>
+    <string name="test_condition">test condition</string>
+    <string name="calibration_date">last calibration date</string>
+    <string name="terms_conditions">*This test was not conducted with calibrated monitor in a controlled testing environment and may not fully reflect a clinically valid
+        assessment of your ability to differentiate colors. Colors displayed as hues differing from intended may cause false negative reporting
+        (person that is color deficient may be able to identify additional test targets than would be normal for there condition).</string>
+    <string name="result">Results</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="exit_test_message">Do you really want to exit from the test?</string>
+    <string name="hello">Hello World, TestingColorVisionActivity!</string>
+    <string name="app_name">ColorDx</string>
+    <string name="plans">Plans &amp; Pricing</string>
+    <string name="signup">Select the plan that best suits your needs. There are no hidden fees and you can add additional credits whereever you like. There are no long term contracts or commitment on your part. For help finding which plan work for you, please call 949-521-7730 or email us at sales@konan-usa.com</string>
+    <string name="colorvisiontest">The color vision tests provided on TestingColorVision.com are known as pseudo-isochromatic testing plates.</string>
+    <string name="testingPlates">The testing plates consist of a dot matrix with a variety of colors that are confusion colors for those with color vision deficiencies.</string>
+    <string name="testinfo">We have provided an example test. this will give you an idea of the test format</string>
+    <string name="AdultPseudo">Adult Pseudo-Isochromatic test samples:</string>
+    <string name="AdultPseudoDesc">This Waggoner Computerized Color Vision Test test was designed and copyrighted by Dr. terrace L. Waggoner has one demo plate and105 test plates with numbers: 29 general test plates, 32 protan tests, 32 deutan test plates, and 12 tritan test plates. You will only see the test plate for 2 second and can not go back and see the test plate again. The answers are shown Immediatelyafter the test plate disappears, please choose the correct number that was displayed on the test plate.</string>
+    <string name="WaggonerPediatric">Waggoner Pediatric Computerized Color Vision test:</string>
+    <string name="PediatricDesc">This pediatric color vision test is designed for children 5 and older. The test is similar to the adult test but specific parameters have been changed to make it easier for children. If your child is having difficulty, we recommend you have your child \' s vision tested by a vision care professional under controlled testing conditions.</string>
+    <string name="paymentMethods">We accept Visa, Mastercard, Discover and American Express. We also accept payments through Paypal.</string>
+    <string name="paymentMethods1">For unlimited plan, we will also accept wire transfers and cheques. Please download he form and mail it with your cheque.</string>
+    <string name="gotQuestions">Please contact us at <a href="mailto:sales@konan-usa.com">sales@konan-usa.com</a></string>
+    <string name="address">Konan Medical USA, Inc\n15 Marconi, Ste. A\nIrvine, CA 92618 USA</string>
+    <string name="contact_details_address"><b>E</b>: support@konan-usa.com\n<b>T</b>: +1 (949) 521-7730\n<b>W</b>: www.ColorDx.com</string>
+    <string name="queriesContact">at <a href="mailto:info@testingcolorvision.com">info@testingcolorvision.com</a></string>
+    <string name="dateTime">Date &amp; Time</string>
+    <string name="txt_enter_any_number">Enter any number or numbers seen</string>
+    <string name="hint">Enter any number or</string>
+    <string name="hint3">numbers seen</string>
+    <string name="hint1">Select\n\"n\"</string>
+    <string name="hint2">if no\nnumber\n seen</string>
+    <string name="text_enter_any_number">Enter any number(s) seen or</string>
+    <string name="text_n_if_no_number">\"n\" if no number is seen</string>
+
+    <string-array name="Month">
+        <item>Month</item>
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string-array name="Year">
+        <item>Year</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+        <item>2029</item>
+        <item>2030</item>
+    </string-array>
+
+    <string name="plansSignup">Sign up for the plan that best suits your needs. There are no hidden fees, and you can add additional credits  whenever you like. There are no long term contracts or commitments on your part. For help finding which plan would work best for you, please call  850-288-1246 or email at <a href="mailto:sales@konan-usa.com">sales@konan-usa.com</a></string>
+    <string name="progressMsg">Please be patient while the application synchronizes so that you get the most up-to-date tests and information. It may take a moment.</string>
+    <string name="regTxt_label">Sign up for your ColorDx Account</string>
+    <string name="testSummaryTxt_label">Register Account</string>
+    <string name="name_label"> First Name *</string>
+    <string name="last_name_label"> Last Name *</string>
+    <string name="email_label"> Email *</string>
+    <string name="email_confirm_label"> Confirm Email *</string>
+    <string name="info_display_label"> Information Displayed on Reports</string>
+    <string name="email_info">(this will be the account name)</string>
+    <string name="org_name_label"> Physician / Practice / Organization Name</string>
+    <string name="org_url_label"> Website URL</string>
+    <string name="phone_label"> Phone *</string>
+    <string name="street_label"> Street Address *</string>
+    <string name="city_label"> City *</string>
+    <string name="state_label"> State / Province *</string>
+    <string name="country_label"> Country *</string>
+    <string name="zip_label"> Zip / Postal Code *</string>
+
+    <string-array name="demographics_array">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+    </string-array>
+
+    <string name="demographics_spinner_title">Demographics</string>
+    <string name="userNameTxt">John Doe , OD</string>
+    <string name="url">www.google.com</string>
+    <string name="date">January 31 , 2013</string>
+    <string name="dateLabel">date</string>
+    <string name="testidPlateid">123456789</string>
+    <string name="email_info_text">The emailed report is\noptional and requires Wifi\n / internet connection</string>
+    <string name="method">method</string>
+
+    <!-- D15 Instructions Color Arrangement -->
+    <string name="ca_starting_text">Starting the D-15 Test</string>
+    <string name="ca_begin_instr_text_1">Place the test arms\' reach distance with the screen positioned perpendicularly. The test room must be at low light without glare sources</string>
+    <string name="ca_begin_instr_text_2">Starting from the R color on the left of the top empty row, select the closest color from the randomized bottom row of colors, touch it and drag it next to the R color.</string>
+    <string name="ca_begin_instr_text_3">Repeat, pulling each next-closest color from the bottom row moving it next to the color you just moved. After placing a color, you may rearrange as appears correct. Continue the process until all colors from the bottom row are re-ordered on the top row. Some colors may look very similar. Just move each best guess from the bottom row to the top row. You can re-organize as you go to optimize the order.</string>
+    <string name="ca_begin_instr_text_4">Select the       to get started.</string>
+
+    <!-- Updated D15 Instructions Color Arrangement -->
+    <string name="d15test_description4">Select the       to get started.</string>
+    <string name="d15_R">R</string>
+    <string name="d15_nextto">next</string>
+    <string name="d15_to">to</string>
+    <string name="d15test">Starting the D-15 Test</string>
+    <string name="d15test_description1">Place the test arms\' reach distance with the screen positioned perpendicularly. The test room must be low light without glare sources. </string>
+    <string name="d15test_description2"><![CDATA[Starting from the <b>R</b> color on the left of the empty row, select the closest color from the randomized bottom row of colors, touch it and drag it <b>next to</b> the <b>R</b> color.]]></string>
+    <string name="d15test_description3">Repeat, pulling each next-closest color from the bottom row moving it next to the color you just moved. After placing a color, you may rearrange as appears correct. Continue the process until all the colors from the bottiom row are re-ordered on the top row. Some colors may look very similar. Just move each best guess from the bottom row to the top row. You can re-organize as you go to optimize the order.</string>
+    <string name="txt_guideline_1">touch and drag colors below</string>
+    <string name="txt_guideline_2">to plates above in order of color</string>
+    <string name="txt_SelectColorVision">Select a Color Vision Test</string>
+
+</resources>

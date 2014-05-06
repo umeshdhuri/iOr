@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="mPeople" key="selection"/>
+		<item value="Please check the screen" key="selection"/>
 		<list key="findhistory">
-			<item value="mPeople"/>
-			<item value="people"/>
-			<item value="tvName"/>
-			<item value="showHelperProgressDialog"/>
-			<item value="showProgressDialog"/>
-			<item value="mProgressDialog"/>
-			<item value="mSearchPeopleDialog"/>
-			<item value="showSearchPeopleDialog"/>
+			<item value="Please check the screen"/>
+			<item value="Please check the screen &quot;My Requests&quot;"/>
+			<item value="Please check the screen &quot;My Request&quot;"/>
+			<item value="FragmentNeedHelpPeople"/>
+			<item value="btCustomSearch"/>
+			<item value="notificationFlag"/>
+			<item value="checkPlayServices"/>
+			<item value="notif"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

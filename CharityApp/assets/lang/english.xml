@@ -133,7 +133,12 @@
 	<string name="hint_facebook">Facebook ID</string>
 	<string name="hint_twitter">Twitter ID</string>
 	<string name="hint_sponser">Sponser</string>
-	<string name="helper_available">Available</string>
-	<string name="helper_notavailable">Not Available</string>
+	<string name="helper_available">Show me as available</string>
+	<string name="helper_notavailable">Show me as not available</string>
+	<string name="availablity_confirmation">Availability Confirmation</string>
 	<string name="submit">Submit</string>
+	<string name="helper_available_confirmation">Are you sure you want to become available?</string>
+	<string name="helper_notavailable_confirmation">Are you sure you want to become not available?</string>
+	<string name="set_my_profile">MY PROFILE</string>
+	<string name="updated_request">Your profile has been updated sucessfully.</string>
 </resources>
