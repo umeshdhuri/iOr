@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.countrypicker.CountryPicker;
 import com.countrypicker.CountryPickerListener;
@@ -51,14 +52,15 @@ public class ActivityProfile extends DialogActivity {
 	TextView tvCode;
 	EditText etCountry;
 	EditText etName;
-	TextView btSetSponsor, btSetSponsorHe;
+	TextView btSetSponsor, btSetSponsorHe, availableTxtView;
 	Button btSend, btSendHe;
+	 
 	ListView mLvCategories;
 	private AlertDialog mSetSponsorDialog, mSetUpdateProfileDialog;
 	private String progressType ;
 	EditText firstNameTxt, lastNameTxt, emailTxt, occupationTxt, addressTxt, 
 	facebookIdTxt, twitterIdTxt, sponsorIdTxt, phoneNumber ;
-	Button btAvailability ;
+	ToggleButton btAvailability ;
 	LinearLayout IWantHelpEngBtn, IWantHelpHeBtn;
 	SharedPreferences prefs;
 	
@@ -112,6 +114,8 @@ public class ActivityProfile extends DialogActivity {
 			btSetSponsor = (TextView) findViewById(R.id.btSetSponsorHe);
 		}
 		
+		availableTxtView = (TextView) findViewById(R.id.availableTxtView) ;
+		
 		SpannableString content = new SpannableString(stringPicker.getString("set_my_profile"));
 		content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 		btSetSponsor.setText(content);
@@ -137,16 +141,16 @@ public class ActivityProfile extends DialogActivity {
 			alreadyProfileUpdateStatus = category.alreadyRegister ;
 		}
 		
-		btAvailability = (Button) findViewById(R.id.btAvailability) ;
+		btAvailability = (ToggleButton) findViewById(R.id.btAvailability) ;
 		
 		if(availableStatus.equals("1")) {
-			btAvailability.setText(stringPicker.getString("helper_notavailable"));
+			availableTxtView.setText(stringPicker.getString("helper_notavailable"));
 			availableValue = 0 ;
 		}else if(availableStatus.equals("0")){
-			btAvailability.setText(stringPicker.getString("helper_available"));
+			availableTxtView.setText(stringPicker.getString("helper_available"));
 			availableValue = 1 ;
 		}else{
-			btAvailability.setText(stringPicker.getString("helper_notavailable"));
+			availableTxtView.setText(stringPicker.getString("helper_notavailable"));
 			availableValue = 0 ;
 		}
 		
@@ -300,10 +304,10 @@ public class ActivityProfile extends DialogActivity {
 											//showSuccessDialog();
 											//showUpdateProfileDialog() ;
 											if(availableValue == 0) {
-												btAvailability.setText(stringPicker.getString("helper_available"));
+												availableTxtView.setText(stringPicker.getString("helper_available"));
 												availableValue = 1 ;
 											}else{
-												btAvailability.setText(stringPicker.getString("helper_notavailable"));
+												availableTxtView.setText(stringPicker.getString("helper_notavailable"));
 												availableValue = 0 ;
 											}
 										}
@@ -314,6 +318,13 @@ public class ActivityProfile extends DialogActivity {
 				.setPositiveButton(stringPicker.getString("mlt_no"),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
+								if(availableValue ==0 ){
+									btAvailability.setChecked(true);
+								}
+								if(availableValue == 1){
+										btAvailability.setChecked(false);		
+								}
+								
 								dialog.cancel();
 							}
 						});

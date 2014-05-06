@@ -262,13 +262,13 @@ public final class R {
 		public static final int flag_zm = 0x7f02019c;
 		public static final int flag_zw = 0x7f02019d;
 		public static final int ic_launcher = 0x7f0201ac;
-		public static final int search_icon = 0x7f0201c0;
+		public static final int search_icon = 0x7f0201c2;
 	}
 	public static final class id {
-		public static final int country_picker_listview = 0x7f070072;
-		public static final int country_picker_search = 0x7f070071;
-		public static final int row_icon = 0x7f0700a1;
-		public static final int row_title = 0x7f0700a2;
+		public static final int country_picker_listview = 0x7f070073;
+		public static final int country_picker_search = 0x7f070072;
+		public static final int row_icon = 0x7f0700a2;
+		public static final int row_title = 0x7f0700a3;
 	}
 	public static final class layout {
 		public static final int country_picker = 0x7f03002b;
