@@ -150,12 +150,14 @@ public class ActivityProfile extends DialogActivity {
 		
 		
 		 if(availableStatus.equals("0")){
-			availableTxtView.setText(stringPicker.getString("helper_available"));
+			availableTxtView.setText(stringPicker.getString("helper_notavailable"));
 			availableValue = 1 ;
+			btAvailability.setChecked(false);
 		}
 		 if(availableStatus.equals("1")){
-			availableTxtView.setText(stringPicker.getString("helper_notavailable"));
+			availableTxtView.setText(stringPicker.getString("helper_available"));
 			availableValue = 0 ;
+			btAvailability.setChecked(true);
 		}
 		
 		btAvailability.setOnClickListener(new View.OnClickListener() {
@@ -308,10 +310,10 @@ public class ActivityProfile extends DialogActivity {
 											//showSuccessDialog();
 											//showUpdateProfileDialog() ;
 											if(availableValue == 0) {
-												availableTxtView.setText(stringPicker.getString("helper_available"));
+												availableTxtView.setText(stringPicker.getString("helper_notavailable"));
 												availableValue = 1 ;
 											}else{
-												availableTxtView.setText(stringPicker.getString("helper_notavailable"));
+												availableTxtView.setText(stringPicker.getString("helper_available"));
 												availableValue = 0 ;
 											}
 										}

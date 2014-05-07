@@ -9,8 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-       android:gravity="right"
+       android:gravity="center_horizontal"
         android:orientation="horizontal"
+       android:layout_margin="10dp"
         android:weightSum="4" >
 
         <TextView
@@ -25,13 +26,11 @@
 
          <ToggleButton
             android:id="@+id/btAvailability"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
             android:background="@drawable/togglechagedimage"
-            android:checked="false"
+            android:checked="true"
             android:textOff=""
             android:textOn=""
             tools:ignore="ObsoleteLayoutParam" />
@@ -46,7 +45,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="4dp"
             android:layout_weight="3.71"
             android:gravity="center"
             android:tag="ml_txt_select_categories_of_help"
@@ -61,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:layout_weight="1"
         android:choiceMode="multipleChoice"
         tools:ignore="InefficientWeight" />
