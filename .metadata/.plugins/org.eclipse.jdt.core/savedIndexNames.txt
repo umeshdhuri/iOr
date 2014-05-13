@@ -15,7 +15,6 @@ INDEX VERSION 1.126+/Users/AppKnetics/Documents/Projects/iOr/Android/Code/iOr/.m
 1171740133.index
 1602315738.index
 2546357270.index
-871878026.index
 3382012844.index
 1235953613.index
 1446599892.index

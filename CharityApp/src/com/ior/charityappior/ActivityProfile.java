@@ -278,7 +278,8 @@ public class ActivityProfile extends DialogActivity {
 
 	private void showAvailablityDialog(String message) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setTitle(stringPicker.getString("availablity_confirmation"));
+		//alertDialogBuilder.setTitle(stringPicker.getString("availablity_confirmation"));
+		alertDialogBuilder.setTitle(stringPicker.getString(""));
 		/*
 		 * alertDialogBuilder .setMessage( isPushMessage ? getString(
 		 * R.string.search_to_push_range, newDistance) :

@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="helper_notavailable" key="selection"/>
+		<item value="helper_available" key="selection"/>
 		<list key="findhistory">
+			<item value="helper_available"/>
+			<item value="Admin"/>
+			<item value="notificationFlag"/>
 			<item value="helper_notavailable"/>
 			<item value="btAvailability"/>
 			<item value="Please check the screen"/>
 			<item value="Please check the screen &quot;My Requests&quot;"/>
 			<item value="Please check the screen &quot;My Request&quot;"/>
-			<item value="FragmentNeedHelpPeople"/>
-			<item value="btCustomSearch"/>
-			<item value="notificationFlag"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

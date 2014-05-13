@@ -73,7 +73,7 @@ public class GcmIntentService extends IntentService {
                 log("message ===", extras.getString("message"));
                 log("user_name ===", extras.getString("user_name"));
                 log("help_request_id ===", extras.getString("help_request_id"));*/
-                if(extras.getString("user_name").equals("Admin")) {
+                if(extras.getString("user_name").equals("AdminPushNotification1909")) {
                 	sendNotificationWithOnlyMsg(extras.getString("message"), "", "");
                 }else{
                 	sendNotification(extras.getString("message"), extras.getString("user_name"), extras.getString("help_request_id"));

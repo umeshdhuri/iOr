@@ -1,0 +1,99 @@
+# view res/layout/activity_about.xml #generated:15
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view res/layout/abc_action_menu_item_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ActionMenuItemView { <init>(...); }
+
+# view res/layout/abc_action_menu_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ActionMenuView { <init>(...); }
+
+# view res/layout/abc_expanded_menu_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ExpandedMenuView { <init>(...); }
+
+# view res/layout/abc_list_menu_item_layout.xml #generated:17
+# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ListMenuItemView { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:19
+# view res/layout/abc_action_bar_decor_include.xml #generated:47
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:29
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:52
+-keep class android.support.v7.internal.widget.ActionBarContainer { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:31
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:40
+# view res/layout/abc_action_mode_bar.xml #generated:19
+-keep class android.support.v7.internal.widget.ActionBarContextView { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:17
+-keep class android.support.v7.internal.widget.ActionBarOverlayLayout { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:25
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:35
+-keep class android.support.v7.internal.widget.ActionBarView { <init>(...); }
+
+# view res/layout/abc_action_bar_home.xml #generated:17
+-keep class android.support.v7.internal.widget.ActionBarView$HomeView { <init>(...); }
+
+# view res/layout/abc_action_bar_tabbar.xml #generated:17
+# view res/layout/abc_activity_chooser_view.xml #generated:19
+-keep class android.support.v7.internal.widget.LinearLayoutICS { <init>(...); }
+
+# view v11/res/layout-v11/abc_action_bar_decor.xml #generated:17
+-keep class android.support.v7.internal.widget.NativeActionModeAwareLayout { <init>(...); }
+
+# view res/layout/abc_action_bar_tab.xml #generated:17
+-keep class android.support.v7.internal.widget.ScrollingTabContainerView$TabView { <init>(...); }
+
+# view res/layout/abc_search_view.xml #generated:85
+-keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
+
+# view res/layout/activity_about.xml #generated:8
+-keep class com.astuetz.viewpager.extensions.PagerSlidingTabStrip { <init>(...); }
+
+# view AndroidManifest.xml #generated:43
+-keep class com.facebook.LoginActivity { <init>(...); }
+
+# view res/layout/com_facebook_usersettingsfragment.xml #generated:48
+# view res/layout/newfbloginlayout.xml #generated:8
+-keep class com.facebook.widget.LoginButton { <init>(...); }
+
+# view AndroidManifest.xml #generated:95
+-keep class com.ior.charityapp.gps.GPS { <init>(...); }
+
+# view AndroidManifest.xml #generated:53
+-keep class com.ior.charityapp.invite.DeviceEmailListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:44
+-keep class com.ior.charityapp.invite.InviteActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:57
+-keep class com.ior.charityapp.invite.NewFBShare { <init>(...); }
+
+# view AndroidManifest.xml #generated:49
+-keep class com.ior.charityapp.invite.PhoneFriendListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:81
+-keep class com.ior.charityappior.ActivityAbout { <init>(...); }
+
+# view AndroidManifest.xml #generated:89
+-keep class com.ior.charityappior.ActivityHome { <init>(...); }
+
+# view AndroidManifest.xml #generated:63
+-keep class com.ior.charityappior.ActivityMain { <init>(...); }
+
+# view AndroidManifest.xml #generated:73
+-keep class com.ior.charityappior.ActivityNeedHelp { <init>(...); }
+
+# view AndroidManifest.xml #generated:77
+-keep class com.ior.charityappior.ActivityProfile { <init>(...); }
+
+# view AndroidManifest.xml #generated:85
+-keep class com.ior.charityappior.ActivityRequests { <init>(...); }
+
+# view AndroidManifest.xml #generated:97
+-keep class com.ior.charityappior.GcmBroadcastReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:94
+-keep class com.ior.charityappior.GcmIntentService { <init>(...); }
+
